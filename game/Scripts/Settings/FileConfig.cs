@@ -13,7 +13,7 @@ namespace CyberBlood.Scripts.Settings {
         private readonly string _path;
         private readonly string _pass;
         private Dictionary<string, Dictionary<string, object>> _current;
-        private Dictionary<string, Dictionary<string, object>> _defaults;
+        private readonly Dictionary<string, Dictionary<string, object>> _defaults;
 
         public static T LoadConfig<T>(string path, string pass) where T : FileConfig {
             if (System.IO.File.Exists(path)) {
@@ -79,8 +79,6 @@ namespace CyberBlood.Scripts.Settings {
         }
 
         protected void SetValue<T>(string section, string key, T value) {
-            Debug.Assert(value != null, nameof(value) + " != null");
-
             lock (_config) {
                 if (!_current.ContainsKey(section)) {
                     _current[section] = new Dictionary<string, object>();

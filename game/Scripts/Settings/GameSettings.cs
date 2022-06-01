@@ -10,7 +10,7 @@ namespace CyberBlood.Scripts.Settings {
         private const string GRAPHICS_INI = "graphics.ini";
         private const string CONTROLS_INI = "control.ini";
 
-        private static int s_connectedJoys = 0;
+        private static int s_connectedJoys;
 
         public static bool JoyConnected => s_connectedJoys > 0;
 
@@ -22,6 +22,8 @@ namespace CyberBlood.Scripts.Settings {
             ConfigureLogger();
             Controls = LoadControls();
             Graphics = LoadGraphics();
+
+            s_connectedJoys = Input.GetConnectedJoypads().Count;
         }
 
         public override void _Ready() {
@@ -30,8 +32,6 @@ namespace CyberBlood.Scripts.Settings {
                 this,
                 nameof(ToggleJoystickConnection)
             );
-
-            s_connectedJoys = Input.GetConnectedJoypads().Count;
 
             OS.WindowMaximized = true;
             Input.SetMouseMode(Input.MouseMode.Captured);

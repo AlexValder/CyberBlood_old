@@ -36,16 +36,16 @@ namespace CyberBlood.Scripts.Settings {
         public ControlsConfig(
             string path,
             string pass,
-            bool useDefaults = false
+            bool useDefaults
         ) : base(path, pass, useDefaults, new Dictionary<string, Dictionary<string, object>> {
             [CAMERA_JOYPAD] = new() {
-                [ROTATE_H] = 1f,
-                [ROTATE_V] = 1f,
+                [ROTATE_H] = 2f,
+                [ROTATE_V] = 2f,
                 [INVERTED] = false,
             },
             [CAMERA_MOUSE] = new() {
-                [ROTATE_H] = .01f,
-                [ROTATE_V] = .01f,
+                [ROTATE_H] = .005f,
+                [ROTATE_V] = .005f,
             }
         }) {
         }

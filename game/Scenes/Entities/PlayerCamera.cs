@@ -35,8 +35,8 @@ public class PlayerCamera : Spatial {
 
     private const float MAX_UP = (float)(-65f * Math.PI / 180);
     private const float MAX_DOWN = (float)(5f * Math.PI / 180);
-    private float _cameraV = 0f;
-    private float _cameraH = 0f;
+    private float _cameraV;
+    private float _cameraH;
 
     private static float IsInverted => GameSettings.JoyConnected && GameSettings.Controls.CameraInverted ? -1f : 1f;
     private static float VJoyAcceleration => GameSettings.Controls.CameraJoyRotateVertical;
@@ -50,7 +50,6 @@ public class PlayerCamera : Spatial {
 
     public override void _UnhandledInput(InputEvent @event) {
         if (!GameSettings.JoyConnected && @event is InputEventMouseMotion mouse) {
-            // _timer.Start();
             _cameraH -= mouse.Relative.x * HMouseAcceleration;
             _cameraV -= mouse.Relative.y * VMouseAcceleration;
         }
@@ -76,7 +75,6 @@ public class PlayerCamera : Spatial {
             y: _v.Rotation.y,
             z: _v.Rotation.z
         );
-        // var meshFront = Player.GlobalTransform.basis.z;
 
         _h.RotateY(_cameraH);
         _cameraH = 0;

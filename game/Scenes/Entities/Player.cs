@@ -21,16 +21,15 @@ public class Player : KinematicBody {
     public Vector3 Strafe { get; private set; } = Vector3.Zero;
 
     public float AimTurn { get; private set; }
-    public float MovementSpeed { get; private set; } = 0f;
+    public float MovementSpeed { get; private set; }
 
-    public float VerticalVelocity { get; private set; } = 0f;
+    public float VerticalVelocity { get; private set; }
     public float Gravity { get; private set; } = 20f;
 
     private enum PlayerState {
         Idle = 0,
         Walking = 1,
         Running = 2,
-        InAir = 3,
     }
 
     private PlayerState _state = PlayerState.Idle;
@@ -83,13 +82,9 @@ public class Player : KinematicBody {
                 }
             }
                 break;
-            case PlayerState.InAir: {
-            }
-                break;
             default:
-                var msg = $"Unknown state: {_state}";
-                Log.Logger.Error(msg);
-                throw new ArgumentOutOfRangeException(msg);
+                Log.Logger.Error("Unknown state: {State}", _state);
+                throw new ArgumentOutOfRangeException(nameof(_state), _state, "Unknown player state");
         }
 
         Direction = Direction.Rotated(Vector3.Up, hRot).Normalized();
