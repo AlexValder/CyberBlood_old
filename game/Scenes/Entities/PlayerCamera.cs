@@ -57,15 +57,15 @@ public class PlayerCamera : Spatial {
     public override void _PhysicsProcess(float delta) {
         if (GameSettings.JoyConnected) {
             if (Input.IsActionPressed(CAMERA_LEFT)) {
-                _cameraH = Input.GetActionStrength(CAMERA_LEFT) * HAcceleration * delta;
+                _cameraH = Input.GetActionStrength(CAMERA_LEFT) * HAcceleration * IsInverted * delta;
             } else if (Input.IsActionPressed(CAMERA_RIGHT)) {
-                _cameraH = -Input.GetActionStrength(CAMERA_RIGHT) * HAcceleration * delta;
+                _cameraH = -Input.GetActionStrength(CAMERA_RIGHT) * HAcceleration * IsInverted * delta;
             }
 
             if (Input.IsActionPressed(CAMERA_UP)) {
-                _cameraV = -Input.GetActionStrength(CAMERA_UP) * VAcceleration * delta;
+                _cameraV = Input.GetActionStrength(CAMERA_UP) * VAcceleration * IsInverted * delta;
             } else if (Input.IsActionPressed(CAMERA_DOWN)) {
-                _cameraV = Input.GetActionStrength(CAMERA_DOWN) * VAcceleration * delta;
+                _cameraV = -Input.GetActionStrength(CAMERA_DOWN) * VAcceleration * IsInverted * delta;
             }
         }
 

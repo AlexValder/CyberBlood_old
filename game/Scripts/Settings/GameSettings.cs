@@ -7,6 +7,7 @@ using Serilog.Formatting.Display;
 namespace CyberBlood.Scripts.Settings {
     public class GameSettings : Node {
         private const string CONFIG_INI = "config.ini";
+        private const string GRAPHICS_INI = "graphics.ini";
         private const string CONTROLS_INI = "control.ini";
 
         private static int s_connectedJoys = 0;
@@ -15,9 +16,12 @@ namespace CyberBlood.Scripts.Settings {
 
         public static ControlsConfig Controls { get; }
 
+        public static GraphicsConfig Graphics { get; }
+
         static GameSettings() {
             ConfigureLogger();
             Controls = LoadControls();
+            Graphics = LoadGraphics();
         }
 
         public override void _Ready() {
@@ -28,6 +32,9 @@ namespace CyberBlood.Scripts.Settings {
             );
 
             s_connectedJoys = Input.GetConnectedJoypads().Count;
+
+            Graphics.SetViewport(GetViewport());
+            Graphics.ApplySettings();
         }
 
         private static void ConfigureLogger() {
@@ -48,7 +55,11 @@ namespace CyberBlood.Scripts.Settings {
         }
 
         private static ControlsConfig LoadControls() {
-            return ControlsConfig.LoadConfig(CONTROLS_INI, CONTROLS_INI);
+            return FileConfig.LoadConfig<ControlsConfig>(CONTROLS_INI, CONTROLS_INI);
+        }
+
+        private static GraphicsConfig LoadGraphics() {
+            return FileConfig.LoadConfig<GraphicsConfig>(GRAPHICS_INI, GRAPHICS_INI);
         }
 
         private void ToggleJoystickConnection(int _, bool connected) {
