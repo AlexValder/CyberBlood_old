@@ -38,9 +38,11 @@ public class PlayerCamera : Spatial {
     private float _cameraV = 0f;
     private float _cameraH = 0f;
 
-    private static float IsInverted => GameSettings.Controls.CameraInverted ? -1f : 1f;
-    private static float VAcceleration => GameSettings.Controls.CameraRotateVertical;
-    private static float HAcceleration => GameSettings.Controls.CameraRotateHorizontal;
+    private static float IsInverted => GameSettings.JoyConnected && GameSettings.Controls.CameraInverted ? -1f : 1f;
+    private static float VJoyAcceleration => GameSettings.Controls.CameraJoyRotateVertical;
+    private static float HJoyAcceleration => GameSettings.Controls.CameraJoyRotateHorizontal;
+    private static float VMouseAcceleration => GameSettings.Controls.CameraMouseRotateVertical;
+    private static float HMouseAcceleration => GameSettings.Controls.CameraMouseRotateHorizontal;
 
     public override void _Ready() {
         this.SetupNodeTools();
@@ -49,23 +51,23 @@ public class PlayerCamera : Spatial {
     public override void _UnhandledInput(InputEvent @event) {
         if (!GameSettings.JoyConnected && @event is InputEventMouseMotion mouse) {
             // _timer.Start();
-            _cameraH += mouse.Relative.x * HAcceleration * IsInverted;
-            _cameraV += mouse.Relative.y * VAcceleration * IsInverted;
+            _cameraH -= mouse.Relative.x * HMouseAcceleration;
+            _cameraV -= mouse.Relative.y * VMouseAcceleration;
         }
     }
 
     public override void _PhysicsProcess(float delta) {
         if (GameSettings.JoyConnected) {
             if (Input.IsActionPressed(CAMERA_LEFT)) {
-                _cameraH = Input.GetActionStrength(CAMERA_LEFT) * HAcceleration * IsInverted * delta;
+                _cameraH = Input.GetActionStrength(CAMERA_LEFT) * HJoyAcceleration * IsInverted * delta;
             } else if (Input.IsActionPressed(CAMERA_RIGHT)) {
-                _cameraH = -Input.GetActionStrength(CAMERA_RIGHT) * HAcceleration * IsInverted * delta;
+                _cameraH = -Input.GetActionStrength(CAMERA_RIGHT) * HJoyAcceleration * IsInverted * delta;
             }
 
             if (Input.IsActionPressed(CAMERA_UP)) {
-                _cameraV = Input.GetActionStrength(CAMERA_UP) * VAcceleration * IsInverted * delta;
+                _cameraV = Input.GetActionStrength(CAMERA_UP) * VJoyAcceleration * IsInverted * delta;
             } else if (Input.IsActionPressed(CAMERA_DOWN)) {
-                _cameraV = -Input.GetActionStrength(CAMERA_DOWN) * VAcceleration * IsInverted * delta;
+                _cameraV = -Input.GetActionStrength(CAMERA_DOWN) * VJoyAcceleration * IsInverted * delta;
             }
         }
 

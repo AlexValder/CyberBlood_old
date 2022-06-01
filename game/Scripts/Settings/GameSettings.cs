@@ -33,6 +33,9 @@ namespace CyberBlood.Scripts.Settings {
 
             s_connectedJoys = Input.GetConnectedJoypads().Count;
 
+            OS.WindowMaximized = true;
+            Input.SetMouseMode(Input.MouseMode.Captured);
+
             Graphics.SetViewport(GetViewport());
             Graphics.ApplySettings();
         }
@@ -42,13 +45,13 @@ namespace CyberBlood.Scripts.Settings {
                 "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
             var config = new LoggerConfiguration()
-                    #if DEBUG || EXPORTDEBUG
+#if DEBUG || EXPORTDEBUG
                     .WriteTo.GodotSink(outputTemplate: template)
                     .MinimumLevel.Debug()
-                    #else
+#else
                     .WriteTo.Console(outputTemplate: template)
                     .MinimumLevel.Warning()
-                    #endif
+#endif
                 ;
 
             Log.Logger = config.CreateLogger();
