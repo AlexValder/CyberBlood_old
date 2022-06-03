@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
 using Godot;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting.Display;
-using Serilog.Sinks.SystemConsole.Output;
-using Serilog.Sinks.SystemConsole.Themes;
 
 namespace CyberBlood.Scripts.Settings.GodotSink {
     public class GodotSink: ILogEventSink {
