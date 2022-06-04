@@ -35,6 +35,7 @@ namespace CyberBlood.Scenes.Entities {
         private PlayerState _state = PlayerState.Idle;
         private PlayerCamera _camera;
         private Spatial _mesh;
+        private float _hRot;
 
         public override void _Ready() {
             _mesh          = GetNode<Spatial>("mesh");
@@ -42,8 +43,6 @@ namespace CyberBlood.Scenes.Entities {
             _camera        = GetNode<PlayerCamera>("PlayerCamera");
             this.SetupNodeTools();
         }
-
-        private float _hRot = 0;
 
         public override void _PhysicsProcess(float delta) {
 
