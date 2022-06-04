@@ -1,4 +1,5 @@
 using System;
+using System.Xml;
 using CyberBlood.Scripts.Settings;
 using Godot;
 using GodotCSToolbox;
@@ -40,11 +41,7 @@ namespace CyberBlood.Scenes.Entities {
             _player = GetParent<Player>();
             _camera.AddException(_player);
 
-            _camera.Rotation = new Vector3(
-                _camera.Rotation.x,
-                0,
-                _camera.Rotation.z
-            );
+            _camera.Rotation = Vector3.Zero;
         }
 
         public override void _UnhandledInput(InputEvent @event) {
@@ -55,28 +52,30 @@ namespace CyberBlood.Scenes.Entities {
             }
         }
 
+        public void Reset() {
+            _camera.Rotation = Vector3.Zero;
+        }
+
         public override void _PhysicsProcess(float delta) {
-            if (GameSettings.JoyConnected) {
-                var start = false;
-                if (Input.IsActionPressed(CAMERA_LEFT)) {
-                    start    = true;
-                    _cameraH = Input.GetActionStrength(CAMERA_LEFT) * HJoyAcceleration * IsInverted * delta;
-                } else if (Input.IsActionPressed(CAMERA_RIGHT)) {
-                    start    = true;
-                    _cameraH = -Input.GetActionStrength(CAMERA_RIGHT) * HJoyAcceleration * IsInverted * delta;
-                }
+            var start = false;
+            if (Input.IsActionPressed(CAMERA_LEFT)) {
+                start    = true;
+                _cameraH = Input.GetActionStrength(CAMERA_LEFT) * HJoyAcceleration * IsInverted * delta;
+            } else if (Input.IsActionPressed(CAMERA_RIGHT)) {
+                start    = true;
+                _cameraH = -Input.GetActionStrength(CAMERA_RIGHT) * HJoyAcceleration * IsInverted * delta;
+            }
 
-                if (Input.IsActionPressed(CAMERA_UP)) {
-                    start    = true;
-                    _cameraV = Input.GetActionStrength(CAMERA_UP) * VJoyAcceleration * IsInverted * delta;
-                } else if (Input.IsActionPressed(CAMERA_DOWN)) {
-                    start    = true;
-                    _cameraV = -Input.GetActionStrength(CAMERA_DOWN) * VJoyAcceleration * IsInverted * delta;
-                }
+            if (Input.IsActionPressed(CAMERA_UP)) {
+                start    = true;
+                _cameraV = Input.GetActionStrength(CAMERA_UP) * VJoyAcceleration * IsInverted * delta;
+            } else if (Input.IsActionPressed(CAMERA_DOWN)) {
+                start    = true;
+                _cameraV = -Input.GetActionStrength(CAMERA_DOWN) * VJoyAcceleration * IsInverted * delta;
+            }
 
-                if (start) {
-                    _timer.Start();
-                }
+            if (start) {
+                _timer.Start();
             }
 
             if (_timer.IsStopped()) {
@@ -89,7 +88,7 @@ namespace CyberBlood.Scenes.Entities {
                     _h.Rotation.x,
                     Mathf.LerpAngle(
                         _h.Rotation.y,
-                        _player.MeshRotation.y,
+                        _player.MeshRotation.y - Mathf.Pi / 2,
                         delta * autoRotateSpeed
                     ),
                     _h.Rotation.z

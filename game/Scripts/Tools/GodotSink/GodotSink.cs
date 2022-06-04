@@ -5,7 +5,7 @@ using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting.Display;
 
-namespace CyberBlood.Scripts.Settings.GodotSink {
+namespace CyberBlood.Scripts.Tools.GodotSink {
     public class GodotSink: ILogEventSink {
         private readonly MessageTemplateTextFormatter _formatter;
         private const string DEFAULT_TEMPLATE =

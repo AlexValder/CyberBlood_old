@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Godot;
 using Serilog;
 
-namespace CyberBlood.Scripts.Settings {
+namespace CyberBlood.Scripts.Settings.Config {
     public abstract class FileConfig {
         private const string CHECKING = "checking";
         private const string DEFAULT_HASH = "hash";
@@ -31,11 +30,6 @@ namespace CyberBlood.Scripts.Settings {
             _pass     = pass;
             _defaults = defaults;
 
-            var hash = defaults.GetHashCode();
-            _defaults[CHECKING] = new Dictionary<string, object> {
-                [DEFAULT_HASH] = hash
-            };
-
             if (useDefaults) {
                 _current = _defaults;
             } else {
@@ -57,11 +51,6 @@ namespace CyberBlood.Scripts.Settings {
                             _path, _pass, error
                         );
                         throw new ConfigException(error);
-                    }
-
-                    if ((int)_config.GetValue(CHECKING, DEFAULT_HASH, 0) != hash) {
-                        // old version
-                        _current = LoadDefaults();
                     }
                 }
 

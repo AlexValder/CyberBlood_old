@@ -1,4 +1,4 @@
-﻿namespace CyberBlood.Scripts.Settings {
+﻿namespace CyberBlood.Scripts.Settings.Config {
     public enum WindowMode {
         None,
         Maximized,

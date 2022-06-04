@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace CyberBlood.Scripts.Settings {
+namespace CyberBlood.Scripts.Settings.Config {
     public class GraphicsConfig : FileConfig {
         private const string QUALITY = "quality";
         private const string RESOLUTION = "resolution";

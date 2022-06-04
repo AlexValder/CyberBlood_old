@@ -33,19 +33,38 @@ namespace CyberBlood.Scenes.Entities {
         }
 
         private PlayerState _state = PlayerState.Idle;
-        private PlayerCamera _camera;
-        private Spatial _mesh;
         private float _hRot;
 
+#pragma warning disable 649
+        [NodePath("mesh")] private Spatial _mesh;
+        [NodePath("PlayerCamera")] private PlayerCamera _camera;
+#pragma warning restore 649
+
         public override void _Ready() {
-            _mesh          = GetNode<Spatial>("mesh");
-            _mesh.Rotation = new Vector3(_mesh.Rotation.x, 0, _mesh.Rotation.z);
-            _camera        = GetNode<PlayerCamera>("PlayerCamera");
             this.SetupNodeTools();
         }
 
-        public override void _PhysicsProcess(float delta) {
+        public void Reset() {
+            _hRot     = 0;
+            _state    = PlayerState.Idle;
+            Direction = Vector3.Back;
+            Velocity  = StrafeDir = Strafe = Vector3.Zero;
+            _camera.Reset();
+        }
 
+        public void SetSpawn(Position3D spawnPoint) {
+            var rot = spawnPoint.Rotation;
+
+            Transform = spawnPoint.Transform;
+            Rotation  = _camera.Rotation = _camera.H.Rotation = _camera.V.Rotation = rot;
+            _mesh.Rotation = new Vector3(
+                _mesh.Rotation.x,
+                rot.y + Mathf.Pi / 2,
+                _mesh.Rotation.z
+            );
+        }
+
+        public override void _PhysicsProcess(float delta) {
             Direction = new Vector3(
                 Input.GetActionStrength(MOVE_LEFT) - Input.GetActionStrength(MOVE_RIGHT),
                 0,
