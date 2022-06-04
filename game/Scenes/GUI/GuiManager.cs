@@ -3,21 +3,19 @@ using Godot;
 
 namespace CyberBlood.Scenes.GUI {
     public class GuiManager : Node {
+        private static Control _pauseMenu;
         public static Theme DefaultTheme { get; }
+
         public Theme CurrentTheme { get; private set; }
-        private Control _pauseMenu;
 
         static GuiManager() {
             DefaultTheme = GD.Load<Theme>("res://Assets/themes/default.tres");
+            _pauseMenu   = GD.Load<PackedScene>("res://Scenes/GUI/PauseMenu.tscn").Instance<Control>();
         }
 
         public override void _Ready() {
             CurrentTheme = DefaultTheme;
-
             SetupFpsCounter();
-
-            var scene = GD.Load<PackedScene>("res://Scenes/GUI/PauseMenu.tscn");
-            _pauseMenu       = scene.Instance<Control>();
         }
 
         [Conditional("DEBUG")]
