@@ -33,7 +33,6 @@ namespace CyberBlood.Scripts.Settings {
                 nameof(ToggleJoystickConnection)
             );
 
-            OS.WindowMaximized = true;
             Input.SetMouseMode(Input.MouseMode.Captured);
 
             Graphics.SetViewport(GetViewport());
