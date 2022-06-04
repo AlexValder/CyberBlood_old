@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CyberBlood.Scripts.Settings {
+namespace CyberBlood.Scripts.Settings.Config {
     public class ControlsConfig : FileConfig {
         private const string CAMERA_JOYPAD = "camera_joypad";
         private const string ROTATE_H = "rotate_horizontal";

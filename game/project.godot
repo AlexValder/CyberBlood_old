@@ -8,15 +8,32 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Control",
+"class": "PauseMenu",
+"language": "GDScript",
+"path": "res://Scenes/GUI/PauseMenu.gd"
+} ]
+_global_script_class_icons={
+"PauseMenu": ""
+}
+
 [application]
 
 config/name="CyberBlood"
-run/main_scene="res://Scenes/Static/DebugLevel.tscn"
+run/main_scene="res://Scenes/GUI/MainMenu.tscn"
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
+GuiManager="*res://Scenes/GUI/GuiManager.cs"
 GameSettings="*res://Scripts/Settings/GameSettings.cs"
+GameManager="*res://Scripts/GameManager.cs"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/playable_spatial/plugin.cfg" )
 
 [input]
 

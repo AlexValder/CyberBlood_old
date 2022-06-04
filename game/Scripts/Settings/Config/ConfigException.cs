@@ -1,7 +1,7 @@
 ﻿using System;
 using Godot;
 
-namespace CyberBlood.Scripts.Settings {
+namespace CyberBlood.Scripts.Settings.Config {
     public class ConfigException : Exception {
         public Error Error { get; }
 

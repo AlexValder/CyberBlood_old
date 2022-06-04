@@ -1,8 +1,7 @@
-﻿using CyberBlood.Scripts.Settings.GodotSink;
+﻿using CyberBlood.Scripts.Settings.Config;
+using CyberBlood.Scripts.Tools.GodotSink;
 using Godot;
 using Serilog;
-using Serilog.Core;
-using Serilog.Formatting.Display;
 
 namespace CyberBlood.Scripts.Settings {
     public class GameSettings : Node {
