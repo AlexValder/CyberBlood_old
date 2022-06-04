@@ -1,3 +1,6 @@
 [submodule "gdnative/godot-cpp"]
 	path = gdnative/godot-cpp
 	url = git@github.com:godotengine/godot-cpp.git
+[submodule "game/Assets"]
+	path = game/Assets
+	url = git@github.com:AlexValder/CyberBlood-Assets.git
