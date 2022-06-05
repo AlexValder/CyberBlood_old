@@ -31,9 +31,13 @@ GuiManager="*res://Scenes/GUI/GuiManager.cs"
 GameSettings="*res://Scripts/Settings/GameSettings.cs"
 GameManager="*res://Scripts/GameManager.cs"
 
+[display]
+
+window/stretch/aspect="keep"
+
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/playable_spatial/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/confirm_timeout/plugin.cfg", "res://addons/playable_spatial/plugin.cfg" )
 
 [gui]
 
@@ -149,6 +153,10 @@ pause={
 [logging]
 
 file_logging/enable_file_logging=true
+
+[mono]
+
+profiler/enabled=true
 
 [physics]
 
