@@ -42,9 +42,9 @@ namespace CyberBlood.Scripts {
             if (_currentScene != null) {
                 _root.RemoveChild(_currentScene);
                 _currentScene.RemoveChild(_player);
+                _currentScene.QueueFree();
                 _player.Reset();
                 TogglePause(_player, true);
-                _currentScene.QueueFree();
             } else {
                 _guiManager.Switch2Gameplay();
             }

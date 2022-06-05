@@ -3,13 +3,16 @@ class_name PauseMenu
 
 onready var _bg := $bg as ColorRect
 onready var _vbox := $vbox as VBoxContainer
+onready var _first_button := $vbox/resume as Control
 
 signal pause_toggled(new_state)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-    if event.is_action_released("ui_cancel"):
+    if event.is_action_released("pause"):
         _toggle_pause(!visible)
+    elif event.is_action_released("ui_cancel") && visible:
+        _toggle_pause(false)
 
 
 func _toggle_pause(pause: bool) -> void:
@@ -17,6 +20,7 @@ func _toggle_pause(pause: bool) -> void:
     visible = pause
     if pause:
         Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+        _first_button.grab_focus()
     else:
         Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
