@@ -4,10 +4,8 @@ using Godot;
 namespace CyberBlood.Scenes.GUI {
     public class GuiManager : Node {
         private Control _pauseMenu;
-        public Theme DefaultTheme { get; private set; }
 
         public override void _Ready() {
-            DefaultTheme = GD.Load<Theme>("res://Assets/themes/default.tres");
             _pauseMenu   = GD.Load<PackedScene>("res://Scenes/GUI/PauseMenu.tscn").Instance<Control>();
             SetupFpsCounter();
         }
