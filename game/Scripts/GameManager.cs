@@ -93,5 +93,10 @@ namespace CyberBlood.Scripts {
                 }
             }
         }
+
+        public override void _ExitTree() {
+            _player.QueueFree();
+            _currentScene?.QueueFree();
+        }
     }
 }

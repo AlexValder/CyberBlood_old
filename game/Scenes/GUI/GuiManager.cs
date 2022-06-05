@@ -3,18 +3,12 @@ using Godot;
 
 namespace CyberBlood.Scenes.GUI {
     public class GuiManager : Node {
-        private static Control _pauseMenu;
-        public static Theme DefaultTheme { get; }
-
-        public Theme CurrentTheme { get; private set; }
-
-        static GuiManager() {
-            DefaultTheme = GD.Load<Theme>("res://Assets/themes/default.tres");
-            _pauseMenu   = GD.Load<PackedScene>("res://Scenes/GUI/PauseMenu.tscn").Instance<Control>();
-        }
+        private Control _pauseMenu;
+        public Theme DefaultTheme { get; private set; }
 
         public override void _Ready() {
-            CurrentTheme = DefaultTheme;
+            DefaultTheme = GD.Load<Theme>("res://Assets/themes/default.tres");
+            _pauseMenu   = GD.Load<PackedScene>("res://Scenes/GUI/PauseMenu.tscn").Instance<Control>();
             SetupFpsCounter();
         }
 
@@ -33,6 +27,14 @@ namespace CyberBlood.Scenes.GUI {
         public void Switch2Menu() {
             Input.SetMouseMode(Input.MouseMode.Captured);
             RemoveChild(_pauseMenu);
+        }
+
+        public override void _ExitTree() {
+            if (_pauseMenu.IsInsideTree()) {
+                RemoveChild(_pauseMenu);
+            }
+
+            _pauseMenu.QueueFree();
         }
     }
 }
