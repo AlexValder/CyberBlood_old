@@ -2,18 +2,18 @@ using Godot;
 
 namespace CyberBlood.Scenes.GUI.SettingsMenu {
     public class Game : VBoxContainer, IConfigMenu {
-        public override void _Ready() { }
+        public bool NeedsConfirmation => false;
 
         public void SetupFromConfig() {
-            throw new System.NotImplementedException();
+            // TODO
         }
 
         public void ApplyCurrentSettings() {
-            throw new System.NotImplementedException();
+            // TODO
         }
 
         public void SetDefaults() {
-            throw new System.NotImplementedException();
+            // TODO
         }
     }
 }

@@ -20,6 +20,8 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
         private bool _prevFxaa;
         private WindowMode _prevMode;
 
+        public bool NeedsConfirmation => _dialog.Visible;
+
         public override void _Ready() {
             this.SetupNodeTools();
         }
@@ -86,7 +88,6 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             GameSettings.Graphics.SetDefaults();
             SetupFromConfig();
         }
-
 
         private void _on_confirm_confirmed() {
             GameSettings.Graphics.SaveConfigToFile();

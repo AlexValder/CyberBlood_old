@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Godot;
 
 namespace CyberBlood.Scripts.Settings.Config {
@@ -89,22 +91,32 @@ namespace CyberBlood.Scripts.Settings.Config {
 
         public override void ApplySettings() {
             var size = GetValue<Vector2>(QUALITY, RESOLUTION);
-            _viewport.Size = size == Vector2.Zero ? OS.WindowSize : size;
+            _viewport.Size = size == Vector2.Zero ? OS.GetScreenSize() : size;
             _viewport.Msaa = (Viewport.MSAA)GetValue<int>(QUALITY, ANTIALIASING);
             _viewport.Fxaa = GetValue<bool>(QUALITY, FXAA);
             ApplyWindowMode((WindowMode)GetValue<int>(WINDOW, WINDOW_MODE));
         }
 
         public static IList<Vector2> GetScreenResolution() {
-            var current  = OS.GetScreenSize();
-            var diagonal = current.Length();
-            var list = new List<Vector2> {
-                current
+            var current = OS.GetScreenSize();
+
+            var possible = new HashSet<Vector2> {
+                current,
+                new(3840, 2160),
+                new(2560, 1440),
+                new(1920, 1080),
+                new(1600, 900),
+                new(1536, 864),
+                new(1440, 900),
+                new(1366, 768),
+                new(1366, 760),
+                new(1280, 1024),
+                new(1280, 720),
+                new(1024, 768),
             };
 
-            // if (diagonal > )
-
-            return list;
+            var diagonal = current.Length();
+            return possible.Where(res => res.Length() <= diagonal).ToList();
         }
     }
 }

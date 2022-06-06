@@ -33,6 +33,9 @@ GameManager="*res://Scripts/GameManager.cs"
 
 [display]
 
+window/size/width=1920
+window/size/height=1080
+window/size/resizable=false
 window/stretch/aspect="keep"
 
 [editor_plugins]

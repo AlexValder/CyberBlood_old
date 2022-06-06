@@ -13,6 +13,8 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
         private IReadOnlyList<IConfigMenu> _tabs;
 #pragma warning restore 649
 
+        bool IConfigMenu.NeedsConfirmation => false;
+
         public override void _Ready() {
             this.SetupNodeTools();
 
@@ -42,7 +44,9 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
 
         private void _on_ok_button_up() {
             ApplyCurrentSettings();
-            this.Hide();
+            if (!_tabs[_tabContainer.CurrentTab].NeedsConfirmation) {
+                Hide();
+            }
         }
 
         private void _on_apply_button_up() {
