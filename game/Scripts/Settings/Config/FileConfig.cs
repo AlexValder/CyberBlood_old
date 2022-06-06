@@ -78,7 +78,9 @@ namespace CyberBlood.Scripts.Settings.Config {
             }
         }
 
-        protected void SaveConfigToFile() {
+        public abstract void ApplySettings();
+
+        public void SaveConfigToFile() {
             lock (_config) {
                 Dictionary2Config(_current, _config);
 #if DEBUG || EXPORTDEBUG

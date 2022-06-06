@@ -1,9 +1,19 @@
 using CyberBlood.Scripts;
+using CyberBlood.Scripts.Settings;
 using Godot;
+using GodotCSToolbox;
 
 namespace CyberBlood.Scenes.GUI {
-    public class MainMenu : Node {
+    public class MainMenu : Control {
+#pragma warning disable 649
+        [NodePath("SettingsMenu")] private SettingsMenu.SettingsMenu _settings;
+#pragma warning restore 649
+
         public override void _Ready() {
+            this.SetupNodeTools();
+
+            GameSettings.Graphics.ApplySettings();
+
             Input.SetMouseMode(Input.MouseMode.Visible);
             var firstButton = GetNode<Control>("vbox/vbox/start");
             firstButton.GrabFocus();
@@ -15,6 +25,9 @@ namespace CyberBlood.Scenes.GUI {
             QueueFree();
         }
 
+        private void _on_settings_button_up() {
+            _settings.PopupCentered();
+        }
 
         private void _on_exit_button_up() {
             QueueFree();

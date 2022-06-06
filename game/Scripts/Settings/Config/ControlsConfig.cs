@@ -49,5 +49,9 @@ namespace CyberBlood.Scripts.Settings.Config {
             }
         }) {
         }
+
+        public override void ApplySettings() {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -4,6 +4,7 @@ class_name PauseMenu
 onready var _bg := $bg as ColorRect
 onready var _vbox := $vbox as VBoxContainer
 onready var _first_button := $vbox/resume as Control
+onready var _settings := $SettingsMenu as PopupDialog
 
 signal pause_toggled(new_state)
 
@@ -35,6 +36,10 @@ func _on_restart_button_up() -> void:
     # TODO: not everything?
     _toggle_pause(false)
     GameManager.Restart()
+
+
+func _on_settings_button_up():
+    _settings.popup_centered()
 
 
 func _on_exit_button_up() -> void:
