@@ -2,21 +2,21 @@
 using Serilog;
 using Serilog.Configuration;
 
-namespace CyberBlood.Scripts.Utils.GodotSink; 
+namespace CyberBlood.Scripts.Utils.GodotSink {
+    public static class GodotSinkExtensions {
+        public static LoggerConfiguration GodotSink(
+            this LoggerSinkConfiguration loggerConfiguration,
+            IFormatProvider formatProvider = null
+        ) {
+            return loggerConfiguration.Sink(new GodotSink(formatProvider));
+        }
 
-public static class GodotSinkExtensions {
-    public static LoggerConfiguration GodotSink(
-        this LoggerSinkConfiguration loggerConfiguration,
-        IFormatProvider formatProvider = null
-    ) {
-        return loggerConfiguration.Sink(new GodotSink(formatProvider));
-    }
-
-    public static LoggerConfiguration GodotSink(
-        this LoggerSinkConfiguration loggerConfiguration,
-        string outputTemplate,
-        IFormatProvider formatProvider = null
-    ) {
-        return loggerConfiguration.Sink(new GodotSink(formatProvider, outputTemplate));
+        public static LoggerConfiguration GodotSink(
+            this LoggerSinkConfiguration loggerConfiguration,
+            string outputTemplate,
+            IFormatProvider formatProvider = null
+        ) {
+            return loggerConfiguration.Sink(new GodotSink(formatProvider, outputTemplate));
+        }
     }
 }

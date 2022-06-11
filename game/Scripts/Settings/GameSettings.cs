@@ -3,73 +3,73 @@ using CyberBlood.Scripts.Utils.GodotSink;
 using Godot;
 using Serilog;
 
-namespace CyberBlood.Scripts.Settings; 
+namespace CyberBlood.Scripts.Settings {
+    public class GameSettings : Node {
+        private const string CONFIG_INI = "config.ini";
+        private const string GRAPHICS_INI = "graphics.ini";
+        private const string CONTROLS_INI = "control.ini";
 
-public class GameSettings : Node {
-    private const string CONFIG_INI = "config.ini";
-    private const string GRAPHICS_INI = "graphics.ini";
-    private const string CONTROLS_INI = "control.ini";
+        private static int s_connectedJoys;
 
-    private static int s_connectedJoys;
+        public static bool JoyConnected => s_connectedJoys > 0;
 
-    public static bool JoyConnected => s_connectedJoys > 0;
+        public static ControlsConfig Controls { get; }
 
-    public static ControlsConfig Controls { get; }
+        public static GraphicsConfig Graphics { get; }
 
-    public static GraphicsConfig Graphics { get; }
+        static GameSettings() {
+            ConfigureLogger();
+            Controls = LoadControls();
+            Graphics = LoadGraphics();
 
-    static GameSettings() {
-        ConfigureLogger();
-        Controls = LoadControls();
-        Graphics = LoadGraphics();
+            s_connectedJoys = Input.GetConnectedJoypads().Count;
+        }
 
-        s_connectedJoys = Input.GetConnectedJoypads().Count;
-    }
+        public override void _Ready() {
+            Input.Singleton.Connect(
+                "joy_connection_changed",
+                this,
+                nameof(ToggleJoystickConnection)
+            );
 
-    public override void _Ready() {
-        Input.Singleton.Connect(
-            "joy_connection_changed",
-            this,
-            nameof(ToggleJoystickConnection)
-        );
+            Input.SetMouseMode(Input.MouseMode.Captured);
 
-        Input.SetMouseMode(Input.MouseMode.Captured);
+            Graphics.SetSceneTree(GetTree());
+            Graphics.ApplySettings();
+            Controls.ApplySettings();
+        }
 
-        Graphics.SetSceneTree(GetTree());
-        Graphics.ApplySettings();
-        Controls.ApplySettings();
-    }
+        private static void ConfigureLogger() {
+            const string template =
+                "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
-    private static void ConfigureLogger() {
-        const string template =
-            "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
-
-        var config = new LoggerConfiguration()
+            var config = new LoggerConfiguration()
 #if DEBUG || EXPORTDEBUG
-                .WriteTo.GodotSink(outputTemplate: template)
-                .MinimumLevel.Debug()
+                    .WriteTo.GodotSink(outputTemplate: template)
+                    .MinimumLevel.Debug()
 #else
                     .WriteTo.Console(outputTemplate: template)
                     .MinimumLevel.Warning()
 #endif
-            ;
+                ;
 
-        Log.Logger = config.CreateLogger();
-    }
+            Log.Logger = config.CreateLogger();
+        }
 
-    private static ControlsConfig LoadControls() {
-        return FileConfig.LoadConfig<ControlsConfig>(CONTROLS_INI, CONTROLS_INI);
-    }
+        private static ControlsConfig LoadControls() {
+            return FileConfig.LoadConfig<ControlsConfig>(CONTROLS_INI, CONTROLS_INI);
+        }
 
-    private static GraphicsConfig LoadGraphics() {
-        return FileConfig.LoadConfig<GraphicsConfig>(GRAPHICS_INI, GRAPHICS_INI);
-    }
+        private static GraphicsConfig LoadGraphics() {
+            return FileConfig.LoadConfig<GraphicsConfig>(GRAPHICS_INI, GRAPHICS_INI);
+        }
 
-    private void ToggleJoystickConnection(int _, bool connected) {
-        if (connected) {
-            s_connectedJoys += 1;
-        } else {
-            s_connectedJoys -= 1;
+        private void ToggleJoystickConnection(int _, bool connected) {
+            if (connected) {
+                s_connectedJoys += 1;
+            } else {
+                s_connectedJoys -= 1;
+            }
         }
     }
 }

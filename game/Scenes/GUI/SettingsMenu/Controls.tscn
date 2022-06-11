@@ -78,6 +78,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="keyboard" type="VBoxContainer" parent="hbox/panel/viewer/center"]
+visible = false
 margin_left = 666.0
 margin_top = 424.0
 margin_right = 1091.0
@@ -338,7 +339,6 @@ margin_bottom = 232.0
 rect_min_size = Vector2( 200, 0 )
 
 [node name="gamepad" type="VBoxContainer" parent="hbox/panel/viewer/center"]
-visible = false
 margin_left = 878.0
 margin_top = 540.0
 margin_right = 878.0
