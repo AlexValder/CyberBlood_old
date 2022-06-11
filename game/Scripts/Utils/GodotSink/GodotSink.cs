@@ -5,30 +5,30 @@ using Serilog.Core;
 using Serilog.Events;
 using Serilog.Formatting.Display;
 
-namespace CyberBlood.Scripts.Tools.GodotSink {
-    public class GodotSink: ILogEventSink {
-        private readonly MessageTemplateTextFormatter _formatter;
-        private const string DEFAULT_TEMPLATE =
-            "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
+namespace CyberBlood.Scripts.Utils.GodotSink; 
 
-        public GodotSink(IFormatProvider formatProvider, string template = DEFAULT_TEMPLATE) {
-            if (template == null) {
-                throw new ArgumentNullException(nameof(template));
-            }
+public class GodotSink: ILogEventSink {
+    private readonly MessageTemplateTextFormatter _formatter;
+    private const string DEFAULT_TEMPLATE =
+        "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
 
-            _formatter = new MessageTemplateTextFormatter(template, formatProvider);
+    public GodotSink(IFormatProvider formatProvider, string template = DEFAULT_TEMPLATE) {
+        if (template == null) {
+            throw new ArgumentNullException(nameof(template));
         }
 
-        public void Emit(LogEvent logEvent) {
-            using var writer = new StringWriter();
-            _formatter.Format(logEvent, writer);
-            var message = writer.ToString();
+        _formatter = new MessageTemplateTextFormatter(template, formatProvider);
+    }
 
-            if (logEvent.Level >= LogEventLevel.Error) {
-                GD.PrintErr(message);
-            } else {
-                GD.Print(message);
-            }
+    public void Emit(LogEvent logEvent) {
+        using var writer = new StringWriter();
+        _formatter.Format(logEvent, writer);
+        var message = writer.ToString();
+
+        if (logEvent.Level >= LogEventLevel.Error) {
+            GD.PrintErr(message);
+        } else {
+            GD.Print(message);
         }
     }
 }

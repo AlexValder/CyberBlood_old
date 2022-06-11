@@ -1,19 +1,19 @@
 using Godot;
 
-namespace CyberBlood.Scenes.GUI.SettingsMenu {
-    public class Game : VBoxContainer, IConfigMenu {
-        public bool NeedsConfirmation => false;
+namespace CyberBlood.Scenes.GUI.SettingsMenu; 
 
-        public void SetupFromConfig() {
-            // TODO
-        }
+public class Game : VBoxContainer, IConfigMenu {
+    public bool NeedsConfirmation => false;
 
-        public void ApplyCurrentSettings() {
-            // TODO
-        }
+    public void SetupFromConfig() {
+        // TODO
+    }
 
-        public void SetDefaults() {
-            // TODO
-        }
+    public void ApplyCurrentSettings() {
+        // TODO
+    }
+
+    public void SetDefaults() {
+        // TODO
     }
 }

@@ -1,74 +1,75 @@
 ﻿using CyberBlood.Scripts.Settings.Config;
-using CyberBlood.Scripts.Tools.GodotSink;
+using CyberBlood.Scripts.Utils.GodotSink;
 using Godot;
 using Serilog;
 
-namespace CyberBlood.Scripts.Settings {
-    public class GameSettings : Node {
-        private const string CONFIG_INI = "config.ini";
-        private const string GRAPHICS_INI = "graphics.ini";
-        private const string CONTROLS_INI = "control.ini";
+namespace CyberBlood.Scripts.Settings; 
 
-        private static int s_connectedJoys;
+public class GameSettings : Node {
+    private const string CONFIG_INI = "config.ini";
+    private const string GRAPHICS_INI = "graphics.ini";
+    private const string CONTROLS_INI = "control.ini";
 
-        public static bool JoyConnected => s_connectedJoys > 0;
+    private static int s_connectedJoys;
 
-        public static ControlsConfig Controls { get; }
+    public static bool JoyConnected => s_connectedJoys > 0;
 
-        public static GraphicsConfig Graphics { get; }
+    public static ControlsConfig Controls { get; }
 
-        static GameSettings() {
-            ConfigureLogger();
-            Controls = LoadControls();
-            Graphics = LoadGraphics();
+    public static GraphicsConfig Graphics { get; }
 
-            s_connectedJoys = Input.GetConnectedJoypads().Count;
-        }
+    static GameSettings() {
+        ConfigureLogger();
+        Controls = LoadControls();
+        Graphics = LoadGraphics();
 
-        public override void _Ready() {
-            Input.Singleton.Connect(
-                "joy_connection_changed",
-                this,
-                nameof(ToggleJoystickConnection)
-            );
+        s_connectedJoys = Input.GetConnectedJoypads().Count;
+    }
 
-            Input.SetMouseMode(Input.MouseMode.Captured);
+    public override void _Ready() {
+        Input.Singleton.Connect(
+            "joy_connection_changed",
+            this,
+            nameof(ToggleJoystickConnection)
+        );
 
-            Graphics.SetViewport(GetViewport());
-            Graphics.ApplySettings();
-        }
+        Input.SetMouseMode(Input.MouseMode.Captured);
 
-        private static void ConfigureLogger() {
-            const string template =
-                "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
+        Graphics.SetSceneTree(GetTree());
+        Graphics.ApplySettings();
+        Controls.ApplySettings();
+    }
 
-            var config = new LoggerConfiguration()
+    private static void ConfigureLogger() {
+        const string template =
+            "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
+
+        var config = new LoggerConfiguration()
 #if DEBUG || EXPORTDEBUG
-                    .WriteTo.GodotSink(outputTemplate: template)
-                    .MinimumLevel.Debug()
+                .WriteTo.GodotSink(outputTemplate: template)
+                .MinimumLevel.Debug()
 #else
                     .WriteTo.Console(outputTemplate: template)
                     .MinimumLevel.Warning()
 #endif
-                ;
+            ;
 
-            Log.Logger = config.CreateLogger();
-        }
+        Log.Logger = config.CreateLogger();
+    }
 
-        private static ControlsConfig LoadControls() {
-            return FileConfig.LoadConfig<ControlsConfig>(CONTROLS_INI, CONTROLS_INI);
-        }
+    private static ControlsConfig LoadControls() {
+        return FileConfig.LoadConfig<ControlsConfig>(CONTROLS_INI, CONTROLS_INI);
+    }
 
-        private static GraphicsConfig LoadGraphics() {
-            return FileConfig.LoadConfig<GraphicsConfig>(GRAPHICS_INI, GRAPHICS_INI);
-        }
+    private static GraphicsConfig LoadGraphics() {
+        return FileConfig.LoadConfig<GraphicsConfig>(GRAPHICS_INI, GRAPHICS_INI);
+    }
 
-        private void ToggleJoystickConnection(int _, bool connected) {
-            if (connected) {
-                s_connectedJoys += 1;
-            } else {
-                s_connectedJoys -= 1;
-            }
+    private void ToggleJoystickConnection(int _, bool connected) {
+        if (connected) {
+            s_connectedJoys += 1;
+        } else {
+            s_connectedJoys -= 1;
         }
     }
 }

@@ -1,0 +1,374 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Assets/fonts/ttf/OpenSans-SemiBold.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scenes/GUI/SettingsMenu/Controls.cs" type="Script" id=2]
+[ext_resource path="res://Scenes/GUI/SettingsMenu/hslider.gd" type="Script" id=3]
+[ext_resource path="res://Scenes/GUI/SettingsMenu/Confirm.cs" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 18
+font_data = ExtResource( 1 )
+
+[sub_resource type="ButtonGroup" id=2]
+resource_name = "controls_subtabs"
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Button
+
+signal got_input(input)
+
+func _ready() -> void:
+    set_process_input(false)
+
+
+func _unhandled_input(event: InputEvent) -> void:
+    emit_signal(\"got_input\", event)
+
+
+func _gui_input(event: InputEvent) -> void:
+    emit_signal(\"got_input\", event)
+"
+
+[node name="Controls" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+
+[node name="hbox" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="buttons" type="VBoxContainer" parent="hbox"]
+margin_right = 159.0
+margin_bottom = 1080.0
+
+[node name="keyboard" type="Button" parent="hbox/buttons"]
+margin_right = 159.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 1 )
+toggle_mode = true
+group = SubResource( 2 )
+text = "Mouse/Keyboard"
+
+[node name="gamepad" type="Button" parent="hbox/buttons"]
+margin_top = 36.0
+margin_right = 159.0
+margin_bottom = 68.0
+custom_fonts/font = SubResource( 1 )
+toggle_mode = true
+group = SubResource( 2 )
+text = "Gamepad"
+
+[node name="panel" type="Panel" parent="hbox"]
+margin_left = 163.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="viewer" type="ScrollContainer" parent="hbox/panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+
+[node name="center" type="CenterContainer" parent="hbox/panel/viewer"]
+margin_right = 1757.0
+margin_bottom = 1080.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="keyboard" type="VBoxContainer" parent="hbox/panel/viewer/center"]
+margin_left = 666.0
+margin_top = 424.0
+margin_right = 1091.0
+margin_bottom = 656.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="hsep0" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
+margin_right = 425.0
+margin_bottom = 4.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="title0" type="Label" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 8.0
+margin_right = 425.0
+margin_bottom = 22.0
+text = "Mouse"
+align = 1
+valign = 1
+
+[node name="hsep1" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 26.0
+margin_right = 425.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="vsens" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 34.0
+margin_right = 425.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/vsens"]
+margin_top = 1.0
+margin_right = 200.0
+margin_bottom = 15.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Vertical Sensitivity"
+align = 1
+
+[node name="hbox" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard/vsens"]
+margin_left = 250.0
+margin_right = 425.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+script = ExtResource( 3 )
+
+[node name="hslider" type="HSlider" parent="hbox/panel/viewer/center/keyboard/vsens/hbox"]
+margin_right = 151.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 150, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = 0.1
+max_value = 10.0
+step = 0.05
+value = 1.0
+
+[node name="text" type="Label" parent="hbox/panel/viewer/center/keyboard/vsens/hbox"]
+margin_left = 155.0
+margin_top = 1.0
+margin_right = 175.0
+margin_bottom = 15.0
+text = "1.0"
+
+[node name="hsens" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 54.0
+margin_right = 425.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/hsens"]
+margin_top = 1.0
+margin_right = 200.0
+margin_bottom = 15.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Horizontal Sensitivity"
+align = 1
+
+[node name="hbox" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard/hsens"]
+margin_left = 250.0
+margin_right = 425.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+script = ExtResource( 3 )
+
+[node name="hslider" type="HSlider" parent="hbox/panel/viewer/center/keyboard/hsens/hbox"]
+margin_right = 151.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 150, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 1
+min_value = 0.1
+max_value = 10.0
+step = 0.05
+value = 1.0
+
+[node name="text" type="Label" parent="hbox/panel/viewer/center/keyboard/hsens/hbox"]
+margin_left = 155.0
+margin_top = 1.0
+margin_right = 175.0
+margin_bottom = 15.0
+text = "1.0"
+
+[node name="hsep2" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 74.0
+margin_right = 425.0
+margin_bottom = 78.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="title1" type="Label" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 82.0
+margin_right = 425.0
+margin_bottom = 96.0
+text = "Bindings"
+align = 1
+valign = 1
+
+[node name="hsep3" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 100.0
+margin_right = 425.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="move_forward" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 108.0
+margin_right = 425.0
+margin_bottom = 128.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/move_forward"]
+margin_top = 3.0
+margin_right = 200.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Forward"
+align = 1
+
+[node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/move_forward"]
+margin_left = 250.0
+margin_right = 425.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+
+[node name="move_left" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 132.0
+margin_right = 425.0
+margin_bottom = 152.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/move_left"]
+margin_top = 3.0
+margin_right = 200.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Left"
+align = 1
+
+[node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/move_left"]
+margin_left = 250.0
+margin_right = 425.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+
+[node name="move_back" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 156.0
+margin_right = 425.0
+margin_bottom = 176.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/move_back"]
+margin_top = 3.0
+margin_right = 200.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Back"
+align = 1
+
+[node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/move_back"]
+margin_left = 250.0
+margin_right = 425.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+
+[node name="move_right" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 180.0
+margin_right = 425.0
+margin_bottom = 200.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/move_right"]
+margin_top = 3.0
+margin_right = 200.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Right"
+align = 1
+
+[node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/move_right"]
+margin_left = 250.0
+margin_right = 425.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+
+[node name="camera_center" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 204.0
+margin_right = 425.0
+margin_bottom = 224.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/camera_center"]
+margin_top = 3.0
+margin_right = 200.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Center Camera"
+align = 1
+
+[node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/camera_center"]
+margin_left = 250.0
+margin_right = 425.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+
+[node name="hsep4" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 228.0
+margin_right = 425.0
+margin_bottom = 232.0
+rect_min_size = Vector2( 200, 0 )
+
+[node name="gamepad" type="VBoxContainer" parent="hbox/panel/viewer/center"]
+visible = false
+margin_left = 878.0
+margin_top = 540.0
+margin_right = 878.0
+margin_bottom = 540.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="Confirm" type="ConfirmationDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+size_flags_vertical = 5
+window_title = "Press a Button..."
+script = ExtResource( 4 )
+
+[node name="button" type="Button" parent="Confirm"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -36.0
+focus_mode = 0
+button_mask = 7
+enabled_focus_mode = 0
+flat = true
+script = SubResource( 3 )
+
+[connection signal="ControlSelected" from="Confirm" to="." method="_on_Confirm_ControlSelected"]
+[connection signal="about_to_show" from="Confirm" to="Confirm" method="_on_Confirm_about_to_show"]
+[connection signal="confirmed" from="Confirm" to="Confirm" method="_on_Confirm_confirmed"]

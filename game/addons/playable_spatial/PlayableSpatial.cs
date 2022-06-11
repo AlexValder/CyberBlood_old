@@ -1,20 +1,20 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using CyberBlood.Scenes.Entities;
 using Godot;
 
-namespace CyberBlood.addons.playable_spatial {
-    [Tool]
-    public class PlayableSpatial : Spatial {
-        [Export] public NodePath SpawnPointPath { get; set; }
-        public Position3D SpawnPoint { get; private set; }
+namespace CyberBlood.addons.playable_spatial;
 
-        public override void _Ready() {
-            Debug.Assert(!SpawnPointPath.IsEmpty());
+[Tool]
+public class PlayableSpatial : Spatial {
+    [Export] public NodePath SpawnPointPath { get; set; }
+    public Position3D SpawnPoint { get; private set; }
 
-            SpawnPoint = GetNode<Position3D>(SpawnPointPath);
+    public override void _Ready() {
+        Debug.Assert(!SpawnPointPath.IsEmpty());
 
-            var player = GetNode<Player>("Player");
-            player.SetSpawn(SpawnPoint);
-        }
+        SpawnPoint = GetNode<Position3D>(SpawnPointPath);
+
+        var player = GetNode<Player>("Player");
+        player.SetSpawn(SpawnPoint);
     }
 }

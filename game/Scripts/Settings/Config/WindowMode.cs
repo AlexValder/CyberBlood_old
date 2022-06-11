@@ -1,7 +1,7 @@
-﻿namespace CyberBlood.Scripts.Settings.Config {
-    public enum WindowMode {
-        Windowed,
-        Borderless,
-        Fullscreen
-    }
+﻿namespace CyberBlood.Scripts.Settings.Config; 
+
+public enum WindowMode {
+    Windowed,
+    Borderless,
+    Fullscreen
 }
