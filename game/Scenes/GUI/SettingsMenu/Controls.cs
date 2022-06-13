@@ -3,7 +3,6 @@ using Godot;
 using GodotCSToolbox;
 using System.Collections.Generic;
 using System.Diagnostics;
-using CyberBlood.Scripts.Settings.Config;
 using CyberBlood.Scripts.Settings.Config.Gamepad;
 using CyberBlood.Scripts.Utils;
 using Serilog;
@@ -75,19 +74,16 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
                 }
 
                 var button = hbox.GetChild<Control>(1);
-                switch (button) {
-                    case Slider slider:
-                        slider.Connect("value_changed", this, nameof(SetWasChangedTrue));
-                        break;
-                    case Button ctrlBtn:
-                        ctrlBtn.Connect("button_up", this, nameof(SetWasChangedTrue));
-                        ctrlBtn.Connect(
-                            "button_up", confirm, "ShowUp", new GArray {
-                                child.Name, ctrlBtn.Text, Confirm.InputMode.MouseKeyboard
-                            }
-                        );
-                        _keyboardButtons[child.Name] = ctrlBtn;
-                        break;
+                if (button is Slider slider) {
+                    slider.Connect("value_changed", this, nameof(SetWasChangedTrue));
+                } else if (button is Button ctrlBtn) {
+                    ctrlBtn.Connect("button_up", this, nameof(SetWasChangedTrue));
+                    ctrlBtn.Connect(
+                        "button_up", confirm, "ShowUp", new GArray {
+                            child.Name, ctrlBtn.Text, Confirm.InputMode.MouseKeyboard
+                        }
+                    );
+                    _keyboardButtons[child.Name] = ctrlBtn;
                 }
             }
         }
