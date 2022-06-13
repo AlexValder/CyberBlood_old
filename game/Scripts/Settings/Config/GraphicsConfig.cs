@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Godot;
 
 namespace CyberBlood.Scripts.Settings.Config {
@@ -10,13 +9,14 @@ namespace CyberBlood.Scripts.Settings.Config {
         private const string RESOLUTION = "resolution";
         private const string ANTIALIASING = "anti-aliasing";
         private const string FXAA = "fxaa";
+        private const string VSYNC = "vsync";
         private const string WINDOW = "window";
         private const string WINDOW_MODE = "mode";
 
-        private Viewport _viewport;
+        private SceneTree _tree;
 
-        public void SetViewport(Viewport viewport) {
-            _viewport = viewport;
+        public void SetSceneTree(SceneTree tree) {
+            _tree = tree;
         }
 
         public GraphicsConfig(
@@ -28,17 +28,20 @@ namespace CyberBlood.Scripts.Settings.Config {
                 [RESOLUTION]   = Vector2.Zero,
                 [ANTIALIASING] = (int)Viewport.MSAA.Msaa2x,
                 [FXAA]         = true,
+                [VSYNC]        = true,
             },
             [WINDOW] = new() {
                 [WINDOW_MODE] = (int)WindowMode.Windowed,
             },
-        }) { }
+        }) {
+        }
 
         public Vector2 Resolution {
             get => GetValue<Vector2>(QUALITY, RESOLUTION);
             set {
                 // Vector2.Zero == native resolution
-                _viewport.Size = value == Vector2.Zero ? OS.GetScreenSize() : value;
+                var size = GetValue<Vector2>(QUALITY, RESOLUTION);
+                ApplyToRootViewport(size);
                 SetValue(QUALITY, RESOLUTION, value);
             }
         }
@@ -46,7 +49,7 @@ namespace CyberBlood.Scripts.Settings.Config {
         public Viewport.MSAA AntiAliasing {
             get => (Viewport.MSAA)GetValue<int>(QUALITY, ANTIALIASING);
             set {
-                _viewport.Msaa = value;
+                _tree.Root.Msaa = value;
                 SetValue(QUALITY, ANTIALIASING, (int)value);
             }
         }
@@ -55,7 +58,15 @@ namespace CyberBlood.Scripts.Settings.Config {
             get => GetValue<bool>(QUALITY, FXAA);
             set {
                 SetValue(QUALITY, FXAA, value);
-                _viewport.Fxaa = value;
+                _tree.Root.Fxaa = value;
+            }
+        }
+
+        public bool Vsync {
+            get => GetValue<bool>(QUALITY, VSYNC);
+            set {
+                SetValue(QUALITY, VSYNC, value);
+                OS.VsyncEnabled = value;
             }
         }
 
@@ -90,11 +101,27 @@ namespace CyberBlood.Scripts.Settings.Config {
         }
 
         public override void ApplySettings() {
+            OS.VsyncEnabled = GetValue<bool>(QUALITY, VSYNC);
             var size = GetValue<Vector2>(QUALITY, RESOLUTION);
-            _viewport.Size = size == Vector2.Zero ? OS.GetScreenSize() : size;
-            _viewport.Msaa = (Viewport.MSAA)GetValue<int>(QUALITY, ANTIALIASING);
-            _viewport.Fxaa = GetValue<bool>(QUALITY, FXAA);
+            ApplyToRootViewport(size);
             ApplyWindowMode((WindowMode)GetValue<int>(WINDOW, WINDOW_MODE));
+            _tree.Root.Msaa = (Viewport.MSAA)GetValue<int>(QUALITY, ANTIALIASING);
+            _tree.Root.Fxaa = GetValue<bool>(QUALITY, FXAA);
+        }
+
+        private void ApplyToRootViewport(Vector2 size) {
+            if (size == Vector2.Zero) {
+                var screenSize = OS.GetScreenSize();
+                _tree.SetScreenStretch(
+                    SceneTree.StretchMode.Viewport, SceneTree.StretchAspect.Keep, screenSize
+                );
+                _tree.Root.SetSizeOverride(false);
+            } else {
+                _tree.SetScreenStretch(
+                    SceneTree.StretchMode.Viewport, SceneTree.StretchAspect.Keep, size
+                );
+                _tree.Root.SetSizeOverride(true, size);
+            }
         }
 
         public static IList<Vector2> GetScreenResolution() {

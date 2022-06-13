@@ -1,18 +1,16 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/themes/default.tres" type="Theme" id=1]
 [ext_resource path="res://Scenes/GUI/SettingsMenu/Game.cs" type="Script" id=2]
 [ext_resource path="res://Scenes/GUI/SettingsMenu/SettingsMenu.cs" type="Script" id=3]
-[ext_resource path="res://Scenes/GUI/SettingsMenu/Graphics.cs" type="Script" id=4]
-[ext_resource path="res://Scenes/GUI/SettingsMenu/Controls.cs" type="Script" id=5]
-[ext_resource path="res://addons/confirm_timeout/ConfirmDialogTimeout.cs" type="Script" id=6]
+[ext_resource path="res://Scenes/GUI/SettingsMenu/Controls.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/GUI/SettingsMenu/Graphics.tscn" type="PackedScene" id=5]
 
 [node name="SettingsMenu" type="PopupDialog"]
-visible = true
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.9
-anchor_bottom = 0.9
+anchor_left = 0.2
+anchor_top = 0.2
+anchor_right = 0.8
+anchor_bottom = 0.8
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource( 1 )
@@ -27,8 +25,8 @@ custom_constants/separation = 20
 alignment = 1
 
 [node name="tabs" type="TabContainer" parent="vbox"]
-margin_right = 802.0
-margin_bottom = 408.0
+margin_right = 1128.0
+margin_bottom = 570.0
 size_flags_vertical = 3
 
 [node name="Game" type="VBoxContainer" parent="vbox/tabs"]
@@ -38,185 +36,57 @@ margin_left = 4.0
 margin_top = 44.0
 margin_right = -4.0
 margin_bottom = -4.0
+alignment = 1
 script = ExtResource( 2 )
 
-[node name="Graphics" type="VBoxContainer" parent="vbox/tabs"]
+[node name="Label" type="Label" parent="vbox/tabs/Game"]
+margin_top = 248.0
+margin_right = 1120.0
+margin_bottom = 274.0
+text = ":((((("
+align = 1
+
+[node name="Graphics" parent="vbox/tabs" instance=ExtResource( 5 )]
 visible = false
-anchor_left = 0.1
-anchor_top = 0.1
-anchor_right = 0.9
-anchor_bottom = 0.9
-margin_left = 4.0
-margin_top = 44.0
-margin_right = -4.0
-margin_bottom = -4.0
-script = ExtResource( 4 )
 
-[node name="grid0" type="GridContainer" parent="vbox/tabs/Graphics"]
-margin_left = 292.0
-margin_right = 702.0
-margin_bottom = 118.0
-size_flags_horizontal = 4
-custom_constants/vseparation = 10
-custom_constants/hseparation = 10
-columns = 2
-
-[node name="label0" type="Label" parent="vbox/tabs/Graphics/grid0"]
-margin_top = 3.0
-margin_right = 200.0
-margin_bottom = 29.0
-rect_min_size = Vector2( 200, 0 )
-size_flags_horizontal = 3
-text = "Resolution"
-align = 2
-
-[node name="resolution" type="OptionButton" parent="vbox/tabs/Graphics/grid0"]
-margin_left = 210.0
-margin_right = 410.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 200, 0 )
-text = "Native"
-align = 1
-items = [ "Native", null, false, 0, null ]
-selected = 0
-
-[node name="label1" type="Label" parent="vbox/tabs/Graphics/grid0"]
-margin_top = 45.0
-margin_right = 200.0
-margin_bottom = 71.0
-rect_min_size = Vector2( 200, 0 )
-size_flags_horizontal = 3
-text = "Anti-Aliasing"
-align = 2
-
-[node name="antialiasing" type="OptionButton" parent="vbox/tabs/Graphics/grid0"]
-margin_left = 210.0
-margin_top = 42.0
-margin_right = 410.0
-margin_bottom = 74.0
-rect_min_size = Vector2( 200, 0 )
-size_flags_horizontal = 3
-text = "None"
-align = 1
-items = [ "None", null, false, 1, false, "x2", null, false, 1, null, "x4", null, false, 2, null, "x8", null, false, 3, null, "x16", null, false, 4, null ]
-selected = 0
-
-[node name="label2" type="Label" parent="vbox/tabs/Graphics/grid0"]
-margin_top = 88.0
-margin_right = 200.0
-margin_bottom = 114.0
-rect_min_size = Vector2( 200, 0 )
-size_flags_horizontal = 3
-text = "FXAA"
-align = 2
-
-[node name="fxaa" type="CheckBox" parent="vbox/tabs/Graphics/grid0"]
-margin_left = 210.0
-margin_top = 84.0
-margin_right = 410.0
-margin_bottom = 118.0
-rect_min_size = Vector2( 200, 0 )
-size_flags_horizontal = 3
-align = 1
-
-[node name="hsep0" type="HSeparator" parent="vbox/tabs/Graphics"]
-margin_top = 122.0
-margin_right = 995.0
-margin_bottom = 126.0
-
-[node name="grid1" type="GridContainer" parent="vbox/tabs/Graphics"]
-margin_left = 292.0
-margin_top = 130.0
-margin_right = 702.0
-margin_bottom = 162.0
-size_flags_horizontal = 4
-custom_constants/vseparation = 10
-custom_constants/hseparation = 10
-columns = 2
-
-[node name="label0" type="Label" parent="vbox/tabs/Graphics/grid1"]
-margin_top = 3.0
-margin_right = 200.0
-margin_bottom = 29.0
-rect_min_size = Vector2( 200, 0 )
-size_flags_horizontal = 3
-text = "Window Mode"
-align = 2
-
-[node name="mode" type="OptionButton" parent="vbox/tabs/Graphics/grid1"]
-margin_left = 210.0
-margin_right = 410.0
-margin_bottom = 32.0
-rect_min_size = Vector2( 200, 0 )
-size_flags_horizontal = 3
-text = "Windowed"
-align = 1
-items = [ "Windowed", null, false, 0, null, "Borderless", null, false, 1, null, "Fullscreen", null, false, 2, null ]
-selected = 0
-
-[node name="confirm" type="ConfirmationDialog" parent="vbox/tabs/Graphics"]
-visible = true
-margin_top = 166.0
-margin_right = 300.0
-margin_bottom = 248.0
-popup_exclusive = true
-window_title = ""
-dialog_text = "Confirm, or changing back in... 0s"
-script = ExtResource( 6 )
-_waitTime = 15.0
-
-[node name="Controls" type="GridContainer" parent="vbox/tabs"]
+[node name="Controls" parent="vbox/tabs" instance=ExtResource( 4 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 44.0
-margin_right = -4.0
-margin_bottom = -4.0
-columns = 2
-script = ExtResource( 5 )
 
 [node name="hbox" type="HBoxContainer" parent="vbox"]
-margin_top = 428.0
-margin_right = 802.0
-margin_bottom = 460.0
+margin_top = 590.0
+margin_right = 1128.0
+margin_bottom = 622.0
 custom_constants/separation = 20
 alignment = 1
 
 [node name="ok" type="Button" parent="vbox/hbox"]
-margin_left = 171.0
-margin_right = 271.0
+margin_left = 334.0
+margin_right = 434.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 100, 0 )
 text = "Ok"
 
 [node name="apply" type="Button" parent="vbox/hbox"]
-margin_left = 291.0
-margin_right = 391.0
+margin_left = 454.0
+margin_right = 554.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 100, 0 )
 text = "Apply"
 
 [node name="cancel" type="Button" parent="vbox/hbox"]
-margin_left = 411.0
-margin_right = 511.0
+margin_left = 574.0
+margin_right = 674.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 100, 0 )
 text = "Cancel"
 
 [node name="defaults" type="Button" parent="vbox/hbox"]
-margin_left = 531.0
-margin_right = 631.0
+margin_left = 694.0
+margin_right = 794.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 100, 0 )
 text = "Defaults"
 
-[connection signal="button_up" from="vbox/tabs/Graphics/grid0/resolution" to="vbox/tabs/Graphics" method="SetWasChangedTrue"]
-[connection signal="button_up" from="vbox/tabs/Graphics/grid0/antialiasing" to="vbox/tabs/Graphics" method="SetWasChangedTrue"]
-[connection signal="button_up" from="vbox/tabs/Graphics/grid0/fxaa" to="vbox/tabs/Graphics" method="SetWasChanged"]
-[connection signal="button_up" from="vbox/tabs/Graphics/grid1/mode" to="vbox/tabs/Graphics" method="SetWasChangedTrue"]
-[connection signal="cancel" from="vbox/tabs/Graphics/confirm" to="vbox/tabs/Graphics" method="_on_confirm_cancel"]
-[connection signal="confirmed" from="vbox/tabs/Graphics/confirm" to="vbox/tabs/Graphics" method="_on_confirm_confirmed"]
 [connection signal="button_up" from="vbox/hbox/ok" to="." method="_on_ok_button_up"]
 [connection signal="button_up" from="vbox/hbox/apply" to="." method="_on_apply_button_up"]
 [connection signal="button_up" from="vbox/hbox/cancel" to="." method="_on_cancel_button_up"]

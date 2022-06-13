@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Godot;
 
 namespace CyberBlood.Scenes.GUI {
@@ -6,7 +6,7 @@ namespace CyberBlood.Scenes.GUI {
         private Control _pauseMenu;
 
         public override void _Ready() {
-            _pauseMenu   = GD.Load<PackedScene>("res://Scenes/GUI/PauseMenu.tscn").Instance<Control>();
+            _pauseMenu = GD.Load<PackedScene>("res://Scenes/GUI/PauseMenu.tscn").Instance<Control>();
             SetupFpsCounter();
         }
 

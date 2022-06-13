@@ -2,7 +2,7 @@
 using Serilog;
 using Serilog.Configuration;
 
-namespace CyberBlood.Scripts.Tools.GodotSink {
+namespace CyberBlood.Scripts.Utils.GodotSink {
     public static class GodotSinkExtensions {
         public static LoggerConfiguration GodotSink(
             this LoggerSinkConfiguration loggerConfiguration,

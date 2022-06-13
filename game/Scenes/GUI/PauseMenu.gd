@@ -17,6 +17,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _toggle_pause(pause: bool) -> void:
+    if (_settings.visible):
+        return
+
     GameManager.TogglePause(!pause)
     visible = pause
     if pause:

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using CyberBlood.addons.playable_spatial;
 using CyberBlood.Scenes.Entities;
 using CyberBlood.Scenes.GUI;
@@ -15,6 +13,8 @@ namespace CyberBlood.Scripts {
         [NodePath("/root/GuiManager")] private GuiManager _guiManager;
 #pragma warning restore 649
 
+        public static bool IsPlaying { get; private set; } = false;
+        
         private readonly PackedScene _mainMenu;
         private readonly Player _player;
         private string _name = "menu";
@@ -46,6 +46,7 @@ namespace CyberBlood.Scripts {
                 _player.Reset();
                 TogglePause(_player, true);
             } else {
+                IsPlaying = true;
                 _guiManager.Switch2Gameplay();
             }
 
@@ -60,6 +61,7 @@ namespace CyberBlood.Scripts {
         }
 
         public void QuitToMenu() {
+            IsPlaying = false;
             _root.RemoveChild(_currentScene);
             _currentScene.RemoveChild(_player);
             _currentScene.QueueFree();

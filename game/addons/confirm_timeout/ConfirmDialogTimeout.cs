@@ -1,14 +1,10 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Godot;
-using GodotCSToolbox;
 
 namespace CyberBlood.addons.confirm_timeout {
     [Tool]
     public class ConfirmDialogTimeout : ConfirmationDialog {
-        private readonly Timer _timer = new() {
-            Autostart = false,
-            OneShot   = true,
-        };
+        private Timer _timer;
         private Label _label;
         private int _lastValue = -1;
 
@@ -20,7 +16,16 @@ namespace CyberBlood.addons.confirm_timeout {
         [Export(PropertyHint.Range, "0,4098")] private float _waitTime = 15.5f;
 
         public override void _EnterTree() {
+            _timer = new Timer {
+                Autostart = false,
+                OneShot   = true,
+            };
             AddChild(_timer);
+        }
+
+        public override void _ExitTree() {
+            RemoveChild(_timer);
+            _timer.QueueFree();
         }
 
         public override void _Ready() {

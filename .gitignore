@@ -9,3 +9,4 @@ data_*/
 *.user
 *.ini
 /builds
+game/packages

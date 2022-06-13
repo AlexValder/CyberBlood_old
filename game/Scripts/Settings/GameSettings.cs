@@ -1,5 +1,5 @@
 ﻿using CyberBlood.Scripts.Settings.Config;
-using CyberBlood.Scripts.Tools.GodotSink;
+using CyberBlood.Scripts.Utils.GodotSink;
 using Godot;
 using Serilog;
 
@@ -34,8 +34,9 @@ namespace CyberBlood.Scripts.Settings {
 
             Input.SetMouseMode(Input.MouseMode.Captured);
 
-            Graphics.SetViewport(GetViewport());
+            Graphics.SetSceneTree(GetTree());
             Graphics.ApplySettings();
+            Controls.ApplySettings();
         }
 
         private static void ConfigureLogger() {

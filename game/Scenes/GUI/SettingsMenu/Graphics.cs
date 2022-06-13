@@ -10,6 +10,7 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
         [NodePath("grid0/resolution")] private OptionButton _resolution;
         [NodePath("grid0/antialiasing")] private OptionButton _antialiasing;
         [NodePath("grid0/fxaa")] private CheckBox _fxaa;
+        [NodePath("grid0/vsync")] private CheckBox _vsync;
         [NodePath("grid1/mode")] private OptionButton _mode;
         [NodePath("confirm")] private ConfirmDialogTimeout _dialog;
 #pragma warning restore 649
@@ -18,6 +19,7 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
         private Vector2 _prevRes;
         private Viewport.MSAA _prevMsaa;
         private bool _prevFxaa;
+        private bool _prevVsync;
         private WindowMode _prevMode;
 
         public bool NeedsConfirmation => _dialog.Visible;
@@ -26,11 +28,17 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             this.SetupNodeTools();
         }
 
+        private void SetWasChanged() {
+            _wasChanged = true;
+        }
+
         public void SetupFromConfig() {
+            _wasChanged = false;
             PopulateAndSetResolution(_resolution);
 
             _antialiasing.Selected = (int)GameSettings.Graphics.AntiAliasing;
             _fxaa.Pressed          = GameSettings.Graphics.Fxaa;
+            _vsync.Pressed         = GameSettings.Graphics.Vsync;
             _mode.Selected         = (int)GameSettings.Graphics.WindowMode;
         }
 
@@ -63,6 +71,15 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
 
             var gr = GameSettings.Graphics;
 
+            _prevMsaa       = gr.AntiAliasing;
+            gr.AntiAliasing = (Viewport.MSAA)_antialiasing.Selected;
+            _prevFxaa       = gr.Fxaa;
+            gr.Fxaa         = _fxaa.Pressed;
+            _prevVsync      = gr.Vsync;
+            gr.Vsync        = _vsync.Pressed;
+            _prevMode       = gr.WindowMode;
+            gr.WindowMode   = (WindowMode)_mode.Selected;
+
             _prevRes = gr.Resolution;
             var id = _resolution.Selected;
             if (id == 0) {
@@ -74,18 +91,14 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
                 gr.Resolution = new Vector2(float.Parse(nums[0]), float.Parse(nums[1]));
             }
 
-            _prevMsaa       = gr.AntiAliasing;
-            gr.AntiAliasing = (Viewport.MSAA)_antialiasing.Selected;
-            _prevFxaa       = gr.Fxaa;
-            gr.Fxaa         = _fxaa.Pressed;
-            _prevMode       = gr.WindowMode;
-            gr.WindowMode   = (WindowMode)_mode.Selected;
+            gr.ApplySettings();
 
             _dialog.PopupCentered();
         }
 
         public void SetDefaults() {
             GameSettings.Graphics.SetDefaults();
+            GameSettings.Graphics.SaveConfigToFile();
             SetupFromConfig();
         }
 
@@ -96,10 +109,11 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
         private void _on_confirm_cancel() {
             var gr = GameSettings.Graphics;
 
+            gr.Vsync        = _prevVsync;
             gr.Fxaa         = _prevFxaa;
-            gr.Resolution   = _prevRes;
             gr.AntiAliasing = _prevMsaa;
             gr.WindowMode   = _prevMode;
+            gr.Resolution   = _prevRes;
 
             SetupFromConfig();
         }
@@ -107,10 +121,6 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
         private void _on_timer_timeout() {
             _dialog.Hide();
             SetupFromConfig();
-        }
-
-        private void SetWasChangedTrue() {
-            _wasChanged = true;
         }
     }
 }
