@@ -66,20 +66,12 @@ namespace CyberBlood.Scenes.Entities {
         }
 
         public override void _PhysicsProcess(float delta) {
-            Direction = new Vector3(
-                Input.GetActionStrength(MOVE_LEFT) - Input.GetActionStrength(MOVE_RIGHT),
-                0,
-                Input.GetActionStrength(MOVE_FORWARD) - Input.GetActionStrength(MOVE_BACK)
-            );
+            var dir = Input.GetVector(MOVE_RIGHT, MOVE_LEFT, MOVE_BACK, MOVE_FORWARD);
+            Direction = new Vector3(dir[0], 0, dir[1]);
 
             switch (_state) {
                 case PlayerState.Idle: {
-                    if (
-                        Input.IsActionPressed(MOVE_FORWARD) ||
-                        Input.IsActionPressed(MOVE_RIGHT) ||
-                        Input.IsActionPressed(MOVE_LEFT) ||
-                        Input.IsActionPressed(MOVE_BACK)
-                    ) {
+                    if (dir.Length() > 0) {
                         _state = PlayerState.Walking;
 
                         _hRot = _camera.H.GlobalTransform.basis.GetEuler().y;

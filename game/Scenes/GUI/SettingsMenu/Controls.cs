@@ -3,6 +3,8 @@ using Godot;
 using GodotCSToolbox;
 using System.Collections.Generic;
 using System.Diagnostics;
+using CyberBlood.Scripts.Settings.Config;
+using CyberBlood.Scripts.Settings.Config.Gamepad;
 using CyberBlood.Scripts.Utils;
 using Serilog;
 using GArray = Godot.Collections.Array;
@@ -12,50 +14,35 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
         public bool NeedsConfirmation => false;
 
         private bool _wasChanged;
+        private bool _sticksSwitched;
         private readonly Color _redColor = new (.7f, .07f, 0.07f);
         private readonly Dictionary<string, (Button, VBoxContainer)> _tabs = new();
         private readonly Dictionary<string, Button> _keyboardButtons = new();
+        private readonly Dictionary<string, Button> _gamepadButtons = new();
 #pragma warning disable CS0649
-        [NodePath("hbox/panel/viewer/center/keyboard/vsens/hbox/hslider")]
-        private Slider _mouseVSensitivity;
         [NodePath("hbox/panel/viewer/center/keyboard/hsens/hbox/hslider")]
         private Slider _mouseHSensitivity;
+        [NodePath("hbox/panel/viewer/center/keyboard/vsens/hbox/hslider")]
+        private Slider _mouseVSensitivity;
+        [NodePath("hbox/panel/viewer/center/gamepad/grid1/hsens/hslider")]
+        private Slider _stickHSensitivity;
+        [NodePath("hbox/panel/viewer/center/gamepad/grid1/vsens/hslider")]
+        private Slider _stickVSensitivity;
+        [NodePath("hbox/panel/viewer/center/gamepad/grid2/icon_set")]
+        private OptionButton _iconThemeOptions;
 #pragma warning restore CS0649
 
         public override void _Ready() {
             this.SetupNodeTools();
 
             PopulateTabs();
-            ConnectControlButtons();
             ConnectTabButtons();
+            ConnectControlKeys();
+            ConnectControlGamepadButtons();
             SetupFromConfig();
 
             _tabs["gamepad"].Item1.Pressed  = GameSettings.JoyConnected;
             _tabs["keyboard"].Item1.Pressed = !GameSettings.JoyConnected;
-        }
-
-        private void ConnectControlButtons() {
-            var root    = GetNode<Control>("hbox/panel/viewer/center/keyboard");
-            var confirm = GetNode<ConfirmationDialog>("Confirm");
-            var count   = root.GetChildCount();
-            for (var i = 0; i < count; ++i) {
-                var child = root.GetChild<Control>(i);
-                if (child is not HBoxContainer hbox) {
-                    continue;
-                }
-
-                var button = hbox.GetChild<Control>(1);
-                if (button is Slider slider) {
-                    // TODO
-                    slider.Connect("value_changed", this, nameof(SetWasChangedTrue));
-                } else if (button is Button ctrlBtn) {
-                    ctrlBtn.Connect("button_up", this, nameof(SetWasChangedTrue));
-                    ctrlBtn.Connect(
-                        "button_up", confirm, "ShowUp", new GArray { child.Name, ctrlBtn.Text }
-                    );
-                    _keyboardButtons[child.Name] = ctrlBtn;
-                }
-            }
         }
 
         private void PopulateTabs() {
@@ -77,7 +64,76 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             }
         }
 
-        private void _on_Confirm_ControlSelected(string name, InputEvent action) {
+        private void ConnectControlKeys() {
+            var root    = GetNode<Control>("hbox/panel/viewer/center/keyboard");
+            var confirm = GetNode<ConfirmationDialog>("Confirm");
+            var count   = root.GetChildCount();
+            for (var i = 0; i < count; ++i) {
+                var child = root.GetChild<Control>(i);
+                if (child is not HBoxContainer hbox) {
+                    continue;
+                }
+
+                var button = hbox.GetChild<Control>(1);
+                switch (button) {
+                    case Slider slider:
+                        slider.Connect("value_changed", this, nameof(SetWasChangedTrue));
+                        break;
+                    case Button ctrlBtn:
+                        ctrlBtn.Connect("button_up", this, nameof(SetWasChangedTrue));
+                        ctrlBtn.Connect(
+                            "button_up", confirm, "ShowUp", new GArray {
+                                child.Name, ctrlBtn.Text, Confirm.InputMode.MouseKeyboard
+                            }
+                        );
+                        _keyboardButtons[child.Name] = ctrlBtn;
+                        break;
+                }
+            }
+        }
+
+        private void ConnectControlGamepadButtons() {
+            var root            = GetNode<Control>("hbox/panel/viewer/center/gamepad");
+            var confirm         = GetNode<ConfirmationDialog>("Confirm");
+            var switchButton    = root.GetNode<Button>("grid0/switch");
+            var leftStickLabel  = root.GetNode<Label>("grid0/label0");
+            var rightStickLabel = root.GetNode<Label>("grid0/label2");
+
+            switchButton.Connect(
+                "button_up",
+                this,
+                nameof(SwapSticks),
+                new GArray { leftStickLabel, rightStickLabel }
+            );
+
+            var subroot = root.GetNode<Control>("grid2");
+            var count   = subroot.GetChildCount();
+            for (var i = 0; i < count; ++i) {
+                var child = subroot.GetChild<Control>(i);
+
+                if (child is not Button btn) {
+                    continue;
+                }
+
+                _gamepadButtons[btn.Name] = btn;
+                btn.Connect("button_up", this, nameof(SetWasChangedTrue));
+                if (btn is not OptionButton) {
+                    btn.Connect(
+                        "button_up", confirm, "ShowUp", new GArray {
+                            child.Name, btn.Text, Confirm.InputMode.Gamepad
+                        }
+                    );
+                }
+            }
+        }
+
+        private void SwapSticks(Label left, Label right) {
+            (left.Text, right.Text) = (right.Text, left.Text);
+            _sticksSwitched         = !_sticksSwitched;
+            _wasChanged             = true;
+        }
+
+        private void _on_Confirm_ControlSelected(string name, InputEvent action, Confirm.InputMode mode) {
             Debug.Assert(InputMap.HasAction(name));
 
             if (action == null) {
@@ -85,7 +141,15 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             }
 
             GameSettings.Controls.SetAction(name, action);
-            SetText(_keyboardButtons[name], action);
+            if (mode == Confirm.InputMode.MouseKeyboard) {
+                SetText(_keyboardButtons[name], action);
+            } else if (action is InputEventJoypadButton jb) {
+                var btn = _gamepadButtons[name];
+                btn.Text = GamepadButtonMetaSelector.GetName(jb.ButtonIndex);
+                btn.Icon = GamepadButtonMetaSelector.GetTexture(jb.ButtonIndex);
+                btn.Update();
+            }
+
             CheckRepeatingButtons();
         }
 
@@ -119,14 +183,6 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
                 case InputEventKey:
                     button.Text = new MouseKeyboardButton(action).ToString();
                     break;
-                case InputEventJoypadMotion jm:
-                    // TODO
-                    button.Text = "Unsupported 1";
-                    break;
-                case InputEventJoypadButton jb:
-                    // TODO
-                    button.Text = "Unsupported 2";
-                    break;
                 default:
                     Log.Logger.Warning("Unknown type: {Type}", action.GetType());
                     button.Text = action.AsText();
@@ -139,15 +195,28 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
         }
 
         public void SetupFromConfig() {
+            _wasChanged = false;
             var ctrl = GameSettings.Controls;
+            // mouse+keyboard
             _keyboardButtons["move_forward"].Text  = ctrl.MoveForward.ToString();
             _keyboardButtons["move_left"].Text     = ctrl.MoveLeft.ToString();
             _keyboardButtons["move_back"].Text     = ctrl.MoveBack.ToString();
             _keyboardButtons["move_right"].Text    = ctrl.MoveRight.ToString();
-            _keyboardButtons["camera_center"].Text = ctrl.CameraCenter.ToString();
+            _keyboardButtons["camera_center"].Text = ctrl.CameraMouseCenter.ToString();
             _mouseHSensitivity.Value               = ctrl.CameraMouseRotateHorizontal / ctrl.CameraMouseDenominator;
             _mouseVSensitivity.Value               = ctrl.CameraMouseRotateVertical / ctrl.CameraMouseDenominator;
 
+            // gamepad
+            _sticksSwitched                       = ctrl.SticksSwitched;
+            _stickHSensitivity.Value              = ctrl.CameraJoyRotateHorizontal;
+            _stickVSensitivity.Value              = ctrl.CameraJoyRotateVertical;
+            _iconThemeOptions.Selected            = (int)ctrl.GamepadButtonTheme;
+            _gamepadButtons["camera_center"].Text = GamepadButtonMetaSelector.GetName(ctrl.CameraJoyCenter);
+            _gamepadButtons["camera_center"].Icon = GamepadButtonMetaSelector.GetTexture(ctrl.CameraJoyCenter);
+
+            foreach (var b in _gamepadButtons.Values) {
+                b.Update();
+            }
             CheckRepeatingButtons();
         }
 
@@ -162,6 +231,11 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
 
             ctrl.CameraMouseRotateHorizontal = (float)(_mouseHSensitivity.Value * ctrl.CameraMouseDenominator);
             ctrl.CameraMouseRotateVertical   = (float)(_mouseVSensitivity.Value * ctrl.CameraMouseDenominator);
+
+            ctrl.SticksSwitched            = _sticksSwitched;
+            ctrl.CameraJoyRotateHorizontal = (float)_stickHSensitivity.Value;
+            ctrl.CameraJoyRotateVertical   = (float)_stickVSensitivity.Value;
+            ctrl.GamepadButtonTheme        = (ButtonTheme)_iconThemeOptions.Selected;
 
             ctrl.SaveConfigToFile();
             ctrl.ApplySettings();

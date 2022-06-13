@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CyberBlood.Scripts;
 using Godot;
 using GodotCSToolbox;
 
@@ -22,9 +23,6 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
                 _game, _graphics, _controls
             };
 
-            _tabContainer.SetTabDisabled(0, true);
-            _tabContainer.CurrentTab = 1;
-
             SetupFromConfig();
 
             GetTree().Root.Connect("size_changed", this, nameof(_on_SettingsMenu_resized));
@@ -42,6 +40,10 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             foreach (var tab in _tabs) {
                 tab.SetDefaults();
             }
+        }
+
+        public void GrabGamepadFocus() {
+            GrabFocus();
         }
 
         private void _on_ok_button_up() {

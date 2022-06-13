@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using CyberBlood.Scenes.GUI.SettingsMenu;
+using CyberBlood.Scripts.Settings.Config.Gamepad;
 using CyberBlood.Scripts.Utils;
 using Godot;
 using Serilog;
 
 namespace CyberBlood.Scripts.Settings.Config {
     public class ControlsConfig : FileConfig {
+        private const string GAMEPAD = "joypad";
+        private const string STICKS_SWITCHED = "sticks_switched";
+        private const string BUTTON_THEME = "button_theme";
         private const string CAMERA_CENTER = "camera_center";
         private const string ROTATE_H = "rotate_horizontal";
         private const string ROTATE_V = "rotate_vertical";
@@ -13,7 +19,6 @@ namespace CyberBlood.Scripts.Settings.Config {
         private const string CAMERA_DOWN = "camera_down";
         private const string CAMERA_RIGHT = "camera_right";
         private const string INVERTED = "inverted";
-        private const string GAMEPAD = "joypad";
         private const string MOUSE_KEYBOARD = "mouse_keyboard";
         private const string MOVE_LEFT = "move_left";
         private const string MOVE_RIGHT = "move_right";
@@ -35,6 +40,27 @@ namespace CyberBlood.Scripts.Settings.Config {
         public bool CameraInverted {
             get => GetValue<bool>(GAMEPAD, INVERTED);
             set => SetValue(GAMEPAD, INVERTED, value);
+        }
+
+        public bool SticksSwitched {
+            get => GetValue<bool>(GAMEPAD, STICKS_SWITCHED);
+            set {
+                SetValue(GAMEPAD, STICKS_SWITCHED, value);
+                SetSticksActions(switched: value);
+            }
+        }
+
+        public JoystickList CameraJoyCenter {
+            get => (JoystickList)GetValue<int>(GAMEPAD, CAMERA_CENTER);
+            private set => SetValue(GAMEPAD, CAMERA_CENTER, (int)value);
+        }
+
+        public ButtonTheme GamepadButtonTheme {
+            get => (ButtonTheme)GetValue<int>(GAMEPAD, BUTTON_THEME);
+            set {
+                SetValue(GAMEPAD, BUTTON_THEME, (int)value);
+                GamepadButtonMetaSelector.Theme = value;
+            }
         }
 
         #endregion
@@ -112,8 +138,8 @@ namespace CyberBlood.Scripts.Settings.Config {
                 }
             }
         }
-    
-        public MouseKeyboardButton CameraCenter {
+
+        public MouseKeyboardButton CameraMouseCenter {
             get {
                 var value = GetValue<int>(MOUSE_KEYBOARD, CAMERA_CENTER);
                 return
@@ -136,9 +162,12 @@ namespace CyberBlood.Scripts.Settings.Config {
             bool useDefaults
         ) : base(path, pass, useDefaults, new Dictionary<string, Dictionary<string, object>> {
             [GAMEPAD] = new() {
-                [ROTATE_H] = 2f,
-                [ROTATE_V] = 2f,
-                [INVERTED] = false,
+                [BUTTON_THEME]    = (int)ButtonTheme.Xbox,
+                [ROTATE_H]        = 2f,
+                [ROTATE_V]        = 2f,
+                [INVERTED]        = false,
+                [STICKS_SWITCHED] = false,
+                [CAMERA_CENTER]   = GamepadButtonEventFactory.IndexRight,
             },
             [MOUSE_KEYBOARD] = new() {
                 [ROTATE_H]      = .005f,
@@ -149,28 +178,35 @@ namespace CyberBlood.Scripts.Settings.Config {
                 [MOVE_RIGHT]    = KeyList.D,
                 [CAMERA_CENTER] = MouseButtons.MiddleButton,
             }
-        }) { }
+        }) {
+        }
+
+        private static IEnumerable<string> CameraActions { get; } = new List<string> {
+            CAMERA_UP, CAMERA_LEFT, CAMERA_DOWN, CAMERA_RIGHT
+        };
+
+        private static IEnumerable<string> MoveActions { get; } = new List<string> {
+            MOVE_FORWARD, MOVE_LEFT, MOVE_BACK, MOVE_RIGHT
+        };
 
         public override void ApplySettings() {
-            var cameras = new List<string> {
-                CAMERA_UP, CAMERA_LEFT, CAMERA_DOWN, CAMERA_RIGHT
-            };
             var actions = InputMap.GetActions();
             foreach (string action in actions) {
-                if (cameras.Contains(action) || action.BeginsWith("ui_") || action.Contains("pause")) {
+                if (action.BeginsWith("ui_") || action.Contains("pause")) {
                     continue;
                 }
-            
+
                 InputMap.ActionEraseEvents(action);
                 InputMap.EraseAction(action);
             }
 
+            GamepadButtonMetaSelector.Theme = GamepadButtonTheme;
             AddMouseKeyboardActions();
             AddGamepadActions();
         }
-    
+
         private void AddMouseKeyboardActions() {
-            CheckAddAction(CAMERA_CENTER, CameraCenter);
+            CheckAddAction(CAMERA_CENTER, CameraMouseCenter);
             CheckAddAction(MOVE_FORWARD, MoveForward);
             CheckAddAction(MOVE_LEFT, MoveLeft);
             CheckAddAction(MOVE_BACK, MoveBack);
@@ -187,21 +223,18 @@ namespace CyberBlood.Scripts.Settings.Config {
         }
 
         public void SetAction(string name, InputEvent e) {
+            if (e is InputEventJoypadButton jb) {
+                SetJoyAction(name, jb);
+            } else {
+                SetMouseKeyAction(name, new MouseKeyboardButton(e));
+            }
+            
+        }
+
+        private void SetJoyAction(string name, InputEventJoypadButton jb) {
             switch (name) {
                 case CAMERA_CENTER:
-                    CameraCenter = new MouseKeyboardButton(e);
-                    break;
-                case MOVE_FORWARD:
-                    MoveForward = new MouseKeyboardButton(e);
-                    break;
-                case MOVE_LEFT:
-                    MoveLeft = new MouseKeyboardButton(e);
-                    break;
-                case MOVE_BACK:
-                    MoveBack = new MouseKeyboardButton(e);
-                    break;
-                case MOVE_RIGHT:
-                    MoveRight = new MouseKeyboardButton(e);
+                    CameraJoyCenter = (JoystickList)jb.ButtonIndex;
                     break;
                 default:
                     Log.Logger.Warning("??? {Name}", name);
@@ -209,10 +242,80 @@ namespace CyberBlood.Scripts.Settings.Config {
             }
         }
 
-        private static void AddGamepadActions() {
-            // TODO
+        private void SetMouseKeyAction(string name, MouseKeyboardButton button) {
+            switch (name) {
+                case CAMERA_CENTER:
+                    CameraMouseCenter = button;
+                    break;
+                case MOVE_FORWARD:
+                    MoveForward = button;
+                    break;
+                case MOVE_LEFT:
+                    MoveLeft = button;
+                    break;
+                case MOVE_BACK:
+                    MoveBack = button;
+                    break;
+                case MOVE_RIGHT:
+                    MoveRight = button;
+                    break;
+                default:
+                    Log.Logger.Warning("??? {Name}", name);
+                    break;
+            }
         }
-    
+
+        private void AddGamepadActions() {
+            SetSticksActions(SticksSwitched);
+
+            SetButtons();
+        }
+
+        private void SetButtons() {
+            CheckAddAction(CAMERA_CENTER, CameraJoyCenter);
+
+            static void CheckAddAction(string action, JoystickList index) {
+                if (!InputMap.HasAction(action)) {
+                    InputMap.AddAction(action);
+                }
+            
+                InputMap.ActionAddEvent(action, GamepadButtonEventFactory.ForIndex(index));
+            }
+        }
+
+        private static void SetSticksActions(bool switched) {
+            var builder = new GamepadStickEventBuilder();
+
+            SetCameraActions(!switched ? builder.RightStick() : builder.LeftStick());
+            SetMovementActions(!switched ? builder.LeftStick() : builder.RightStick());
+        }
+
+        private static void SetMovementActions(IHasSticks builder) {
+            foreach (var action in MoveActions) {
+                if (!InputMap.HasAction(action)) {
+                    InputMap.AddAction(action);
+                }
+            }
+
+            InputMap.ActionAddEvent(MOVE_RIGHT, builder.Right().Build());
+            InputMap.ActionAddEvent(MOVE_LEFT, builder.Left().Build());
+            InputMap.ActionAddEvent(MOVE_BACK, builder.Down().Build());
+            InputMap.ActionAddEvent(MOVE_FORWARD, builder.Up().Build());
+        }
+
+        private static void SetCameraActions(IHasSticks builder) {
+            foreach (var action in CameraActions) {
+                if (!InputMap.HasAction(action)) {
+                    InputMap.AddAction(action);
+                }
+            }
+
+            InputMap.ActionAddEvent(CAMERA_LEFT, builder.Right().Build());
+            InputMap.ActionAddEvent(CAMERA_RIGHT, builder.Left().Build());
+            InputMap.ActionAddEvent(CAMERA_UP, builder.Down().Build());
+            InputMap.ActionAddEvent(CAMERA_DOWN, builder.Up().Build());
+        }
+
         public static string MouseButtonString(int index) =>
             (MouseButtons)(-index) switch {
                 MouseButtons.LeftButton   => "Left MB",

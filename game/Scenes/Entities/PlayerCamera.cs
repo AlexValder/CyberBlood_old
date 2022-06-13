@@ -44,7 +44,7 @@ namespace CyberBlood.Scenes.Entities {
         }
 
         public override void _UnhandledInput(InputEvent @event) {
-            if (!GameSettings.JoyConnected && @event is InputEventMouseMotion mouse) {
+            if (@event is InputEventMouseMotion mouse) {
                 _timer.Start();
                 _cameraH -= mouse.Relative.x * HMouseAcceleration;
                 _cameraV -= mouse.Relative.y * VMouseAcceleration;

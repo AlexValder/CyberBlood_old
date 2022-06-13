@@ -33,6 +33,7 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
         }
 
         public void SetupFromConfig() {
+            _wasChanged = false;
             PopulateAndSetResolution(_resolution);
 
             _antialiasing.Selected = (int)GameSettings.Graphics.AntiAliasing;
