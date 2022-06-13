@@ -23,7 +23,9 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
                 _game, _graphics, _controls
             };
 
-            SetupFromConfig();
+            foreach (var tab in _tabs) {
+                tab.SetupFromConfig();
+            }
 
             GetTree().Root.Connect("size_changed", this, nameof(_on_SettingsMenu_resized));
         }
@@ -42,8 +44,36 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             }
         }
 
-        public void GrabGamepadFocus() {
-            GrabFocus();
+        public override void _Input(InputEvent @event) {
+            if (@event.IsActionReleased("ui_tab_left")) {
+                SwitchLeft();
+            } else if (@event.IsActionReleased("ui_tab_right")) {
+                SwitchRight();
+            }
+        }
+
+        private void SwitchLeft() {
+            var current   = _tabContainer.CurrentTab;
+            var size      = _tabContainer.GetChildCount();
+            var candidate = current == 0 ? size - 1 : current - 1;
+
+            while (_tabContainer.GetTabDisabled(candidate)) {
+                candidate = candidate == 0 ? size - 1 : candidate - 1;
+            }
+
+            _tabContainer.CurrentTab = candidate;
+        }
+
+        private void SwitchRight() {
+            var current   = _tabContainer.CurrentTab;
+            var size      = _tabContainer.GetChildCount();
+            var candidate = current == size - 1 ? 0 : current + 1;
+
+            while (_tabContainer.GetTabDisabled(candidate)) {
+                candidate = candidate == size - 1 ? 0 : candidate + 1;
+            }
+
+            _tabContainer.CurrentTab = candidate;
         }
 
         private void _on_ok_button_up() {
