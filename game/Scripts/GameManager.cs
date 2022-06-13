@@ -13,7 +13,7 @@ namespace CyberBlood.Scripts {
         [NodePath("/root/GuiManager")] private GuiManager _guiManager;
 #pragma warning restore 649
 
-        public static bool IsPlaying { get; private set; } = false;
+        public static bool IsPlaying { get; private set; }
         
         private readonly PackedScene _mainMenu;
         private readonly Player _player;
