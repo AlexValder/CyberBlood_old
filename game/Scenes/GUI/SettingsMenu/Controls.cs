@@ -27,6 +27,8 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
         private Slider _stickHSensitivity;
         [NodePath("hbox/panel/viewer/center/gamepad/grid1/vsens/hslider")]
         private Slider _stickVSensitivity;
+        [NodePath("hbox/panel/viewer/center/gamepad/grid1/inverted")]
+        private CheckBox _invertedCheck;
         [NodePath("hbox/panel/viewer/center/gamepad/grid2/icon_set")]
         private OptionButton _iconThemeOptions;
 #pragma warning restore CS0649
@@ -207,6 +209,7 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             _stickHSensitivity.Value              = ctrl.CameraJoyRotateHorizontal;
             _stickVSensitivity.Value              = ctrl.CameraJoyRotateVertical;
             _iconThemeOptions.Selected            = (int)ctrl.GamepadButtonTheme;
+            _invertedCheck.Pressed                = ctrl.CameraInverted;
             _gamepadButtons["camera_center"].Text = GamepadButtonMetaSelector.GetName(ctrl.CameraJoyCenter);
             _gamepadButtons["camera_center"].Icon = GamepadButtonMetaSelector.GetTexture(ctrl.CameraJoyCenter);
 
@@ -232,6 +235,7 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             ctrl.CameraJoyRotateHorizontal = (float)_stickHSensitivity.Value;
             ctrl.CameraJoyRotateVertical   = (float)_stickVSensitivity.Value;
             ctrl.GamepadButtonTheme        = (ButtonTheme)_iconThemeOptions.Selected;
+            ctrl.CameraInverted            = _invertedCheck.Pressed;
 
             ctrl.SaveConfigToFile();
             ctrl.ApplySettings();

@@ -347,9 +347,9 @@ rect_min_size = Vector2( 200, 0 )
 [node name="gamepad" type="VBoxContainer" parent="hbox/panel/viewer/center"]
 visible = false
 margin_left = 663.0
-margin_top = 373.0
+margin_top = 356.0
 margin_right = 1093.0
-margin_bottom = 707.0
+margin_bottom = 724.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
@@ -433,7 +433,7 @@ stretch_mode = 4
 [node name="grid1" type="GridContainer" parent="hbox/panel/viewer/center/gamepad"]
 margin_top = 180.0
 margin_right = 430.0
-margin_bottom = 222.0
+margin_bottom = 256.0
 rect_min_size = Vector2( 430, 0 )
 custom_constants/vseparation = 10
 custom_constants/hseparation = 20
@@ -506,27 +506,45 @@ margin_right = 205.0
 margin_bottom = 15.0
 text = "2.0"
 
+[node name="label2" type="Label" parent="hbox/panel/viewer/center/gamepad/grid1"]
+margin_top = 57.0
+margin_right = 205.0
+margin_bottom = 71.0
+size_flags_horizontal = 3
+text = "Inverted"
+align = 1
+valign = 1
+
+[node name="inverted" type="CheckBox" parent="hbox/panel/viewer/center/gamepad/grid1"]
+margin_left = 315.0
+margin_top = 52.0
+margin_right = 339.0
+margin_bottom = 76.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+align = 1
+
 [node name="hsep2" type="HSeparator" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 232.0
+margin_top = 266.0
 margin_right = 430.0
-margin_bottom = 236.0
+margin_bottom = 270.0
 
 [node name="title1" type="Label" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 246.0
+margin_top = 280.0
 margin_right = 430.0
-margin_bottom = 260.0
+margin_bottom = 294.0
 text = "Buttons"
 align = 1
 
 [node name="hsep3" type="HSeparator" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 270.0
+margin_top = 304.0
 margin_right = 430.0
-margin_bottom = 274.0
+margin_bottom = 308.0
 
 [node name="grid2" type="GridContainer" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 284.0
+margin_top = 318.0
 margin_right = 430.0
-margin_bottom = 334.0
+margin_bottom = 368.0
 size_flags_horizontal = 3
 custom_constants/vseparation = 10
 custom_constants/hseparation = 50
