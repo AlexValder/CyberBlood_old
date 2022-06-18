@@ -4,3 +4,6 @@
 [submodule "game/Assets"]
 	path = game/Assets
 	url = git@github.com:AlexValder/CyberBlood-Assets.git
+[submodule "game/addons"]
+	path = game/addons
+	url = git@github.com:AlexValder/CyberBlood-addons.git
