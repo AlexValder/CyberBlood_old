@@ -10,3 +10,4 @@ data_*/
 *.ini
 /builds
 game/packages
+docs/

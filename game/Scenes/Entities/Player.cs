@@ -13,15 +13,26 @@ namespace CyberBlood.Scenes.Entities {
         private const string JUMP = "jump";
 
         private const float WALK_SPEED = 4.5f * 1.2f;
-        private const float ACCELERATION = 6f * 1.2f;
         private const float ANGULAR_ACCELERATION = 10f;
-        private const float JUMP_COEFFICIENT = 25f * 1.5f;
+        private const float JUMP_COEFFICIENT = 10f * 1.5f;
         private const float GRAVITY = 15f * 1.5f;
 
-        public Vector3 Velocity { get; private set; } = Vector3.Zero;
-        public Vector3 MeshRotation => _mesh.Rotation;
-        private bool IsFalling => _verticalVelocity < 0;
+        private Vector3 _velocity = Vector3.Zero;
 
+        private Vector3 _snapVector = Vector3.Down;
+
+        private PlayerState State {
+            get => _state;
+            set {
+                _state = value;
+                if (_statusLabel != null) {
+                    _statusLabel.Text = _state.ToString();
+                }
+            }
+        }
+
+        public Vector3 MeshRotation => _mesh.Rotation;
+        
 
         [Flags]
         private enum PlayerState {
@@ -32,13 +43,7 @@ namespace CyberBlood.Scenes.Entities {
             DoubleJump = 16,
         }
 
-        private float _hRot;
         private Vector3 _direction = Vector3.Back;
-        private Vector3 _strafeDir = Vector3.Zero;
-        private Vector3 _strafe = Vector3.Zero;
-        private float _aimTurn;
-        private float _movementSpeed;
-        private float _verticalVelocity;
         private PlayerState _state = PlayerState.Idle;
 
 #pragma warning disable 649
@@ -52,10 +57,9 @@ namespace CyberBlood.Scenes.Entities {
         }
 
         public void Reset() {
-            _hRot      = 0;
             _state     = PlayerState.Idle;
             _direction = Vector3.Back;
-            Velocity   = _strafeDir = _strafe = Vector3.Zero;
+            _velocity  = Vector3.Zero;
             _camera.Reset();
         }
 
@@ -63,7 +67,7 @@ namespace CyberBlood.Scenes.Entities {
             var rot = spawnPoint.Rotation;
 
             Transform = spawnPoint.Transform;
-            Rotation  = _camera.Rotation = _camera.H.Rotation = _camera.V.Rotation = rot;
+            Rotation  = _camera.Arm.Rotation = rot;
             _mesh.Rotation = new Vector3(
                 _mesh.Rotation.x,
                 rot.y + Mathf.Pi / 2,
@@ -72,78 +76,51 @@ namespace CyberBlood.Scenes.Entities {
         }
 
         public override void _Process(float delta) {
-            _statusLabel.Text = IsOnWall() ? "ON WALL" : "NOT ON WALL";
+            _camera.Translation = Translation;
         }
 
         public override void _PhysicsProcess(float delta) {
             var dir = Input.GetVector(MOVE_RIGHT, MOVE_LEFT, MOVE_BACK, MOVE_FORWARD);
-            _direction = new Vector3(dir[0], 0, dir[1]);
+            _direction = new Vector3(-dir[0], 0, -dir[1]).Rotated(Vector3.Up, _camera.Arm.Rotation.y).Normalized();
 
-            if ((_state & PlayerState.Idle) == PlayerState.Idle) {
-                if (dir.Length() > 0) {
-                    _state &= ~PlayerState.Idle;
-                    _state |= PlayerState.Running;
+            var velocity = _velocity;
+            velocity.x =  _direction.x * WALK_SPEED;
+            velocity.z =  _direction.z * WALK_SPEED;
+            velocity.y -= GRAVITY * delta;
 
-                    _hRot = _camera.H.GlobalTransform.basis.GetEuler().y;
+            var justLanded = IsOnFloor() && _snapVector == Vector3.Zero;
 
-                    _movementSpeed = WALK_SPEED;
-                    _strafeDir     = _direction;
+            if (Input.IsActionJustPressed(JUMP)) {
+                if (State <= PlayerState.DoubleJump) {
+                    velocity.y  = JUMP_COEFFICIENT;
+                    _snapVector = Vector3.Zero;
                 }
-            } else if ((_state & PlayerState.Running) == PlayerState.Running) {
-                if (
-                    Input.IsActionJustReleased(MOVE_FORWARD) ||
-                    Input.IsActionJustReleased(MOVE_RIGHT) ||
-                    Input.IsActionJustReleased(MOVE_LEFT) ||
-                    Input.IsActionJustReleased(MOVE_BACK)
-                ) {
-                    _state &= ~PlayerState.Running;
-                    _state |= PlayerState.Idle;
 
-                    _movementSpeed = 0;
-                    _strafeDir     = Vector3.Zero;
+                if (IsOnFloor()) {
+                    State |= PlayerState.Jump;
+                } else {
+                    State |= PlayerState.DoubleJump;
                 }
+            } else if (justLanded) {
+                State       &= ~PlayerState.Jump;
+                State       &= ~PlayerState.DoubleJump;
+                _snapVector =  Vector3.Down;
             }
 
-            if (IsOnFloor()) {
-                _state &= ~PlayerState.Jump;
-                _state &= ~PlayerState.DoubleJump;
-            }
+            _velocity = MoveAndSlideWithSnap(velocity, _snapVector, Vector3.Up, true);
 
-            if (Input.IsActionJustPressed(JUMP) && _verticalVelocity >= 0) {
-                switch (_state) {
-                    case < PlayerState.Jump:
-                        _state            |= PlayerState.Jump;
-                        _verticalVelocity =  -JUMP_COEFFICIENT * GRAVITY * delta;
-                        _hRot             =  _camera.H.GlobalTransform.basis.GetEuler().y;
-                        break;
-                    case < PlayerState.DoubleJump:
-                        _state            |= PlayerState.DoubleJump;
-                        _verticalVelocity =  -JUMP_COEFFICIENT * GRAVITY * delta;
-                        _hRot             =  _camera.H.GlobalTransform.basis.GetEuler().y;
-                        if (IsOnWall()) {
-                            var normal = GetSlideCollision(0).Normal;
-                        }
-                        break;
-                }
-            }
-
-            _direction = _direction.Rotated(Vector3.Up, _hRot).Normalized();
-            Velocity   = Velocity.LinearInterpolate(_direction * _movementSpeed, delta * ACCELERATION);
-
-            MoveAndSlide(-Velocity + Vector3.Down * _verticalVelocity, Vector3.Up);
-            if (!IsOnFloor()) {
-                _verticalVelocity += GRAVITY * delta;
+            if (_direction.Length() > .2f) {
+                _camera.MovementTimer.Start();
+                State &= ~PlayerState.Idle;
+                State |= PlayerState.Running;
+                var lookDir = new Vector2(_velocity.z, _velocity.x);
+                var meshRot = _mesh.Rotation;
+                meshRot.y      = Mathf.LerpAngle(_mesh.Rotation.y, lookDir.Angle() - Mathf.Pi / 2f, delta * ANGULAR_ACCELERATION);
+                _mesh.Rotation = meshRot;
             } else {
-                _verticalVelocity = 0;
+                State &= ~PlayerState.Running;
+                State |= PlayerState.Idle;
             }
-
-            var angle =
-                (-_mesh.Transform.basis.x).SignedAngleTo(Velocity, _mesh.Transform.origin)
-                * delta * ANGULAR_ACCELERATION;
-            _mesh.RotateY(angle);
-
-            _strafe  = _strafe.LinearInterpolate(_strafeDir + Vector3.Right * _aimTurn, delta * ACCELERATION);
-            _aimTurn = 0f;
         }
     }
 }

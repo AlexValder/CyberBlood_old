@@ -5,13 +5,17 @@
 [node name="PlayerCamera" type="Spatial"]
 script = ExtResource( 1 )
 
-[node name="h" type="Spatial" parent="."]
+[node name="arm" type="SpringArm" parent="."]
+spring_length = 7.0
+margin = 0.2
 
-[node name="v" type="Spatial" parent="h"]
+[node name="camera" type="Camera" parent="arm"]
 
-[node name="ClippedCamera" type="ClippedCamera" parent="h/v"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
-
-[node name="PlayerMoves" type="Timer" parent="."]
+[node name="timer" type="Timer" parent="."]
 wait_time = 1.44
 one_shot = true
+
+[node name="tween" type="Tween" parent="."]
+playback_process_mode = 0
+
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
