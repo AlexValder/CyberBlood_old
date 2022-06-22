@@ -32,14 +32,14 @@ namespace CyberBlood.Scenes.Entities {
         }
 
         public Vector3 MeshRotation => _mesh.Rotation;
-        
+
 
         [Flags]
         private enum PlayerState {
             Idle = 1,
             Running = 2,
-            Falling = 4,
-            Jump = 8,
+            Jump = 4,
+            WallJump = 8,
             DoubleJump = 16,
         }
 
@@ -47,6 +47,8 @@ namespace CyberBlood.Scenes.Entities {
         private PlayerState _state = PlayerState.Idle;
 
 #pragma warning disable 649
+        [NodePath("tween")] private Tween _tween;
+        [NodePath("wall_timer")] private Timer _wallTimer;
         [NodePath("mesh")] private Spatial _mesh;
         [NodePath("PlayerCamera")] private PlayerCamera _camera;
         [NodePath("HUD/status_label")] private Label _statusLabel;
@@ -91,7 +93,7 @@ namespace CyberBlood.Scenes.Entities {
             var justLanded = IsOnFloor() && _snapVector == Vector3.Zero;
 
             if (Input.IsActionJustPressed(JUMP)) {
-                if (State <= PlayerState.DoubleJump) {
+                if (State <= PlayerState.WallJump) {
                     velocity.y  = JUMP_COEFFICIENT;
                     _snapVector = Vector3.Zero;
                 }
@@ -103,6 +105,7 @@ namespace CyberBlood.Scenes.Entities {
                 }
             } else if (justLanded) {
                 State       &= ~PlayerState.Jump;
+                State       &= ~PlayerState.WallJump;
                 State       &= ~PlayerState.DoubleJump;
                 _snapVector =  Vector3.Down;
             }
@@ -115,7 +118,8 @@ namespace CyberBlood.Scenes.Entities {
                 State |= PlayerState.Running;
                 var lookDir = new Vector2(_velocity.z, _velocity.x);
                 var meshRot = _mesh.Rotation;
-                meshRot.y      = Mathf.LerpAngle(_mesh.Rotation.y, lookDir.Angle() - Mathf.Pi / 2f, delta * ANGULAR_ACCELERATION);
+                meshRot.y = Mathf.LerpAngle(_mesh.Rotation.y, lookDir.Angle() - Mathf.Pi / 2f,
+                                            delta * ANGULAR_ACCELERATION);
                 _mesh.Rotation = meshRot;
             } else {
                 State &= ~PlayerState.Running;

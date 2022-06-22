@@ -18,7 +18,7 @@ namespace CyberBlood.Scenes.Entities {
 #pragma warning restore 649
         public SpringArm Arm => _arm;
         public Timer MovementTimer => _timer;
-        
+
         private Player _player;
 
         private const float MAX_UP = (float)(-85f * Math.PI / 180);
@@ -40,7 +40,7 @@ namespace CyberBlood.Scenes.Entities {
         public override void _UnhandledInput(InputEvent @event) {
             if (@event is InputEventMouseMotion mouse) {
                 _tween.Stop(Arm);
-                _timer.Start();
+                _timer.Start(5f);
                 var rotation = Arm.Rotation;
                 rotation.x -= mouse.Relative.y * HMouseAcceleration;
                 rotation.x =  Mathf.Clamp(rotation.x, MAX_UP, MAX_DOWN);
@@ -98,7 +98,7 @@ namespace CyberBlood.Scenes.Entities {
 
             if (start) {
                 _tween.Stop(Arm);
-                _timer.Start();
+                _timer.Start(5f);
             }
 
             Rotation = rot;
