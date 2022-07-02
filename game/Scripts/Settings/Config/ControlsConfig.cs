@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using CyberBlood.Scenes.GUI.SettingsMenu;
 using CyberBlood.Scripts.Settings.Config.Gamepad;
 using CyberBlood.Scripts.Utils;
 using Godot;
@@ -27,6 +25,7 @@ namespace CyberBlood.Scripts.Settings.Config {
         private const string MOVE_BACK = "move_back";
 
         #region Joybad
+        public float CameraJoyDenominator => .02f;
 
         public float CameraJoyRotateHorizontal {
             get => GetValue<float>(GAMEPAD, ROTATE_H);
@@ -184,8 +183,8 @@ namespace CyberBlood.Scripts.Settings.Config {
         ) : base(path, pass, useDefaults, new Dictionary<string, Dictionary<string, object>> {
             [GAMEPAD] = new() {
                 [BUTTON_THEME]    = (int)ButtonTheme.Xbox,
-                [ROTATE_H]        = 2f,
-                [ROTATE_V]        = 2f,
+                [ROTATE_H]        = .02f,
+                [ROTATE_V]        = .02f,
                 [INVERTED]        = false,
                 [STICKS_SWITCHED] = false,
                 [CAMERA_CENTER]   = GamepadButtonEventFactory.IndexRight,

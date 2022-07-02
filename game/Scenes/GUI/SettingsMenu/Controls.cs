@@ -207,8 +207,8 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
 
             // gamepad
             _sticksSwitched                       = ctrl.SticksSwitched;
-            _stickHSensitivity.Value              = ctrl.CameraJoyRotateHorizontal;
-            _stickVSensitivity.Value              = ctrl.CameraJoyRotateVertical;
+            _stickHSensitivity.Value              = ctrl.CameraJoyRotateHorizontal / ctrl.CameraJoyDenominator;
+            _stickVSensitivity.Value              = ctrl.CameraJoyRotateVertical / ctrl.CameraJoyDenominator;
             _iconThemeOptions.Selected            = (int)ctrl.GamepadButtonTheme;
             _invertedCheck.Pressed                = ctrl.CameraInverted;
             _gamepadButtons["camera_center"].Text = GamepadButtonMetaSelector.GetName(ctrl.CameraJoyCenter);
@@ -235,8 +235,8 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             ctrl.CameraMouseRotateVertical   = (float)(_mouseVSensitivity.Value * ctrl.CameraMouseDenominator);
 
             ctrl.SticksSwitched            = _sticksSwitched;
-            ctrl.CameraJoyRotateHorizontal = (float)_stickHSensitivity.Value;
-            ctrl.CameraJoyRotateVertical   = (float)_stickVSensitivity.Value;
+            ctrl.CameraJoyRotateHorizontal = (float)(_stickHSensitivity.Value * ctrl.CameraJoyDenominator);
+            ctrl.CameraJoyRotateVertical   = (float)(_stickVSensitivity.Value * ctrl.CameraJoyDenominator);
             ctrl.GamepadButtonTheme        = (ButtonTheme)_iconThemeOptions.Selected;
             ctrl.CameraInverted            = _invertedCheck.Pressed;
 

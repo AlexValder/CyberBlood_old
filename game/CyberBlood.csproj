@@ -1,7 +1,7 @@
 <Project Sdk="Godot.NET.Sdk/3.3.0">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="GodotCSToolbox" Version="1.0.0-beta10" />
@@ -9,11 +9,5 @@
     <PackageReference Include="Serilog" Version="2.10.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Scenes\Entities\Player\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="Scenes\Entities\Player\**" />
   </ItemGroup>
 </Project>

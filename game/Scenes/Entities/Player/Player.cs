@@ -1,10 +1,9 @@
 using System;
-using CyberBlood.Scripts.Settings;
+using CyberBlood.Scenes.Entities.Player.States;
 using Godot;
 using GodotCSToolbox;
-using Serilog;
 
-namespace CyberBlood.Scenes.Entities {
+namespace CyberBlood.Scenes.Entities.Player {
     public class Player : KinematicBody {
         private const string MOVE_FORWARD = "move_forward";
         private const string MOVE_LEFT = "move_left";
@@ -17,9 +16,14 @@ namespace CyberBlood.Scenes.Entities {
         private const float JUMP_COEFFICIENT = 10f * 1.5f;
         private const float GRAVITY = 15f * 1.5f;
 
-        private Vector3 _velocity = Vector3.Zero;
+        public float WalkSpeed => WALK_SPEED;
+        public float AngularAcceleration => ANGULAR_ACCELERATION;
+        public float JumpCoefficient => JUMP_COEFFICIENT;
+        public float Gravity => GRAVITY;
 
-        private Vector3 _snapVector = Vector3.Down;
+        public Vector3 Velocity { get; set; } = Vector3.Zero;
+        public Vector3 SnapVector { get; set; } = Vector3.Down;
+        public Vector2 LookDirection { get; set; }
 
         private PlayerState State {
             get => _state;
@@ -30,9 +34,6 @@ namespace CyberBlood.Scenes.Entities {
                 }
             }
         }
-
-        public Vector3 MeshRotation => _mesh.Rotation;
-
 
         [Flags]
         private enum PlayerState {
@@ -46,56 +47,68 @@ namespace CyberBlood.Scenes.Entities {
         private Vector3 _direction = Vector3.Back;
         private PlayerState _state = PlayerState.Idle;
 
+        public Vector3 Front => -Mesh?.GlobalTransform.basis.x ?? Vector3.Forward;
+
 #pragma warning disable 649
         [NodePath("tween")] private Tween _tween;
-        [NodePath("wall_timer")] private Timer _wallTimer;
-        [NodePath("mesh")] private Spatial _mesh;
-        [NodePath("PlayerCamera")] private PlayerCamera _camera;
+        [NodePath("mesh")] public Spatial Mesh { get; private set; }
         [NodePath("HUD/status_label")] private Label _statusLabel;
+        [NodePath("PlayerCamera")] public PlayerCamera Camera { get; set; }
+        [NodePath("StateMachine")] public StateMachine Machine { get; set; }
 #pragma warning restore 649
 
         public override void _Ready() {
             this.SetupNodeTools();
+
+            _statusLabel.Text = Machine.CurrentState.ToString();
+            Machine.Connect("StateChanged", this, nameof(SetStateLabel));
+        }
+
+        private void SetStateLabel(State _, State next) {
+            _statusLabel.Text = next.ToString();
         }
 
         public void Reset() {
             _state     = PlayerState.Idle;
             _direction = Vector3.Back;
-            _velocity  = Vector3.Zero;
-            _camera.Reset();
+            Velocity  = Vector3.Zero;
+            Camera.Reset();
         }
 
         public void SetSpawn(Position3D spawnPoint) {
             var rot = spawnPoint.Rotation;
 
             Transform = spawnPoint.Transform;
-            Rotation  = _camera.Arm.Rotation = rot;
-            _mesh.Rotation = new Vector3(
-                _mesh.Rotation.x,
+            Rotation  = Camera.Arm.Rotation = rot;
+            Mesh.Rotation = new Vector3(
+                Mesh.Rotation.x,
                 rot.y + Mathf.Pi / 2,
-                _mesh.Rotation.z
+                Mesh.Rotation.z
             );
         }
 
         public override void _Process(float delta) {
-            _camera.Translation = Translation;
+            Camera.Translation = Translation;
+            Machine.Process(delta);
         }
 
         public override void _PhysicsProcess(float delta) {
+            Machine.PhysicsProcess(delta);
+            /*
             var dir = Input.GetVector(MOVE_RIGHT, MOVE_LEFT, MOVE_BACK, MOVE_FORWARD);
-            _direction = new Vector3(-dir[0], 0, -dir[1]).Rotated(Vector3.Up, _camera.Arm.Rotation.y).Normalized();
+            _direction = new Vector3(-dir[0], 0, -dir[1]).Rotated(Vector3.Up, Camera.Arm.Rotation.y).Normalized();
 
-            var velocity = _velocity;
+            var velocity = Velocity;
             velocity.x =  _direction.x * WALK_SPEED;
             velocity.z =  _direction.z * WALK_SPEED;
             velocity.y -= GRAVITY * delta;
 
-            var justLanded = IsOnFloor() && _snapVector == Vector3.Zero;
+            var justLanded = IsOnFloor() && SnapVector == Vector3.Zero;
 
             if (Input.IsActionJustPressed(JUMP)) {
                 if (State <= PlayerState.WallJump) {
                     velocity.y  = JUMP_COEFFICIENT;
-                    _snapVector = Vector3.Zero;
+                    SnapVector = Vector3.Zero;
                 }
 
                 if (IsOnFloor()) {
@@ -107,16 +120,16 @@ namespace CyberBlood.Scenes.Entities {
                 State       &= ~PlayerState.Jump;
                 State       &= ~PlayerState.WallJump;
                 State       &= ~PlayerState.DoubleJump;
-                _snapVector =  Vector3.Down;
+                SnapVector =  Vector3.Down;
             }
 
-            _velocity = MoveAndSlideWithSnap(velocity, _snapVector, Vector3.Up, true);
+            Velocity = MoveAndSlideWithSnap(velocity, SnapVector, Vector3.Up, true);
 
             if (_direction.Length() > .2f) {
-                _camera.MovementTimer.Start();
+                Camera.MovementTimer.Start();
                 State &= ~PlayerState.Idle;
                 State |= PlayerState.Running;
-                var lookDir = new Vector2(_velocity.z, _velocity.x);
+                var lookDir = new Vector2(Velocity.z, Velocity.x);
                 var meshRot = _mesh.Rotation;
                 meshRot.y = Mathf.LerpAngle(_mesh.Rotation.y, lookDir.Angle() - Mathf.Pi / 2f,
                                             delta * ANGULAR_ACCELERATION);
@@ -125,6 +138,7 @@ namespace CyberBlood.Scenes.Entities {
                 State &= ~PlayerState.Running;
                 State |= PlayerState.Idle;
             }
+            */
         }
     }
 }

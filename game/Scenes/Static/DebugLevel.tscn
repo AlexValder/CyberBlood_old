@@ -58,6 +58,7 @@ albedo_color = Color( 0.443137, 0.533333, 0.94902, 1 )
 data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
 
 [sub_resource type="Environment" id=7]
+background_mode = 1
 ambient_light_color = Color( 0.458824, 0.458824, 0.458824, 1 )
 ambient_light_energy = 1.47
 fog_enabled = true
@@ -100,8 +101,9 @@ spot_angle = 37.675
 
 [node name="static_level" type="Spatial" parent="."]
 
-[node name="floor" type="StaticBody" parent="static_level"]
+[node name="floor" type="StaticBody" parent="static_level" groups=["static_geometry"]]
 transform = Transform( 40, 0, 0, 0, 0.05, 0, 0, 0, 40, 0, 0, 0 )
+collision_layer = 3
 
 [node name="mesh" type="MeshInstance" parent="static_level/floor"]
 mesh = SubResource( 1 )
@@ -119,7 +121,8 @@ mesh = SubResource( 3 )
 skeleton = NodePath("../../..")
 material/0 = SubResource( 5 )
 
-[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallZ-"]
+[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallZ-" groups=["static_geometry"]]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="static_level/outer_walls/wallZ-/StaticBody"]
 shape = SubResource( 4 )
@@ -130,7 +133,8 @@ mesh = SubResource( 3 )
 skeleton = NodePath("../../..")
 material/0 = SubResource( 5 )
 
-[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallZ+"]
+[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallZ+" groups=["static_geometry"]]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="static_level/outer_walls/wallZ+/StaticBody"]
 shape = SubResource( 4 )
@@ -141,7 +145,8 @@ mesh = SubResource( 3 )
 skeleton = NodePath("../../..")
 material/0 = SubResource( 5 )
 
-[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallX-"]
+[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallX-" groups=["static_geometry"]]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="static_level/outer_walls/wallX-/StaticBody"]
 shape = SubResource( 4 )
@@ -152,15 +157,17 @@ mesh = SubResource( 3 )
 skeleton = NodePath("../../..")
 material/0 = SubResource( 5 )
 
-[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallX+"]
+[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallX+" groups=["static_geometry"]]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="static_level/outer_walls/wallX+/StaticBody"]
 shape = SubResource( 4 )
 
 [node name="interier" type="Spatial" parent="static_level"]
 
-[node name="platform1" type="StaticBody" parent="static_level/interier"]
+[node name="platform1" type="StaticBody" parent="static_level/interier" groups=["static_geometry"]]
 transform = Transform( 10, 0, 0, 0, 0.2, 0, 0, 0, 10, -22, 10, 9 )
+collision_layer = 3
 
 [node name="mesh" type="MeshInstance" parent="static_level/interier/platform1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00689101, 0.941105, 0.0117035 )
@@ -171,8 +178,9 @@ material/0 = SubResource( 20 )
 [node name="shape" type="CollisionShape" parent="static_level/interier/platform1"]
 shape = SubResource( 11 )
 
-[node name="column0" type="StaticBody" parent="static_level/interier"]
+[node name="column0" type="StaticBody" parent="static_level/interier" groups=["static_geometry"]]
 transform = Transform( 1, 0, 0, 0, 5, 0, 0, 0, 1, -24.449, 5, 15.296 )
+collision_layer = 3
 
 [node name="mesh" type="MeshInstance" parent="static_level/interier/column0"]
 mesh = SubResource( 9 )
@@ -182,8 +190,9 @@ material/0 = SubResource( 20 )
 [node name="shape" type="CollisionShape" parent="static_level/interier/column0"]
 shape = SubResource( 12 )
 
-[node name="column1" type="StaticBody" parent="static_level/interier"]
+[node name="column1" type="StaticBody" parent="static_level/interier" groups=["static_geometry"]]
 transform = Transform( 1, 0, 0, 0, 5, 0, 0, 0, 1, -24.449, 5, 1.81116 )
+collision_layer = 3
 
 [node name="mesh" type="MeshInstance" parent="static_level/interier/column1"]
 mesh = SubResource( 9 )
@@ -193,8 +202,9 @@ material/0 = SubResource( 20 )
 [node name="shape" type="CollisionShape" parent="static_level/interier/column1"]
 shape = SubResource( 12 )
 
-[node name="column2" type="StaticBody" parent="static_level/interier"]
+[node name="column2" type="StaticBody" parent="static_level/interier" groups=["static_geometry"]]
 transform = Transform( 1, 0, 0, 0, 5, 0, 0, 0, 1, -16.1375, 5, 6.50881 )
+collision_layer = 3
 
 [node name="mesh" type="MeshInstance" parent="static_level/interier/column2"]
 mesh = SubResource( 9 )
@@ -211,7 +221,8 @@ transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, 8.59359, 1.71762, 12.1101 )
 mesh = SubResource( 14 )
 material/0 = SubResource( 20 )
 
-[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step0"]
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step0" groups=["static_geometry"]]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="static_level/interier/stairs/step0/StaticBody"]
 shape = SubResource( 15 )
@@ -221,7 +232,8 @@ transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, 4.60585, 4.55404, 11.0593 )
 mesh = SubResource( 14 )
 material/0 = SubResource( 20 )
 
-[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step1"]
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step1" groups=["static_geometry"]]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="static_level/interier/stairs/step1/StaticBody"]
 shape = SubResource( 16 )
@@ -231,7 +243,8 @@ transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, 0.399844, 6.6725, 9.95201 )
 mesh = SubResource( 14 )
 material/0 = SubResource( 20 )
 
-[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step2"]
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step2" groups=["static_geometry"]]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="static_level/interier/stairs/step2/StaticBody"]
 shape = SubResource( 17 )
@@ -241,7 +254,8 @@ transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, -4.09254, 7.63282, 9.95201 )
 mesh = SubResource( 14 )
 material/0 = SubResource( 20 )
 
-[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step3"]
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step3" groups=["static_geometry"]]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="static_level/interier/stairs/step3/StaticBody"]
 shape = SubResource( 18 )
@@ -251,7 +265,8 @@ transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, -9.11807, 8.50299, 9.95201 )
 mesh = SubResource( 14 )
 material/0 = SubResource( 20 )
 
-[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step4"]
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step4" groups=["static_geometry"]]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="static_level/interier/stairs/step4/StaticBody"]
 shape = SubResource( 19 )
@@ -261,7 +276,8 @@ transform = Transform( 4.17482, 0, 0.165092, 0, 5, 0, -2.75153, 0, 0.250489, -5.
 mesh = SubResource( 21 )
 material/0 = SubResource( 24 )
 
-[node name="StaticBody" type="StaticBody" parent="static_level/interier/jumping_wall"]
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/jumping_wall" groups=["static_geometry"]]
+collision_layer = 3
 
 [node name="CollisionShape" type="CollisionShape" parent="static_level/interier/jumping_wall/StaticBody"]
 shape = SubResource( 25 )

@@ -19,7 +19,7 @@ namespace CyberBlood.Scenes.Entities {
         public SpringArm Arm => _arm;
         public Timer MovementTimer => _timer;
 
-        private Player _player;
+        private Player.Player _player;
 
         private const float MAX_UP = (float)(-85f * Math.PI / 180);
         private const float MAX_DOWN = (float)(-5f * Math.PI / 180);
@@ -32,7 +32,7 @@ namespace CyberBlood.Scenes.Entities {
 
         public override void _Ready() {
             this.SetupNodeTools();
-            _player = GetParent<Player>();
+            _player = GetParent<Player.Player>();
 
             SetAsToplevel(true);
         }
@@ -59,11 +59,40 @@ namespace CyberBlood.Scenes.Entities {
                 Arm,
                 "rotation:y",
                 null,
-                Mathf.LerpAngle(Arm.Rotation.y, _player.MeshRotation.y - Mathf.Pi / 2, 1f),
+                Mathf.LerpAngle(Arm.Rotation.y, _player.Mesh.Rotation.y - Mathf.Pi / 2, 1f),
                 duration,
                 Tween.TransitionType.Quart
             );
             _tween.Start();
+        }
+
+        public override void _PhysicsProcess(float delta) {
+            var start = false;
+            var rot   = Arm.Rotation;
+            if (Input.IsActionPressed(CAMERA_LEFT)) {
+                start =  true;
+                rot.y -= Input.GetActionStrength(CAMERA_LEFT) * HJoyAcceleration * IsInverted;
+            } else if (Input.IsActionPressed(CAMERA_RIGHT)) {
+                start =  true;
+                rot.y += Input.GetActionStrength(CAMERA_RIGHT) * HJoyAcceleration * IsInverted;
+            }
+            rot.y = Mathf.Wrap(rot.y, 0f, 2f * Mathf.Pi);
+
+            if (Input.IsActionPressed(CAMERA_UP)) {
+                start =  true;
+                rot.x -= Input.GetActionStrength(CAMERA_UP) * VJoyAcceleration * IsInverted;
+            } else if (Input.IsActionPressed(CAMERA_DOWN)) {
+                start =  true;
+                rot.x += Input.GetActionStrength(CAMERA_DOWN) * VJoyAcceleration * IsInverted;
+            }
+            rot.x = Mathf.Clamp(rot.x, MAX_UP, MAX_DOWN);
+
+            if (start) {
+                _tween.Stop(Arm);
+                _timer.Start(5f);
+            }
+
+            Arm.Rotation = rot;
         }
 
         private void _on_timer_timeout() {
@@ -73,35 +102,8 @@ namespace CyberBlood.Scenes.Entities {
         public void Reset() {
             _tween.StopAll();
             var rot = Arm.Rotation;
-            rot.y        = _player.MeshRotation.y - Mathf.Pi / 2;
+            rot.y        = _player.Mesh.Rotation.y - Mathf.Pi / 2;
             Arm.Rotation = rot;
-        }
-
-        public override void _PhysicsProcess(float delta) {
-            var start  = false;
-            var rot = Rotation;
-            if (Input.IsActionPressed(CAMERA_LEFT)) {
-                start  = true;
-                rot.x = Input.GetActionStrength(CAMERA_LEFT) * HJoyAcceleration * IsInverted * delta;
-            } else if (Input.IsActionPressed(CAMERA_RIGHT)) {
-                start    = true;
-                rot.x = -Input.GetActionStrength(CAMERA_RIGHT) * HJoyAcceleration * IsInverted * delta;
-            }
-
-            if (Input.IsActionPressed(CAMERA_UP)) {
-                start    = true;
-                rot.y = Input.GetActionStrength(CAMERA_UP) * VJoyAcceleration * IsInverted * delta;
-            } else if (Input.IsActionPressed(CAMERA_DOWN)) {
-                start    = true;
-                rot.y = -Input.GetActionStrength(CAMERA_DOWN) * VJoyAcceleration * IsInverted * delta;
-            }
-
-            if (start) {
-                _tween.Stop(Arm);
-                _timer.Start(5f);
-            }
-
-            Rotation = rot;
         }
     }
 }
