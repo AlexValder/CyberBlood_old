@@ -53,8 +53,8 @@ namespace CyberBlood.Scenes.Entities.Player.States {
             EmitSignal(nameof(StateChanged), prev, state);
         }
 
-        public void Input(InputEvent input) {
-            _states[CurrentState].HandleInput(input);
+        public void Input(InputEvent @event) {
+            _states[CurrentState].HandleInput(@event);
         }
 
         public void Process(float delta) {
