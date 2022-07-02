@@ -11,23 +11,18 @@ namespace CyberBlood.Scenes.Entities {
         private const string CAMERA_DOWN = "camera_down";
         private const string CAMERA_CENTER = "camera_center";
 
-        private const float ROTATION_SPEED = 0.15f;
-
 #pragma warning disable 649
-        [NodePath("h")] private Spatial _h;
-        [NodePath("h/v")] private Spatial _v;
-        [NodePath("h/v/ClippedCamera")] private ClippedCamera _camera;
-        [NodePath("PlayerMoves")] private Timer _timer;
+        [NodePath("timer")] private Timer _timer;
+        [NodePath("tween")] private Tween _tween;
+        [NodePath("arm")] private SpringArm _arm;
 #pragma warning restore 649
-        public Spatial H => _h;
-        public Spatial V => _v;
+        public SpringArm Arm => _arm;
+        public Timer MovementTimer => _timer;
 
-        private const float MAX_UP = (float)(-65f * Math.PI / 180);
-        private const float MAX_DOWN = (float)(5f * Math.PI / 180);
+        private Player.Player _player;
 
-        private Player _player;
-        private float _cameraV;
-        private float _cameraH;
+        private const float MAX_UP = (float)(-85f * Math.PI / 180);
+        private const float MAX_DOWN = (float)(-5f * Math.PI / 180);
 
         private static float IsInverted => GameSettings.JoyConnected && GameSettings.Controls.CameraInverted ? -1f : 1f;
         private static float VJoyAcceleration => GameSettings.Controls.CameraJoyRotateVertical;
@@ -37,73 +32,78 @@ namespace CyberBlood.Scenes.Entities {
 
         public override void _Ready() {
             this.SetupNodeTools();
-            _player = GetParent<Player>();
-            _camera.AddException(_player);
+            _player = GetParent<Player.Player>();
 
-            _camera.Rotation = Vector3.Zero;
+            SetAsToplevel(true);
         }
 
         public override void _UnhandledInput(InputEvent @event) {
             if (@event is InputEventMouseMotion mouse) {
-                _timer.Start();
-                _cameraH -= mouse.Relative.x * HMouseAcceleration;
-                _cameraV -= mouse.Relative.y * VMouseAcceleration;
+                _tween.Stop(Arm);
+                _timer.Start(5f);
+                var rotation = Arm.Rotation;
+                rotation.x -= mouse.Relative.y * HMouseAcceleration;
+                rotation.x =  Mathf.Clamp(rotation.x, MAX_UP, MAX_DOWN);
+
+                rotation.y -= mouse.Relative.x * VMouseAcceleration;
+                rotation.y =  Mathf.Wrap(rotation.y, 0f, 2f * Mathf.Pi);
+
+                Arm.Rotation = rotation;
+            } else if (@event.IsActionPressed(CAMERA_CENTER)) {
+                CenterCamera();
             }
         }
 
-        public void Reset() {
-            _camera.Rotation = Vector3.Zero;
+        private void CenterCamera(float duration = .5f) {
+            _tween.InterpolateProperty(
+                Arm,
+                "rotation:y",
+                null,
+                Mathf.LerpAngle(Arm.Rotation.y, _player.Mesh.Rotation.y - Mathf.Pi / 2, 1f),
+                duration,
+                Tween.TransitionType.Quart
+            );
+            _tween.Start();
         }
 
         public override void _PhysicsProcess(float delta) {
             var start = false;
+            var rot   = Arm.Rotation;
             if (Input.IsActionPressed(CAMERA_LEFT)) {
-                start    = true;
-                _cameraH = Input.GetActionStrength(CAMERA_LEFT) * HJoyAcceleration * IsInverted * delta;
+                start =  true;
+                rot.y -= Input.GetActionStrength(CAMERA_LEFT) * HJoyAcceleration * IsInverted;
             } else if (Input.IsActionPressed(CAMERA_RIGHT)) {
-                start    = true;
-                _cameraH = -Input.GetActionStrength(CAMERA_RIGHT) * HJoyAcceleration * IsInverted * delta;
+                start =  true;
+                rot.y += Input.GetActionStrength(CAMERA_RIGHT) * HJoyAcceleration * IsInverted;
             }
+            rot.y = Mathf.Wrap(rot.y, 0f, 2f * Mathf.Pi);
 
             if (Input.IsActionPressed(CAMERA_UP)) {
-                start    = true;
-                _cameraV = Input.GetActionStrength(CAMERA_UP) * VJoyAcceleration * IsInverted * delta;
+                start =  true;
+                rot.x -= Input.GetActionStrength(CAMERA_UP) * VJoyAcceleration * IsInverted;
             } else if (Input.IsActionPressed(CAMERA_DOWN)) {
-                start    = true;
-                _cameraV = -Input.GetActionStrength(CAMERA_DOWN) * VJoyAcceleration * IsInverted * delta;
+                start =  true;
+                rot.x += Input.GetActionStrength(CAMERA_DOWN) * VJoyAcceleration * IsInverted;
             }
+            rot.x = Mathf.Clamp(rot.x, MAX_UP, MAX_DOWN);
 
             if (start) {
-                _timer.Start();
+                _tween.Stop(Arm);
+                _timer.Start(5f);
             }
 
-            if (_timer.IsStopped()) {
-                var meshFront = -_player.MeshRotation;
-                var autoRotateSpeed = (Mathf.Pi - meshFront.AngleTo(
-                    _h.GlobalTransform.basis.z
-                )) * ROTATION_SPEED * _player.Velocity.Length();
+            Arm.Rotation = rot;
+        }
 
-                _h.Rotation = new Vector3(
-                    _h.Rotation.x,
-                    Mathf.LerpAngle(
-                        _h.Rotation.y,
-                        _player.MeshRotation.y - Mathf.Pi / 2,
-                        delta * autoRotateSpeed
-                    ),
-                    _h.Rotation.z
-                );
-            } else {
-                _h.RotateY(_cameraH);
-            }
+        private void _on_timer_timeout() {
+            CenterCamera(2f);
+        }
 
-            _v.Rotation = new Vector3(
-                x: Mathf.Clamp(_v.Rotation.x + _cameraV, MAX_UP, MAX_DOWN),
-                y: _v.Rotation.y,
-                z: _v.Rotation.z
-            );
-
-            _cameraH = 0;
-            _cameraV = 0;
+        public void Reset() {
+            _tween.StopAll();
+            var rot = Arm.Rotation;
+            rot.y        = _player.Mesh.Rotation.y - Mathf.Pi / 2;
+            Arm.Rotation = rot;
         }
     }
 }

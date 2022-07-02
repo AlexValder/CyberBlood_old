@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using CyberBlood.addons.playable_spatial;
-using CyberBlood.Scenes.Entities;
+using CyberBlood.Scenes.Entities.Player;
 using CyberBlood.Scenes.GUI;
 using Godot;
 using GodotCSToolbox;
@@ -27,7 +27,7 @@ namespace CyberBlood.Scripts {
 
         public GameManager() {
             _mainMenu = GD.Load<PackedScene>("res://Scenes/GUI/MainMenu.tscn");
-            _player   = GD.Load<PackedScene>("res://Scenes/Entities/Player.tscn").Instance<Player>();
+            _player   = GD.Load<PackedScene>("res://Scenes/Entities/Player/Player.tscn").Instance<Player>();
         }
 
         public override void _Ready() {

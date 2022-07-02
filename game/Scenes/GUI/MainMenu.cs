@@ -1,5 +1,4 @@
 using CyberBlood.Scripts;
-using CyberBlood.Scripts.Settings;
 using Godot;
 using GodotCSToolbox;
 

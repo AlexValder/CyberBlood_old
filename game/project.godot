@@ -43,8 +43,7 @@ window/size/width=1920
 window/size/height=1080
 window/size/resizable=false
 window/size/fullscreen=true
-window/stretch/mode="viewport"
-window/stretch/aspect="keep"
+window/stretch/aspect="keep_height"
 
 [editor_plugins]
 
@@ -152,6 +151,10 @@ ui_tab_right={
 "events": [ Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":5,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+jump={
+"deadzone": 0.5,
+"events": [  ]
+}
 
 [logging]
 
@@ -168,4 +171,5 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 threads/thread_model=2
+threads/thread_safe_bvh=true
 environment/default_environment="res://default_env.tres"

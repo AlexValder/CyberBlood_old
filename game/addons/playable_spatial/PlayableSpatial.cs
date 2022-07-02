@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using CyberBlood.Scenes.Entities;
+using CyberBlood.Scenes.Entities.Player;
 using Godot;
 
 namespace CyberBlood.addons.playable_spatial {

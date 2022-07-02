@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using CyberBlood.Scenes.GUI.SettingsMenu;
 using CyberBlood.Scripts.Settings.Config.Gamepad;
 using CyberBlood.Scripts.Utils;
 using Godot;
@@ -19,6 +17,7 @@ namespace CyberBlood.Scripts.Settings.Config {
         private const string CAMERA_DOWN = "camera_down";
         private const string CAMERA_RIGHT = "camera_right";
         private const string INVERTED = "inverted";
+        private const string JUMP = "jump";
         private const string MOUSE_KEYBOARD = "mouse_keyboard";
         private const string MOVE_LEFT = "move_left";
         private const string MOVE_RIGHT = "move_right";
@@ -26,6 +25,7 @@ namespace CyberBlood.Scripts.Settings.Config {
         private const string MOVE_BACK = "move_back";
 
         #region Joybad
+        public float CameraJoyDenominator => .02f;
 
         public float CameraJoyRotateHorizontal {
             get => GetValue<float>(GAMEPAD, ROTATE_H);
@@ -53,6 +53,11 @@ namespace CyberBlood.Scripts.Settings.Config {
         public JoystickList CameraJoyCenter {
             get => (JoystickList)GetValue<int>(GAMEPAD, CAMERA_CENTER);
             private set => SetValue(GAMEPAD, CAMERA_CENTER, (int)value);
+        }
+
+        public JoystickList JoyJump {
+            get => (JoystickList)GetValue<int>(GAMEPAD, JUMP);
+            private set => SetValue(GAMEPAD, JUMP, (int)value);
         }
 
         public ButtonTheme GamepadButtonTheme {
@@ -154,6 +159,21 @@ namespace CyberBlood.Scripts.Settings.Config {
             }
         }
 
+        public MouseKeyboardButton MouseKeyboardJump {
+            get {
+                var value = GetValue<int>(MOUSE_KEYBOARD, JUMP);
+                return
+                    value < 0 ? new MouseKeyboardButton((MouseButtons)value) : new MouseKeyboardButton((KeyList)value);
+            }
+            private set {
+                if (value.KeyButton == 0) {
+                    SetValue(MOUSE_KEYBOARD, JUMP, (int)value.MouseButtons);
+                } else {
+                    SetValue(MOUSE_KEYBOARD, JUMP, (int)value.KeyButton);
+                }
+            }
+        }
+
         #endregion
 
         public ControlsConfig(
@@ -163,11 +183,12 @@ namespace CyberBlood.Scripts.Settings.Config {
         ) : base(path, pass, useDefaults, new Dictionary<string, Dictionary<string, object>> {
             [GAMEPAD] = new() {
                 [BUTTON_THEME]    = (int)ButtonTheme.Xbox,
-                [ROTATE_H]        = 2f,
-                [ROTATE_V]        = 2f,
+                [ROTATE_H]        = .02f,
+                [ROTATE_V]        = .02f,
                 [INVERTED]        = false,
                 [STICKS_SWITCHED] = false,
                 [CAMERA_CENTER]   = GamepadButtonEventFactory.IndexRight,
+                [JUMP]            = GamepadButtonEventFactory.IndexA,
             },
             [MOUSE_KEYBOARD] = new() {
                 [ROTATE_H]      = .005f,
@@ -177,6 +198,7 @@ namespace CyberBlood.Scripts.Settings.Config {
                 [MOVE_BACK]     = KeyList.S,
                 [MOVE_RIGHT]    = KeyList.D,
                 [CAMERA_CENTER] = MouseButtons.MiddleButton,
+                [JUMP]          = KeyList.Space,
             }
         }) {
         }
@@ -206,6 +228,7 @@ namespace CyberBlood.Scripts.Settings.Config {
         }
 
         private void AddMouseKeyboardActions() {
+            CheckAddAction(JUMP, MouseKeyboardJump);
             CheckAddAction(CAMERA_CENTER, CameraMouseCenter);
             CheckAddAction(MOVE_FORWARD, MoveForward);
             CheckAddAction(MOVE_LEFT, MoveLeft);
@@ -272,6 +295,7 @@ namespace CyberBlood.Scripts.Settings.Config {
         }
 
         private void SetButtons() {
+            CheckAddAction(JUMP, JoyJump);
             CheckAddAction(CAMERA_CENTER, CameraJoyCenter);
 
             static void CheckAddAction(string action, JoystickList index) {

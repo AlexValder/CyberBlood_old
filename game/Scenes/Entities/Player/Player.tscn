@@ -1,0 +1,111 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Scenes/Entities/Player/Player.cs" type="Script" id=1]
+[ext_resource path="res://Scenes/Entities/PlayerCamera.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Entities/Player/States/StateMachine.cs" type="Script" id=3]
+[ext_resource path="res://Scenes/Entities/Player/States/Idle.cs" type="Script" id=4]
+[ext_resource path="res://Scenes/Entities/Player/States/Jumping.cs" type="Script" id=5]
+[ext_resource path="res://Scenes/Entities/Player/States/DoubleJump.cs" type="Script" id=6]
+[ext_resource path="res://Scenes/Entities/Player/States/WallStuck.cs" type="Script" id=7]
+[ext_resource path="res://Scenes/Entities/Player/States/Moving.cs" type="Script" id=8]
+[ext_resource path="res://Scenes/Entities/Player/States/WallJump.cs" type="Script" id=9]
+[ext_resource path="res://Scenes/Entities/Player/States/FinalFall.cs" type="Script" id=10]
+[ext_resource path="res://Scenes/Entities/Player/States/Falling.cs" type="Script" id=11]
+
+[sub_resource type="CapsuleShape" id=3]
+radius = 0.54
+height = 0.97
+
+[sub_resource type="CapsuleMesh" id=1]
+radius = 0.5
+mid_height = 0.9
+radial_segments = 8
+rings = 4
+
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.152941, 0.443137, 0.72549, 1 )
+
+[node name="Player" type="KinematicBody" groups=["player"]]
+script = ExtResource( 1 )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 3 )
+_playerNode = NodePath("..")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource( 4 )
+
+[node name="Moving" type="Node" parent="StateMachine"]
+script = ExtResource( 8 )
+
+[node name="Jumping" type="Node" parent="StateMachine"]
+script = ExtResource( 5 )
+
+[node name="Falling" type="Node" parent="StateMachine"]
+script = ExtResource( 11 )
+
+[node name="DoubleJump" type="Node" parent="StateMachine"]
+script = ExtResource( 6 )
+
+[node name="FinalFall" type="Node" parent="StateMachine"]
+script = ExtResource( 10 )
+
+[node name="WallStuck" type="Node" parent="StateMachine"]
+script = ExtResource( 7 )
+
+[node name="timer" type="Timer" parent="StateMachine/WallStuck"]
+wait_time = 0.5
+one_shot = true
+
+[node name="WallJump" type="Node" parent="StateMachine"]
+script = ExtResource( 9 )
+
+[node name="tween" type="Tween" parent="StateMachine/WallJump"]
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.937, 0 )
+shape = SubResource( 3 )
+
+[node name="mesh" type="MeshInstance" parent="."]
+transform = Transform( -4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0, 0.95, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="arm" type="MeshInstance" parent="mesh"]
+transform = Transform( 0.527828, 0, 0, 0, 0.17735, 1.78544e-09, 0, 1.78544e-09, 0.136504, 0.9, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="PlayerCamera" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="HUD" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="health_bar" type="ProgressBar" parent="HUD"]
+anchor_left = 0.05
+anchor_top = 0.05
+anchor_right = 0.25
+anchor_bottom = 0.113
+margin_right = -0.0400391
+margin_bottom = -0.0400085
+custom_styles/fg = SubResource( 4 )
+value = 100.0
+
+[node name="status_label" type="Label" parent="HUD"]
+anchor_top = 0.05
+anchor_right = 1.0
+anchor_bottom = 0.05
+margin_bottom = 14.0
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+align = 1
+uppercase = true
+
+[node name="tween" type="Tween" parent="."]
+
+[connection signal="timeout" from="StateMachine/WallStuck/timer" to="StateMachine/WallStuck" method="_on_timer_timeout"]

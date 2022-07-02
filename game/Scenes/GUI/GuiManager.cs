@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Godot;
 
 namespace CyberBlood.Scenes.GUI {
@@ -10,7 +9,6 @@ namespace CyberBlood.Scenes.GUI {
             SetupFpsCounter();
         }
 
-        [Conditional("DEBUG")]
         private void SetupFpsCounter() {
             var res   = GD.Load<PackedScene>("res://Scenes/GUI/FpsLabel.tscn");
             var scene = res.Instance<Label>();

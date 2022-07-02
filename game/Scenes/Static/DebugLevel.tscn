@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://addons/playable_spatial/PlayableSpatial.cs" type="Script" id=2]
 
@@ -7,8 +7,8 @@
 [sub_resource type="SpatialMaterial" id=6]
 albedo_color = Color( 0.0627451, 0.454902, 0.133333, 1 )
 
-[sub_resource type="ConcavePolygonShape" id=2]
-data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+[sub_resource type="BoxShape" id=13]
+extents = Vector3( 40, 1, 40 )
 
 [sub_resource type="CubeMesh" id=3]
 
@@ -18,6 +18,57 @@ albedo_color = Color( 0.333333, 0.215686, 0.215686, 1 )
 [sub_resource type="ConcavePolygonShape" id=4]
 data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
 
+[sub_resource type="CubeMesh" id=8]
+
+[sub_resource type="SpatialMaterial" id=20]
+params_diffuse_mode = 4
+albedo_color = Color( 1, 0.776471, 0.0156863, 1 )
+
+[sub_resource type="ConcavePolygonShape" id=11]
+data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+
+[sub_resource type="CylinderMesh" id=9]
+radial_segments = 16
+
+[sub_resource type="CylinderShape" id=12]
+
+[sub_resource type="CubeMesh" id=14]
+
+[sub_resource type="ConcavePolygonShape" id=15]
+data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+
+[sub_resource type="ConcavePolygonShape" id=16]
+data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+
+[sub_resource type="ConcavePolygonShape" id=17]
+data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+
+[sub_resource type="ConcavePolygonShape" id=18]
+data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+
+[sub_resource type="ConcavePolygonShape" id=19]
+data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+
+[sub_resource type="CubeMesh" id=21]
+
+[sub_resource type="SpatialMaterial" id=24]
+albedo_color = Color( 0.443137, 0.533333, 0.94902, 1 )
+
+[sub_resource type="ConcavePolygonShape" id=25]
+data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+
+[sub_resource type="Environment" id=7]
+background_mode = 1
+ambient_light_color = Color( 0.458824, 0.458824, 0.458824, 1 )
+ambient_light_energy = 1.47
+fog_enabled = true
+fog_color = Color( 0, 0, 0, 1 )
+fog_sun_color = Color( 1, 1, 1, 1 )
+fog_depth_begin = 5.0
+fog_depth_curve = 0.594603
+fog_height_enabled = true
+fog_height_max = 100.0
+
 [node name="DebugLevel" type="Spatial"]
 script = ExtResource( 2 )
 SpawnPointPath = NodePath("SpawnPoint")
@@ -25,68 +76,211 @@ SpawnPointPath = NodePath("SpawnPoint")
 [node name="SpawnPoint" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.70559, 0.05, 0 )
 
-[node name="floor" type="MeshInstance" parent="."]
-transform = Transform( 20, 0, 0, 0, 0.05, 0, 0, 0, 20, 0, 0, 0 )
-mesh = SubResource( 1 )
-material/0 = SubResource( 6 )
-
-[node name="StaticBody" type="StaticBody" parent="floor"]
-
-[node name="CollisionShape" type="CollisionShape" parent="floor/StaticBody"]
-shape = SubResource( 2 )
-
-[node name="outer_walls" type="Spatial" parent="."]
-
-[node name="wallZ-" type="MeshInstance" parent="outer_walls"]
-transform = Transform( 20, 0, 0, 0, 3, 0, 0, 0, 0.1, 0, 3, -20 )
-mesh = SubResource( 3 )
-skeleton = NodePath("../..")
-material/0 = SubResource( 5 )
-
-[node name="StaticBody" type="StaticBody" parent="outer_walls/wallZ-"]
-
-[node name="CollisionShape" type="CollisionShape" parent="outer_walls/wallZ-/StaticBody"]
-shape = SubResource( 4 )
-
-[node name="wallZ+" type="MeshInstance" parent="outer_walls"]
-transform = Transform( -20, 0, -1.50996e-08, 0, 3, 0, 3.01992e-06, 0, -0.1, 0, 3, 20 )
-mesh = SubResource( 3 )
-skeleton = NodePath("../..")
-material/0 = SubResource( 5 )
-
-[node name="StaticBody" type="StaticBody" parent="outer_walls/wallZ+"]
-
-[node name="CollisionShape" type="CollisionShape" parent="outer_walls/wallZ+/StaticBody"]
-shape = SubResource( 4 )
-
-[node name="wallX-" type="MeshInstance" parent="outer_walls"]
-transform = Transform( -8.74228e-07, 0, 0.1, 0, 3, 0, -20, 0, -4.37114e-09, -20, 3, 0 )
-mesh = SubResource( 3 )
-skeleton = NodePath("../..")
-material/0 = SubResource( 5 )
-
-[node name="StaticBody" type="StaticBody" parent="outer_walls/wallX-"]
-
-[node name="CollisionShape" type="CollisionShape" parent="outer_walls/wallX-/StaticBody"]
-shape = SubResource( 4 )
-
-[node name="wallX+" type="MeshInstance" parent="outer_walls"]
-transform = Transform( -8.74228e-07, 0, -0.1, 0, 3, 0, 20, 0, -4.37114e-09, 20, 3, 0 )
-mesh = SubResource( 3 )
-skeleton = NodePath("../..")
-material/0 = SubResource( 5 )
-
-[node name="StaticBody" type="StaticBody" parent="outer_walls/wallX+"]
-
-[node name="CollisionShape" type="CollisionShape" parent="outer_walls/wallX+/StaticBody"]
-shape = SubResource( 4 )
-
 [node name="OmniBlue" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.82297, 1.73105, -3.92315 )
 light_color = Color( 0.14902, 0.380392, 1, 1 )
 light_energy = 6.872
+light_bake_mode = 2
+shadow_enabled = true
 
 [node name="OmniRed" type="OmniLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.55043, 1.73105, 3.26729 )
 light_color = Color( 0.882353, 0.180392, 0.160784, 1 )
 light_energy = 6.872
+light_bake_mode = 2
+shadow_enabled = true
+
+[node name="SpotGreen" type="SpotLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -23.2149, 23.5169, 8.40063 )
+light_color = Color( 0.278431, 0.760784, 0.309804, 1 )
+light_energy = 2.19
+light_bake_mode = 2
+shadow_enabled = true
+spot_range = 16.867
+spot_angle = 37.675
+
+[node name="static_level" type="Spatial" parent="."]
+
+[node name="floor" type="StaticBody" parent="static_level" groups=["static_geometry"]]
+transform = Transform( 40, 0, 0, 0, 0.05, 0, 0, 0, 40, 0, 0, 0 )
+collision_layer = 3
+
+[node name="mesh" type="MeshInstance" parent="static_level/floor"]
+mesh = SubResource( 1 )
+skeleton = NodePath("../../..")
+material/0 = SubResource( 6 )
+
+[node name="shape" type="CollisionShape" parent="static_level/floor"]
+shape = SubResource( 13 )
+
+[node name="outer_walls" type="Spatial" parent="static_level"]
+
+[node name="wallZ-" type="MeshInstance" parent="static_level/outer_walls"]
+transform = Transform( 40, 0, 0, 0, 25, 0, 0, 0, 0.1, 0, 25, -40 )
+mesh = SubResource( 3 )
+skeleton = NodePath("../../..")
+material/0 = SubResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallZ-" groups=["static_geometry"]]
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="static_level/outer_walls/wallZ-/StaticBody"]
+shape = SubResource( 4 )
+
+[node name="wallZ+" type="MeshInstance" parent="static_level/outer_walls"]
+transform = Transform( -40, 0, -1.50996e-08, 0, 25, 0, 6.03983e-06, 0, -0.1, 0, 25, 40 )
+mesh = SubResource( 3 )
+skeleton = NodePath("../../..")
+material/0 = SubResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallZ+" groups=["static_geometry"]]
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="static_level/outer_walls/wallZ+/StaticBody"]
+shape = SubResource( 4 )
+
+[node name="wallX-" type="MeshInstance" parent="static_level/outer_walls"]
+transform = Transform( -1.74846e-06, 0, 0.1, 0, 25, 0, -40, 0, -4.37114e-09, -40, 25, 0 )
+mesh = SubResource( 3 )
+skeleton = NodePath("../../..")
+material/0 = SubResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallX-" groups=["static_geometry"]]
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="static_level/outer_walls/wallX-/StaticBody"]
+shape = SubResource( 4 )
+
+[node name="wallX+" type="MeshInstance" parent="static_level/outer_walls"]
+transform = Transform( -1.74846e-06, 0, -0.1, 0, 25, 0, 40, 0, -4.37114e-09, 40, 25, 0 )
+mesh = SubResource( 3 )
+skeleton = NodePath("../../..")
+material/0 = SubResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="static_level/outer_walls/wallX+" groups=["static_geometry"]]
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="static_level/outer_walls/wallX+/StaticBody"]
+shape = SubResource( 4 )
+
+[node name="interier" type="Spatial" parent="static_level"]
+
+[node name="platform1" type="StaticBody" parent="static_level/interier" groups=["static_geometry"]]
+transform = Transform( 10, 0, 0, 0, 0.2, 0, 0, 0, 10, -22, 10, 9 )
+collision_layer = 3
+
+[node name="mesh" type="MeshInstance" parent="static_level/interier/platform1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00689101, 0.941105, 0.0117035 )
+mesh = SubResource( 8 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 20 )
+
+[node name="shape" type="CollisionShape" parent="static_level/interier/platform1"]
+shape = SubResource( 11 )
+
+[node name="column0" type="StaticBody" parent="static_level/interier" groups=["static_geometry"]]
+transform = Transform( 1, 0, 0, 0, 5, 0, 0, 0, 1, -24.449, 5, 15.296 )
+collision_layer = 3
+
+[node name="mesh" type="MeshInstance" parent="static_level/interier/column0"]
+mesh = SubResource( 9 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 20 )
+
+[node name="shape" type="CollisionShape" parent="static_level/interier/column0"]
+shape = SubResource( 12 )
+
+[node name="column1" type="StaticBody" parent="static_level/interier" groups=["static_geometry"]]
+transform = Transform( 1, 0, 0, 0, 5, 0, 0, 0, 1, -24.449, 5, 1.81116 )
+collision_layer = 3
+
+[node name="mesh" type="MeshInstance" parent="static_level/interier/column1"]
+mesh = SubResource( 9 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 20 )
+
+[node name="shape" type="CollisionShape" parent="static_level/interier/column1"]
+shape = SubResource( 12 )
+
+[node name="column2" type="StaticBody" parent="static_level/interier" groups=["static_geometry"]]
+transform = Transform( 1, 0, 0, 0, 5, 0, 0, 0, 1, -16.1375, 5, 6.50881 )
+collision_layer = 3
+
+[node name="mesh" type="MeshInstance" parent="static_level/interier/column2"]
+mesh = SubResource( 9 )
+skeleton = NodePath("../..")
+material/0 = SubResource( 20 )
+
+[node name="shape" type="CollisionShape" parent="static_level/interier/column2"]
+shape = SubResource( 12 )
+
+[node name="stairs" type="Spatial" parent="static_level/interier"]
+
+[node name="step0" type="MeshInstance" parent="static_level/interier/stairs"]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, 8.59359, 1.71762, 12.1101 )
+mesh = SubResource( 14 )
+material/0 = SubResource( 20 )
+
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step0" groups=["static_geometry"]]
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="static_level/interier/stairs/step0/StaticBody"]
+shape = SubResource( 15 )
+
+[node name="step1" type="MeshInstance" parent="static_level/interier/stairs"]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, 4.60585, 4.55404, 11.0593 )
+mesh = SubResource( 14 )
+material/0 = SubResource( 20 )
+
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step1" groups=["static_geometry"]]
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="static_level/interier/stairs/step1/StaticBody"]
+shape = SubResource( 16 )
+
+[node name="step2" type="MeshInstance" parent="static_level/interier/stairs"]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, 0.399844, 6.6725, 9.95201 )
+mesh = SubResource( 14 )
+material/0 = SubResource( 20 )
+
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step2" groups=["static_geometry"]]
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="static_level/interier/stairs/step2/StaticBody"]
+shape = SubResource( 17 )
+
+[node name="step3" type="MeshInstance" parent="static_level/interier/stairs"]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, -4.09254, 7.63282, 9.95201 )
+mesh = SubResource( 14 )
+material/0 = SubResource( 20 )
+
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step3" groups=["static_geometry"]]
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="static_level/interier/stairs/step3/StaticBody"]
+shape = SubResource( 18 )
+
+[node name="step4" type="MeshInstance" parent="static_level/interier/stairs"]
+transform = Transform( 2, 0, 0, 0, 1, 0, 0, 0, 2, -9.11807, 8.50299, 9.95201 )
+mesh = SubResource( 14 )
+material/0 = SubResource( 20 )
+
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/stairs/step4" groups=["static_geometry"]]
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="static_level/interier/stairs/step4/StaticBody"]
+shape = SubResource( 19 )
+
+[node name="jumping_wall" type="MeshInstance" parent="static_level/interier"]
+transform = Transform( 4.17482, 0, 0.165092, 0, 5, 0, -2.75153, 0, 0.250489, -5.22306, 5, -6.75976 )
+mesh = SubResource( 21 )
+material/0 = SubResource( 24 )
+
+[node name="StaticBody" type="StaticBody" parent="static_level/interier/jumping_wall" groups=["static_geometry"]]
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="static_level/interier/jumping_wall/StaticBody"]
+shape = SubResource( 25 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 7 )

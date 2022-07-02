@@ -86,9 +86,9 @@ size_flags_vertical = 3
 [node name="keyboard" type="VBoxContainer" parent="hbox/panel/viewer/center"]
 visible = false
 margin_left = 666.0
-margin_top = 424.0
+margin_top = 412.0
 margin_right = 1091.0
-margin_bottom = 656.0
+margin_bottom = 668.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -338,18 +338,42 @@ margin_bottom = 20.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 
-[node name="hsep4" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
+[node name="jump" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
 margin_top = 228.0
 margin_right = 425.0
-margin_bottom = 232.0
+margin_bottom = 248.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/jump"]
+margin_top = 3.0
+margin_right = 200.0
+margin_bottom = 17.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Jump"
+align = 1
+
+[node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/jump"]
+margin_left = 250.0
+margin_right = 425.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+
+[node name="hsep4" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 252.0
+margin_right = 425.0
+margin_bottom = 256.0
 rect_min_size = Vector2( 200, 0 )
 
 [node name="gamepad" type="VBoxContainer" parent="hbox/panel/viewer/center"]
 visible = false
 margin_left = 663.0
-margin_top = 356.0
+margin_top = 341.0
 margin_right = 1093.0
-margin_bottom = 724.0
+margin_bottom = 739.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
@@ -544,7 +568,7 @@ margin_bottom = 308.0
 [node name="grid2" type="GridContainer" parent="hbox/panel/viewer/center/gamepad"]
 margin_top = 318.0
 margin_right = 430.0
-margin_bottom = 368.0
+margin_bottom = 398.0
 size_flags_horizontal = 3
 custom_constants/vseparation = 10
 custom_constants/hseparation = 50
@@ -583,6 +607,22 @@ margin_left = 240.0
 margin_top = 30.0
 margin_right = 430.0
 margin_bottom = 50.0
+size_flags_horizontal = 3
+expand_icon = true
+
+[node name="label2" type="Label" parent="hbox/panel/viewer/center/gamepad/grid2"]
+margin_top = 63.0
+margin_right = 190.0
+margin_bottom = 77.0
+size_flags_horizontal = 3
+text = "Jump"
+align = 1
+
+[node name="jump" type="Button" parent="hbox/panel/viewer/center/gamepad/grid2"]
+margin_left = 240.0
+margin_top = 60.0
+margin_right = 430.0
+margin_bottom = 80.0
 size_flags_horizontal = 3
 expand_icon = true
 
