@@ -2,6 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <LangVersion>9</LangVersion>
+    <Configurations>Debug;ExportDebug;ExportRelease;Release</Configurations>
+    <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="GodotCSToolbox" Version="1.0.0-beta10" />

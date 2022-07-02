@@ -38,7 +38,7 @@ namespace CyberBlood.Scripts.Settings.Config {
                     var error = _config.Load(_path);
 #else
                     Error error;
-                    if (string.IsNullOrWhiteSpace(pass)) {
+                    if (string.IsNullOrWhiteSpace(pass)) { 
                         error = _config.Load(path);
                     } else {
                         error = _config.LoadEncryptedPass(path, pass);
@@ -50,7 +50,9 @@ namespace CyberBlood.Scripts.Settings.Config {
                             "Failed to load {Path} with {Pass}, error: {Error}",
                             _path, _pass, error
                         );
-                        throw new ConfigException(error);
+                        _current = _defaults;
+                        SaveConfigToFile();
+                        return;
                     }
                 }
 
