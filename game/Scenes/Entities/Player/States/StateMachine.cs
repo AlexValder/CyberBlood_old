@@ -41,6 +41,10 @@ namespace CyberBlood.Scenes.Entities.Player.States {
         }
 
         public void TransitionTo(State state) {
+            if (!_states[state].Enabled) {
+                return;
+            }
+
             _states[CurrentState].OnExit();
             var prev = CurrentState;
             CurrentState = state;

@@ -2,6 +2,7 @@
 
 namespace CyberBlood.Scenes.Entities.Player.States {
     public abstract class BaseState : Node {
+        public bool Enabled { get; set; } = true;
         public Player Player { get; set; }
 
         public virtual void OnEntry() {
