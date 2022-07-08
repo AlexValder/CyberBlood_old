@@ -16,12 +16,12 @@ namespace CyberBlood.Scenes.GUI {
         }
 
         public void Switch2Gameplay() {
-            Input.SetMouseMode(Input.MouseMode.Captured);
+            Input.MouseMode = Input.MouseModeEnum.Captured;
             AddChild(_pauseMenu);
         }
 
         public void Switch2Menu() {
-            Input.SetMouseMode(Input.MouseMode.Captured);
+            Input.MouseMode = Input.MouseModeEnum.Captured;
             RemoveChild(_pauseMenu);
         }
 

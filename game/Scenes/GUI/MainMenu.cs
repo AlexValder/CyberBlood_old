@@ -11,7 +11,7 @@ namespace CyberBlood.Scenes.GUI {
         public override void _Ready() {
             this.SetupNodeTools();
 
-            Input.SetMouseMode(Input.MouseMode.Visible);
+            Input.MouseMode = Input.MouseModeEnum.Visible;
             var firstButton = GetNode<Control>("vbox/vbox/start");
             firstButton.GrabFocus();
         }
