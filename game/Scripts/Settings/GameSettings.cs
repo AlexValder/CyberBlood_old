@@ -32,7 +32,7 @@ namespace CyberBlood.Scripts.Settings {
                 nameof(ToggleJoystickConnection)
             );
 
-            Input.SetMouseMode(Input.MouseMode.Captured);
+            Input.MouseMode = Input.MouseModeEnum.Captured;
 
             Graphics.SetSceneTree(GetTree());
             Graphics.ApplySettings();

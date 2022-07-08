@@ -35,7 +35,7 @@ namespace CyberBlood.Scenes.Entities.Player.States {
 
             _states = states;
         }
-        
+
         public void Reset() {
             TransitionTo(State.Idle);
         }
