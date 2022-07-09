@@ -23,6 +23,7 @@ namespace CyberBlood.Scripts.Settings.Config {
         private const string MOVE_RIGHT = "move_right";
         private const string MOVE_FORWARD = "move_forward";
         private const string MOVE_BACK = "move_back";
+        private const string SCREENSHOT = "screenshot";
 
         #region Joybad
         public float CameraJoyDenominator => .02f;
@@ -162,14 +163,31 @@ namespace CyberBlood.Scripts.Settings.Config {
         public MouseKeyboardButton MouseKeyboardJump {
             get {
                 var value = GetValue<int>(MOUSE_KEYBOARD, JUMP);
-                return
-                    value < 0 ? new MouseKeyboardButton((MouseButtons)value) : new MouseKeyboardButton((KeyList)value);
+                return value < 0
+                    ? new MouseKeyboardButton((MouseButtons)value)
+                    : new MouseKeyboardButton((KeyList)value);
             }
             private set {
                 if (value.KeyButton == 0) {
                     SetValue(MOUSE_KEYBOARD, JUMP, (int)value.MouseButtons);
                 } else {
                     SetValue(MOUSE_KEYBOARD, JUMP, (int)value.KeyButton);
+                }
+            }
+        }
+
+        public MouseKeyboardButton TakeScreenshot {
+            get {
+                var value = GetValue<int>(MOUSE_KEYBOARD, SCREENSHOT);
+                return value < 0
+                    ? new MouseKeyboardButton((MouseButtons)value)
+                    : new MouseKeyboardButton((KeyList)value);
+            }
+            private set {
+                if (value.KeyButton == 0) {
+                    SetValue(MOUSE_KEYBOARD, SCREENSHOT, (int)value.MouseButtons);
+                } else {
+                    SetValue(MOUSE_KEYBOARD, SCREENSHOT, (int)value.KeyButton);
                 }
             }
         }
@@ -199,7 +217,8 @@ namespace CyberBlood.Scripts.Settings.Config {
                 [MOVE_RIGHT]    = KeyList.D,
                 [CAMERA_CENTER] = MouseButtons.MiddleButton,
                 [JUMP]          = KeyList.Space,
-            }
+                [SCREENSHOT]    = KeyList.F2,
+            },
         }) {
         }
 
@@ -228,6 +247,7 @@ namespace CyberBlood.Scripts.Settings.Config {
         }
 
         private void AddMouseKeyboardActions() {
+            CheckAddAction(SCREENSHOT, TakeScreenshot);
             CheckAddAction(JUMP, MouseKeyboardJump);
             CheckAddAction(CAMERA_CENTER, CameraMouseCenter);
             CheckAddAction(MOVE_FORWARD, MoveForward);

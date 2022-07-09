@@ -10,7 +10,7 @@ namespace CyberBlood.Scenes.Entities.Player.States {
 
         [Export(PropertyHint.Enum, "Idle,Walking,Running,Falling,WallStuck,FinalFalling")]
         private State _initialState = State.Idle;
-        [Export] private NodePath _playerNode;
+        [Export] private NodePath _playerNode = "";
 
         public State CurrentState { get; private set; }
         private Player _player;

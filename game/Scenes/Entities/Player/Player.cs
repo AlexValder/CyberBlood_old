@@ -22,7 +22,6 @@ namespace CyberBlood.Scenes.Entities.Player {
         public Vector3 Front => -Mesh?.GlobalTransform.basis.x ?? Vector3.Forward;
 
 #pragma warning disable 649
-        [NodePath("tween")] private Tween _tween;
         [NodePath("mesh")] public Spatial Mesh { get; private set; }
         [NodePath("HUD/status_label")] private Label _statusLabel;
         [NodePath("PlayerCamera")] public PlayerCamera Camera { get; set; }

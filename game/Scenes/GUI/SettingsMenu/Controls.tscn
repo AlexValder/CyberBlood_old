@@ -85,45 +85,44 @@ size_flags_vertical = 3
 
 [node name="keyboard" type="VBoxContainer" parent="hbox/panel/viewer/center"]
 visible = false
-margin_left = 666.0
-margin_top = 412.0
-margin_right = 1091.0
-margin_bottom = 668.0
+margin_left = 664.0
+margin_top = 336.0
+margin_right = 1093.0
+margin_bottom = 744.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
 [node name="hsep0" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
-margin_right = 425.0
+margin_right = 429.0
 margin_bottom = 4.0
 rect_min_size = Vector2( 200, 0 )
 
 [node name="title0" type="Label" parent="hbox/panel/viewer/center/keyboard"]
 margin_top = 8.0
-margin_right = 425.0
-margin_bottom = 22.0
+margin_right = 429.0
+margin_bottom = 34.0
 text = "Mouse"
 align = 1
 valign = 1
 
 [node name="hsep1" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 26.0
-margin_right = 425.0
-margin_bottom = 30.0
+margin_top = 38.0
+margin_right = 429.0
+margin_bottom = 42.0
 rect_min_size = Vector2( 200, 0 )
 
 [node name="vsens" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 34.0
-margin_right = 425.0
-margin_bottom = 50.0
+margin_top = 46.0
+margin_right = 429.0
+margin_bottom = 72.0
 size_flags_horizontal = 3
 custom_constants/separation = 50
 alignment = 1
 
 [node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/vsens"]
-margin_top = 1.0
 margin_right = 200.0
-margin_bottom = 15.0
+margin_bottom = 26.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
 text = "Vertical Sensitivity"
@@ -131,15 +130,15 @@ align = 1
 
 [node name="hbox" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard/vsens"]
 margin_left = 250.0
-margin_right = 425.0
-margin_bottom = 16.0
+margin_right = 429.0
+margin_bottom = 26.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 script = ExtResource( 3 )
 
 [node name="hslider" type="HSlider" parent="hbox/panel/viewer/center/keyboard/vsens/hbox"]
-margin_right = 151.0
-margin_bottom = 16.0
+margin_right = 150.0
+margin_bottom = 26.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -149,24 +148,22 @@ step = 0.05
 value = 1.0
 
 [node name="text" type="Label" parent="hbox/panel/viewer/center/keyboard/vsens/hbox"]
-margin_left = 155.0
-margin_top = 1.0
-margin_right = 175.0
-margin_bottom = 15.0
+margin_left = 154.0
+margin_right = 179.0
+margin_bottom = 26.0
 text = "1.0"
 
 [node name="hsens" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 54.0
-margin_right = 425.0
-margin_bottom = 70.0
+margin_top = 76.0
+margin_right = 429.0
+margin_bottom = 102.0
 size_flags_horizontal = 3
 custom_constants/separation = 50
 alignment = 1
 
 [node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/hsens"]
-margin_top = 1.0
 margin_right = 200.0
-margin_bottom = 15.0
+margin_bottom = 26.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
 text = "Horizontal Sensitivity"
@@ -174,15 +171,15 @@ align = 1
 
 [node name="hbox" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard/hsens"]
 margin_left = 250.0
-margin_right = 425.0
-margin_bottom = 16.0
+margin_right = 429.0
+margin_bottom = 26.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 script = ExtResource( 3 )
 
 [node name="hslider" type="HSlider" parent="hbox/panel/viewer/center/keyboard/hsens/hbox"]
-margin_right = 151.0
-margin_bottom = 16.0
+margin_right = 150.0
+margin_bottom = 26.0
 rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 1
@@ -192,36 +189,35 @@ step = 0.05
 value = 1.0
 
 [node name="text" type="Label" parent="hbox/panel/viewer/center/keyboard/hsens/hbox"]
-margin_left = 155.0
-margin_top = 1.0
-margin_right = 175.0
-margin_bottom = 15.0
+margin_left = 154.0
+margin_right = 179.0
+margin_bottom = 26.0
 text = "1.0"
 
 [node name="hsep2" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 74.0
-margin_right = 425.0
-margin_bottom = 78.0
+margin_top = 106.0
+margin_right = 429.0
+margin_bottom = 110.0
 rect_min_size = Vector2( 200, 0 )
 
 [node name="title1" type="Label" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 82.0
-margin_right = 425.0
-margin_bottom = 96.0
+margin_top = 114.0
+margin_right = 429.0
+margin_bottom = 140.0
 text = "Bindings"
 align = 1
 valign = 1
 
 [node name="hsep3" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 100.0
-margin_right = 425.0
-margin_bottom = 104.0
+margin_top = 144.0
+margin_right = 429.0
+margin_bottom = 148.0
 rect_min_size = Vector2( 200, 0 )
 
 [node name="move_forward" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 108.0
-margin_right = 425.0
-margin_bottom = 128.0
+margin_top = 152.0
+margin_right = 429.0
+margin_bottom = 184.0
 size_flags_horizontal = 3
 custom_constants/separation = 50
 alignment = 1
@@ -229,7 +225,7 @@ alignment = 1
 [node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/move_forward"]
 margin_top = 3.0
 margin_right = 200.0
-margin_bottom = 17.0
+margin_bottom = 29.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
 text = "Forward"
@@ -237,15 +233,15 @@ align = 1
 
 [node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/move_forward"]
 margin_left = 250.0
-margin_right = 425.0
-margin_bottom = 20.0
+margin_right = 429.0
+margin_bottom = 32.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 
 [node name="move_left" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 132.0
-margin_right = 425.0
-margin_bottom = 152.0
+margin_top = 188.0
+margin_right = 429.0
+margin_bottom = 220.0
 size_flags_horizontal = 3
 custom_constants/separation = 50
 alignment = 1
@@ -253,7 +249,7 @@ alignment = 1
 [node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/move_left"]
 margin_top = 3.0
 margin_right = 200.0
-margin_bottom = 17.0
+margin_bottom = 29.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
 text = "Left"
@@ -261,15 +257,15 @@ align = 1
 
 [node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/move_left"]
 margin_left = 250.0
-margin_right = 425.0
-margin_bottom = 20.0
+margin_right = 429.0
+margin_bottom = 32.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 
 [node name="move_back" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 156.0
-margin_right = 425.0
-margin_bottom = 176.0
+margin_top = 224.0
+margin_right = 429.0
+margin_bottom = 256.0
 size_flags_horizontal = 3
 custom_constants/separation = 50
 alignment = 1
@@ -277,7 +273,7 @@ alignment = 1
 [node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/move_back"]
 margin_top = 3.0
 margin_right = 200.0
-margin_bottom = 17.0
+margin_bottom = 29.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
 text = "Back"
@@ -285,15 +281,15 @@ align = 1
 
 [node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/move_back"]
 margin_left = 250.0
-margin_right = 425.0
-margin_bottom = 20.0
+margin_right = 429.0
+margin_bottom = 32.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 
 [node name="move_right" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 180.0
-margin_right = 425.0
-margin_bottom = 200.0
+margin_top = 260.0
+margin_right = 429.0
+margin_bottom = 292.0
 size_flags_horizontal = 3
 custom_constants/separation = 50
 alignment = 1
@@ -301,7 +297,7 @@ alignment = 1
 [node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/move_right"]
 margin_top = 3.0
 margin_right = 200.0
-margin_bottom = 17.0
+margin_bottom = 29.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
 text = "Right"
@@ -309,15 +305,15 @@ align = 1
 
 [node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/move_right"]
 margin_left = 250.0
-margin_right = 425.0
-margin_bottom = 20.0
+margin_right = 429.0
+margin_bottom = 32.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 
 [node name="camera_center" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 204.0
-margin_right = 425.0
-margin_bottom = 224.0
+margin_top = 296.0
+margin_right = 429.0
+margin_bottom = 328.0
 size_flags_horizontal = 3
 custom_constants/separation = 50
 alignment = 1
@@ -325,7 +321,7 @@ alignment = 1
 [node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/camera_center"]
 margin_top = 3.0
 margin_right = 200.0
-margin_bottom = 17.0
+margin_bottom = 29.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
 text = "Center Camera"
@@ -333,15 +329,15 @@ align = 1
 
 [node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/camera_center"]
 margin_left = 250.0
-margin_right = 425.0
-margin_bottom = 20.0
+margin_right = 429.0
+margin_bottom = 32.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 
 [node name="jump" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 228.0
-margin_right = 425.0
-margin_bottom = 248.0
+margin_top = 332.0
+margin_right = 429.0
+margin_bottom = 364.0
 size_flags_horizontal = 3
 custom_constants/separation = 50
 alignment = 1
@@ -349,7 +345,7 @@ alignment = 1
 [node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/jump"]
 margin_top = 3.0
 margin_right = 200.0
-margin_bottom = 17.0
+margin_bottom = 29.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
 text = "Jump"
@@ -357,23 +353,47 @@ align = 1
 
 [node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/jump"]
 margin_left = 250.0
-margin_right = 425.0
-margin_bottom = 20.0
+margin_right = 429.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+
+[node name="screenshot" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 368.0
+margin_right = 429.0
+margin_bottom = 400.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/screenshot"]
+margin_top = 3.0
+margin_right = 200.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Take Screenshot"
+align = 1
+
+[node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/screenshot"]
+margin_left = 250.0
+margin_right = 429.0
+margin_bottom = 32.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 
 [node name="hsep4" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
-margin_top = 252.0
-margin_right = 425.0
-margin_bottom = 256.0
+margin_top = 404.0
+margin_right = 429.0
+margin_bottom = 408.0
 rect_min_size = Vector2( 200, 0 )
 
 [node name="gamepad" type="VBoxContainer" parent="hbox/panel/viewer/center"]
 visible = false
 margin_left = 663.0
-margin_top = 341.0
+margin_top = 290.0
 margin_right = 1093.0
-margin_bottom = 739.0
+margin_bottom = 790.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
@@ -386,26 +406,26 @@ margin_bottom = 4.0
 [node name="title0" type="Label" parent="hbox/panel/viewer/center/gamepad"]
 margin_top = 14.0
 margin_right = 430.0
-margin_bottom = 28.0
+margin_bottom = 40.0
 text = "Sticks"
 align = 1
 
 [node name="hsep1" type="HSeparator" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 38.0
+margin_top = 50.0
 margin_right = 430.0
-margin_bottom = 42.0
+margin_bottom = 54.0
 
 [node name="grid0" type="GridContainer" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 52.0
+margin_top = 64.0
 margin_right = 430.0
-margin_bottom = 170.0
+margin_bottom = 194.0
 rect_min_size = Vector2( 430, 0 )
 custom_constants/hseparation = -10
 columns = 3
 
 [node name="label0" type="Label" parent="hbox/panel/viewer/center/gamepad/grid0"]
 margin_right = 150.0
-margin_bottom = 14.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 text = "Movement"
 align = 1
@@ -414,7 +434,7 @@ valign = 1
 [node name="label1" type="Label" parent="hbox/panel/viewer/center/gamepad/grid0"]
 margin_left = 140.0
 margin_right = 290.0
-margin_bottom = 14.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 align = 1
 valign = 1
@@ -422,51 +442,50 @@ valign = 1
 [node name="label2" type="Label" parent="hbox/panel/viewer/center/gamepad/grid0"]
 margin_left = 280.0
 margin_right = 430.0
-margin_bottom = 14.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 text = "Camera"
 align = 1
 valign = 1
 
 [node name="left" type="TextureRect" parent="hbox/panel/viewer/center/gamepad/grid0"]
-margin_top = 18.0
+margin_top = 30.0
 margin_right = 150.0
-margin_bottom = 118.0
+margin_bottom = 130.0
 size_flags_horizontal = 3
 texture = ExtResource( 6 )
 stretch_mode = 4
 
 [node name="switch" type="Button" parent="hbox/panel/viewer/center/gamepad/grid0"]
-margin_left = 188.0
-margin_top = 58.0
-margin_right = 241.0
-margin_bottom = 78.0
+margin_left = 180.0
+margin_top = 64.0
+margin_right = 249.0
+margin_bottom = 96.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Switch"
 
 [node name="right" type="TextureRect" parent="hbox/panel/viewer/center/gamepad/grid0"]
 margin_left = 280.0
-margin_top = 18.0
+margin_top = 30.0
 margin_right = 430.0
-margin_bottom = 118.0
+margin_bottom = 130.0
 size_flags_horizontal = 3
 texture = ExtResource( 5 )
 stretch_mode = 4
 
 [node name="grid1" type="GridContainer" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 180.0
+margin_top = 204.0
 margin_right = 430.0
-margin_bottom = 256.0
+margin_bottom = 310.0
 rect_min_size = Vector2( 430, 0 )
 custom_constants/vseparation = 10
 custom_constants/hseparation = 20
 columns = 2
 
 [node name="label0" type="Label" parent="hbox/panel/viewer/center/gamepad/grid1"]
-margin_top = 1.0
 margin_right = 205.0
-margin_bottom = 15.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 text = "Vertical Sensitivity"
 align = 1
@@ -475,13 +494,13 @@ valign = 1
 [node name="vsens" type="HBoxContainer" parent="hbox/panel/viewer/center/gamepad/grid1"]
 margin_left = 225.0
 margin_right = 430.0
-margin_bottom = 16.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 script = ExtResource( 3 )
 
 [node name="hslider" type="HSlider" parent="hbox/panel/viewer/center/gamepad/grid1/vsens"]
-margin_right = 181.0
-margin_bottom = 16.0
+margin_right = 176.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 min_value = 0.1
@@ -490,16 +509,15 @@ step = 0.1
 value = 2.0
 
 [node name="text" type="Label" parent="hbox/panel/viewer/center/gamepad/grid1/vsens"]
-margin_left = 185.0
-margin_top = 1.0
+margin_left = 180.0
 margin_right = 205.0
-margin_bottom = 15.0
+margin_bottom = 26.0
 text = "2.0"
 
 [node name="label1" type="Label" parent="hbox/panel/viewer/center/gamepad/grid1"]
-margin_top = 27.0
+margin_top = 36.0
 margin_right = 205.0
-margin_bottom = 41.0
+margin_bottom = 62.0
 size_flags_horizontal = 3
 text = "Horizontal Sensitivity"
 align = 1
@@ -507,15 +525,15 @@ valign = 1
 
 [node name="hsens" type="HBoxContainer" parent="hbox/panel/viewer/center/gamepad/grid1"]
 margin_left = 225.0
-margin_top = 26.0
+margin_top = 36.0
 margin_right = 430.0
-margin_bottom = 42.0
+margin_bottom = 62.0
 size_flags_horizontal = 3
 script = ExtResource( 3 )
 
 [node name="hslider" type="HSlider" parent="hbox/panel/viewer/center/gamepad/grid1/hsens"]
-margin_right = 181.0
-margin_bottom = 16.0
+margin_right = 176.0
+margin_bottom = 26.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 min_value = 0.1
@@ -524,16 +542,15 @@ step = 0.1
 value = 2.0
 
 [node name="text" type="Label" parent="hbox/panel/viewer/center/gamepad/grid1/hsens"]
-margin_left = 185.0
-margin_top = 1.0
+margin_left = 180.0
 margin_right = 205.0
-margin_bottom = 15.0
+margin_bottom = 26.0
 text = "2.0"
 
 [node name="label2" type="Label" parent="hbox/panel/viewer/center/gamepad/grid1"]
-margin_top = 57.0
+margin_top = 76.0
 margin_right = 205.0
-margin_bottom = 71.0
+margin_bottom = 102.0
 size_flags_horizontal = 3
 text = "Inverted"
 align = 1
@@ -541,34 +558,34 @@ valign = 1
 
 [node name="inverted" type="CheckBox" parent="hbox/panel/viewer/center/gamepad/grid1"]
 margin_left = 315.0
-margin_top = 52.0
+margin_top = 72.0
 margin_right = 339.0
-margin_bottom = 76.0
+margin_bottom = 106.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 align = 1
 
 [node name="hsep2" type="HSeparator" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 266.0
+margin_top = 320.0
 margin_right = 430.0
-margin_bottom = 270.0
+margin_bottom = 324.0
 
 [node name="title1" type="Label" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 280.0
+margin_top = 334.0
 margin_right = 430.0
-margin_bottom = 294.0
+margin_bottom = 360.0
 text = "Buttons"
 align = 1
 
 [node name="hsep3" type="HSeparator" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 304.0
+margin_top = 370.0
 margin_right = 430.0
-margin_bottom = 308.0
+margin_bottom = 374.0
 
 [node name="grid2" type="GridContainer" parent="hbox/panel/viewer/center/gamepad"]
-margin_top = 318.0
+margin_top = 384.0
 margin_right = 430.0
-margin_bottom = 398.0
+margin_bottom = 500.0
 size_flags_horizontal = 3
 custom_constants/vseparation = 10
 custom_constants/hseparation = 50
@@ -577,7 +594,7 @@ columns = 2
 [node name="label0" type="Label" parent="hbox/panel/viewer/center/gamepad/grid2"]
 margin_top = 3.0
 margin_right = 190.0
-margin_bottom = 17.0
+margin_bottom = 29.0
 size_flags_horizontal = 3
 text = "Button Icon Set"
 align = 1
@@ -585,7 +602,7 @@ align = 1
 [node name="icon_set" type="OptionButton" parent="hbox/panel/viewer/center/gamepad/grid2"]
 margin_left = 240.0
 margin_right = 430.0
-margin_bottom = 20.0
+margin_bottom = 32.0
 size_flags_horizontal = 3
 text = "XBox"
 icon = ExtResource( 7 )
@@ -595,34 +612,34 @@ items = [ "XBox", ExtResource( 7 ), false, 0, null, "Playstation", ExtResource( 
 selected = 0
 
 [node name="label1" type="Label" parent="hbox/panel/viewer/center/gamepad/grid2"]
-margin_top = 33.0
+margin_top = 45.0
 margin_right = 190.0
-margin_bottom = 47.0
+margin_bottom = 71.0
 size_flags_horizontal = 3
 text = "Camera Center"
 align = 1
 
 [node name="camera_center" type="Button" parent="hbox/panel/viewer/center/gamepad/grid2"]
 margin_left = 240.0
-margin_top = 30.0
+margin_top = 42.0
 margin_right = 430.0
-margin_bottom = 50.0
+margin_bottom = 74.0
 size_flags_horizontal = 3
 expand_icon = true
 
 [node name="label2" type="Label" parent="hbox/panel/viewer/center/gamepad/grid2"]
-margin_top = 63.0
+margin_top = 87.0
 margin_right = 190.0
-margin_bottom = 77.0
+margin_bottom = 113.0
 size_flags_horizontal = 3
 text = "Jump"
 align = 1
 
 [node name="jump" type="Button" parent="hbox/panel/viewer/center/gamepad/grid2"]
 margin_left = 240.0
-margin_top = 60.0
+margin_top = 84.0
 margin_right = 430.0
-margin_bottom = 80.0
+margin_bottom = 116.0
 size_flags_horizontal = 3
 expand_icon = true
 
@@ -642,7 +659,7 @@ anchor_bottom = 1.0
 margin_left = 8.0
 margin_top = 8.0
 margin_right = -8.0
-margin_bottom = -36.0
+margin_bottom = -48.0
 focus_mode = 0
 button_mask = 7
 enabled_focus_mode = 0
