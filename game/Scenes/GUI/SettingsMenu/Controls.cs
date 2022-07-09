@@ -202,6 +202,7 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             _keyboardButtons["move_right"].Text    = ctrl.MoveRight.ToString();
             _keyboardButtons["camera_center"].Text = ctrl.CameraMouseCenter.ToString();
             _keyboardButtons["jump"].Text          = ctrl.MouseKeyboardJump.ToString();
+            _keyboardButtons["screenshot"].Text    = ctrl.TakeScreenshot.ToString();
             _mouseHSensitivity.Value               = ctrl.CameraMouseRotateHorizontal / ctrl.CameraMouseDenominator;
             _mouseVSensitivity.Value               = ctrl.CameraMouseRotateVertical / ctrl.CameraMouseDenominator;
 

@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Label
+
+export(float, 0.0, 10.0, 0.1) var fresh_time := 1.0
+export(float, 0.0, 10.0, 0.1) var disappearence_time := 1.0
+
+onready var _timer := $timer as Timer
+onready var _tween := $tween as Tween
+
+func _ready() -> void:
+    visible = false
+
+
+func display(msg: String) -> void:
+    text = msg
+    visible = true
+    _timer.connect(\"timeout\", self, \"_start_dissolve\")
+    _timer.start(fresh_time)
+
+
+func _start_dissolve() -> void:
+    _timer.disconnect(\"timeout\", self, \"_start_dissolve\")
+
+    _tween.interpolate_property(
+        self, \"modulate:a\", null, 0.0, disappearence_time)
+    _tween.start()
+
+    _timer.connect(\"timeout\", self, \"_destroy\")
+    _timer.start(disappearence_time)
+
+
+func _destroy() -> void:
+    queue_free()
+"
+
+[node name="label" type="Label"]
+anchor_left = 0.01
+anchor_top = 0.99
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -26.0
+mouse_filter = 1
+size_flags_horizontal = 3
+text = "Status..."
+autowrap = true
+script = SubResource( 1 )
+fresh_time = 5.0
+
+[node name="timer" type="Timer" parent="."]
+
+[node name="tween" type="Tween" parent="."]
