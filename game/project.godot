@@ -164,12 +164,19 @@ file_logging/enable_file_logging=true
 
 profiler/enabled=true
 
+[node]
+
+name_num_separator=2
+name_casing=2
+
 [physics]
 
 common/enable_pause_aware_picking=true
 
 [rendering]
 
+quality/driver/fallback_to_gles2=true
 threads/thread_model=2
 threads/thread_safe_bvh=true
+gles3/shaders/shader_compilation_mode=2
 environment/default_environment="res://default_env.tres"
