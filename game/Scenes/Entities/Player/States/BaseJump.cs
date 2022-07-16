@@ -12,6 +12,8 @@ namespace CyberBlood.Scenes.Entities.Player.States {
 
         public override void OnEntry() {
             Player.SnapVector = Vector3.Zero;
+            Player.AnimTree.Set("parameters/jump/OneShot/active", true);
+            AnimStateMachine.Travel("jump");
         }
 
         public override void HandlePhysicsProcess(float delta) {

@@ -1,10 +1,9 @@
 using Godot;
 
 namespace CyberBlood.Scenes.Entities.Player.States {
-    public class Moving : BaseState {
+    public class Running : BaseState {
         public override void OnEntry() {
-            Player.AnimTree.Set("parameters/Transition/current", "Walk");
-            AnimStateMachine.Travel("walk");
+            AnimStateMachine.Travel("run");
         }
 
         public override void HandlePhysicsProcess(float delta) {
@@ -14,13 +13,17 @@ namespace CyberBlood.Scenes.Entities.Player.States {
 
             Player.LookDirection = look;
 
+            if (look.Length() <= .35f) {
+                Player.Machine.TransitionTo(State.Walking);
+            }
+
             var dir = new Vector3(-look[0], 0, -look[1])
                 .Rotated(Vector3.Up, Player.Camera.Arm.Rotation.y)
                 .Normalized();
 
             var velocity = Player.Velocity;
-            velocity.x =  dir.x * Player.WalkSpeed * Mathf.Abs(look[0]);
-            velocity.z =  dir.z * Player.WalkSpeed * Mathf.Abs(look[1]);
+            velocity.x =  dir.x * Player.RunSpeed;
+            velocity.z =  dir.z * Player.RunSpeed;
             velocity.y -= Player.Gravity * delta;
 
             if (Input.IsActionJustPressed("jump")) {
@@ -44,11 +47,11 @@ namespace CyberBlood.Scenes.Entities.Player.States {
                 Player.Machine.TransitionTo(State.Falling);
             }
 
-            Player.AnimTree.Set("parameters/walk/TimeScale/scale", speed);
+            Player.AnimTree.Set("parameters/run/TimeScale/scale", speed);
         }
 
         public override void OnExit() {
-            Player.AnimTree.Set("parameters/walk/TimeScale/scale", 1f);
+            Player.AnimTree.Set("parameters/run/TimeScale/scale", 1f);
         }
     }
 }

@@ -4,36 +4,39 @@ using System.Diagnostics;
 using Godot;
 
 namespace CyberBlood.Scenes.Entities.Player.States {
-    public class StateMachine : Node {
+    public class StateMachine : Spatial {
         [Signal]
         public delegate void StateChanged(State prevState, State newState);
 
-        [Export(PropertyHint.Enum, "Idle,Walking,Running,Falling,WallStuck,FinalFalling")]
         private State _initialState = State.Idle;
-        [Export] private NodePath _playerNode = "";
 
         public State CurrentState { get; private set; }
         private Player _player;
         private IReadOnlyDictionary<State, BaseState> _states;
 
         public override void _Ready() {
-            _player = GetNode<Player>(_playerNode);
-            PopulateStates();
-            CurrentState = _initialState;
-            _states[CurrentState].OnEntry();
+            _player = GetParent<Player>();
+            _       = ToSignal(Owner, "ready");
+            SetAsToplevel(true);
         }
 
-        private void PopulateStates() {
+        public void PopulateStates() {
             var states = new Dictionary<State, BaseState>(GetChildCount());
             var names  = Enum.GetValues(typeof(State));
+
+            var machine = _player.AnimTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
             foreach (State state in names) {
                 var name = state.ToString();
-                states[state]        = GetNode<BaseState>(name);
-                states[state].Player = _player;
+                states[state]                  = GetNode<BaseState>(name);
+                states[state].Player           = _player;
+                states[state].AnimStateMachine = machine;
                 Debug.Assert(states[state] != null);
             }
 
-            _states = states;
+            _states      = states;
+            
+            CurrentState = _initialState;
+            _states[CurrentState].OnEntry();
         }
 
         public void Reset() {

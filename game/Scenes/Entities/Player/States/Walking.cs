@@ -1,10 +1,10 @@
 using Godot;
 
 namespace CyberBlood.Scenes.Entities.Player.States {
-    public class Moving : BaseState {
+    public class Walking : BaseState {
         public override void OnEntry() {
-            Player.AnimTree.Set("parameters/Transition/current", "Walk");
-            AnimStateMachine.Travel("walk");
+            var machine = Player.AnimTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
+            machine?.Travel("walk");
         }
 
         public override void HandlePhysicsProcess(float delta) {
@@ -14,13 +14,17 @@ namespace CyberBlood.Scenes.Entities.Player.States {
 
             Player.LookDirection = look;
 
+            if (look.Length() > .35f) {
+                Player.Machine.TransitionTo(State.Running);
+            }
+
             var dir = new Vector3(-look[0], 0, -look[1])
                 .Rotated(Vector3.Up, Player.Camera.Arm.Rotation.y)
                 .Normalized();
 
             var velocity = Player.Velocity;
-            velocity.x =  dir.x * Player.WalkSpeed * Mathf.Abs(look[0]);
-            velocity.z =  dir.z * Player.WalkSpeed * Mathf.Abs(look[1]);
+            velocity.x =  dir.x * Player.WalkSpeed;
+            velocity.z =  dir.z * Player.WalkSpeed;
             velocity.y -= Player.Gravity * delta;
 
             if (Input.IsActionJustPressed("jump")) {

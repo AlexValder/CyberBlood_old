@@ -20,7 +20,7 @@ func _toggle_pause(pause: bool) -> void:
     if (_settings.visible):
         return
 
-    GameManager.TogglePause(!pause)
+    GameManager.TogglePause(pause)
     visible = pause
     if pause:
         Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)

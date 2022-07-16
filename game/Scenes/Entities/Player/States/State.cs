@@ -1,7 +1,8 @@
 ﻿namespace CyberBlood.Scenes.Entities.Player.States {
     public enum State {
         Idle,
-        Moving,
+        Walking,
+        Running,
         Jumping,
         Falling,
         DoubleJump,

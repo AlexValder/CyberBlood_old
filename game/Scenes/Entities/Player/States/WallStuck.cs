@@ -13,6 +13,7 @@ namespace CyberBlood.Scenes.Entities.Player.States {
 
         public override void OnEntry() {
             _timer.Start(.5f);
+            AnimStateMachine.Travel("wall-stuck");
         }
 
         public override void HandlePhysicsProcess(float delta) {

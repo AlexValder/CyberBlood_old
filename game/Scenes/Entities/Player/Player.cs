@@ -6,11 +6,13 @@ using GodotCSToolbox;
 namespace CyberBlood.Scenes.Entities.Player {
     public class Player : KinematicBody {
         private const float WALK_SPEED = 4.5f * 1.2f;
+        private const float RUN_SPEED = WALK_SPEED * 1.5f;
         private const float ANGULAR_ACCELERATION = 10f;
         private const float JUMP_COEFFICIENT = 10f * 1.5f;
         private const float GRAVITY = 15f * 1.5f;
 
         public static float WalkSpeed => WALK_SPEED;
+        public static float RunSpeed => RUN_SPEED;
         public static float AngularAcceleration => ANGULAR_ACCELERATION;
         public static float JumpCoefficient => JUMP_COEFFICIENT;
         public static float Gravity => GRAVITY;
@@ -18,6 +20,7 @@ namespace CyberBlood.Scenes.Entities.Player {
         public Vector3 Velocity { get; set; } = Vector3.Zero;
         public Vector3 SnapVector { get; set; } = Vector3.Down;
         public Vector2 LookDirection { get; set; }
+        public AnimationTree AnimTree { get; private set; }
 
         public Vector3 Front => -Mesh?.GlobalTransform.basis.x ?? Vector3.Forward;
 
@@ -31,8 +34,11 @@ namespace CyberBlood.Scenes.Entities.Player {
         public override void _Ready() {
             this.SetupNodeTools();
 
+            AnimTree   = Mesh.GetNode<AnimationTree>("basic_man/animation_tree");
+
             _statusLabel.Text = Machine.CurrentState.ToString();
             Machine.Connect("StateChanged", this, nameof(SetStateLabel));
+            Machine.PopulateStates();
         }
 
         private void SetStateLabel(State _, State next) {
