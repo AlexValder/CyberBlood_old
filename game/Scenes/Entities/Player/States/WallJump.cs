@@ -32,6 +32,7 @@ namespace CyberBlood.Scenes.Entities.Player.States {
             Player.Velocity = velocity;
             base.OnEntry();
             _tween.Start();
+            AnimStateMachine.Travel("wall-jump");
         }
     }
 }

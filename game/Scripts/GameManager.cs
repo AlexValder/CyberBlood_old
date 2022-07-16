@@ -44,7 +44,6 @@ namespace CyberBlood.Scripts {
                 _currentScene.RemoveChild(_player);
                 _currentScene.QueueFree();
                 _player.Reset();
-                TogglePause(_player, true);
             } else {
                 IsPlaying = true;
                 _guiManager.Switch2Gameplay();
@@ -61,7 +60,8 @@ namespace CyberBlood.Scripts {
         }
 
         public void QuitToMenu() {
-            IsPlaying = false;
+            GetTree().Paused = false;
+            IsPlaying        = false;
             _root.RemoveChild(_currentScene);
             _currentScene.RemoveChild(_player);
             _currentScene.QueueFree();
@@ -72,28 +72,8 @@ namespace CyberBlood.Scripts {
             _root.AddChild(_mainMenu.Instance());
         }
 
-        public void TogglePause(bool notPaused) {
-            if (_currentScene == null) {
-                return;
-            }
-
-            TogglePause(_player, notPaused);
-            TogglePause(_currentScene, notPaused);
-        }
-
-        private static void TogglePause(Node node, bool notPaused) {
-            node.SetProcess(notPaused);
-            node.SetPhysicsProcess(notPaused);
-            node.SetProcessInput(notPaused);
-            node.SetProcessUnhandledInput(notPaused);
-            node.SetProcessUnhandledKeyInput(notPaused);
-
-            var children = node.GetChildren();
-            foreach (var child in children) {
-                if (child is Node childNode) {
-                    TogglePause(childNode, notPaused);
-                }
-            }
+        public void TogglePause(bool paused) {
+            GetTree().Paused = paused;
         }
 
         public override void _ExitTree() {

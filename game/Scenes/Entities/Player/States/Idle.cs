@@ -3,7 +3,8 @@ using Godot;
 namespace CyberBlood.Scenes.Entities.Player.States {
     public class Idle : BaseState {
         public override void OnEntry() {
-            Player.Velocity = Vector3.Zero;
+            Player.Velocity                    = Vector3.Zero;
+            AnimStateMachine.Travel("idle");
         }
 
         public override void HandlePhysicsProcess(float delta) {
@@ -21,7 +22,7 @@ namespace CyberBlood.Scenes.Entities.Player.States {
             Player.LookDirection =  look;
 
             if (look.Length() > .1f) {
-                Player.Machine.TransitionTo(State.Moving);
+                Player.Machine.TransitionTo(State.Walking);
             }
         }
     }

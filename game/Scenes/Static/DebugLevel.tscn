@@ -170,7 +170,6 @@ transform = Transform( 10, 0, 0, 0, 0.2, 0, 0, 0, 10, -22, 10, 9 )
 collision_layer = 3
 
 [node name="mesh" type="MeshInstance" parent="static_level/interier/platform1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00689101, 0.941105, 0.0117035 )
 mesh = SubResource( 8 )
 skeleton = NodePath("../..")
 material/0 = SubResource( 20 )

@@ -4,6 +4,10 @@ namespace CyberBlood.Scenes.Entities.Player.States {
     public class BaseFall : BaseState {
         public override void OnEntry() {
             Player.SnapVector = Vector3.Down;
+            // Jump automatically transitions into falling animation
+            if (AnimStateMachine.GetCurrentNode() != "jump") {
+                AnimStateMachine.Travel("fall");
+            }
         }
 
         public override void HandlePhysicsProcess(float delta) {
