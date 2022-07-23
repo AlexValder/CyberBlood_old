@@ -86,9 +86,9 @@ size_flags_vertical = 3
 [node name="keyboard" type="VBoxContainer" parent="hbox/panel/viewer/center"]
 visible = false
 margin_left = 664.0
-margin_top = 336.0
+margin_top = 318.0
 margin_right = 1093.0
-margin_bottom = 744.0
+margin_bottom = 762.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
@@ -382,18 +382,41 @@ margin_bottom = 32.0
 rect_min_size = Vector2( 175, 0 )
 size_flags_horizontal = 3
 
-[node name="hsep4" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
+[node name="lockon" type="HBoxContainer" parent="hbox/panel/viewer/center/keyboard"]
 margin_top = 404.0
 margin_right = 429.0
-margin_bottom = 408.0
+margin_bottom = 436.0
+size_flags_horizontal = 3
+custom_constants/separation = 50
+alignment = 1
+
+[node name="label" type="Label" parent="hbox/panel/viewer/center/keyboard/lockon"]
+margin_top = 3.0
+margin_right = 200.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 3
+text = "Lock-On"
+align = 1
+
+[node name="button" type="Button" parent="hbox/panel/viewer/center/keyboard/lockon"]
+margin_left = 250.0
+margin_right = 429.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 175, 0 )
+size_flags_horizontal = 3
+
+[node name="hsep4" type="HSeparator" parent="hbox/panel/viewer/center/keyboard"]
+margin_top = 440.0
+margin_right = 429.0
+margin_bottom = 444.0
 rect_min_size = Vector2( 200, 0 )
 
 [node name="gamepad" type="VBoxContainer" parent="hbox/panel/viewer/center"]
-visible = false
 margin_left = 663.0
-margin_top = 290.0
+margin_top = 269.0
 margin_right = 1093.0
-margin_bottom = 790.0
+margin_bottom = 811.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
@@ -585,7 +608,7 @@ margin_bottom = 374.0
 [node name="grid2" type="GridContainer" parent="hbox/panel/viewer/center/gamepad"]
 margin_top = 384.0
 margin_right = 430.0
-margin_bottom = 500.0
+margin_bottom = 542.0
 size_flags_horizontal = 3
 custom_constants/vseparation = 10
 custom_constants/hseparation = 50
@@ -640,6 +663,22 @@ margin_left = 240.0
 margin_top = 84.0
 margin_right = 430.0
 margin_bottom = 116.0
+size_flags_horizontal = 3
+expand_icon = true
+
+[node name="label3" type="Label" parent="hbox/panel/viewer/center/gamepad/grid2"]
+margin_top = 129.0
+margin_right = 190.0
+margin_bottom = 155.0
+size_flags_horizontal = 3
+text = "Lock-On"
+align = 1
+
+[node name="lockon" type="Button" parent="hbox/panel/viewer/center/gamepad/grid2"]
+margin_left = 240.0
+margin_top = 126.0
+margin_right = 430.0
+margin_bottom = 158.0
 size_flags_horizontal = 3
 expand_icon = true
 

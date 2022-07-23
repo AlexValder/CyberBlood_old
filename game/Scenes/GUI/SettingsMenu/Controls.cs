@@ -203,6 +203,7 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             _keyboardButtons["camera_center"].Text = ctrl.CameraMouseCenter.ToString();
             _keyboardButtons["jump"].Text          = ctrl.MouseKeyboardJump.ToString();
             _keyboardButtons["screenshot"].Text    = ctrl.TakeScreenshot.ToString();
+            _keyboardButtons["lockon"].Text        = ctrl.MouseLockon.ToString();
             _mouseHSensitivity.Value               = ctrl.CameraMouseRotateHorizontal / ctrl.CameraMouseDenominator;
             _mouseVSensitivity.Value               = ctrl.CameraMouseRotateVertical / ctrl.CameraMouseDenominator;
 
@@ -216,6 +217,8 @@ namespace CyberBlood.Scenes.GUI.SettingsMenu {
             _gamepadButtons["camera_center"].Icon = GamepadButtonMetaSelector.GetTexture(ctrl.CameraJoyCenter);
             _gamepadButtons["jump"].Text          = GamepadButtonMetaSelector.GetName(ctrl.JoyJump);
             _gamepadButtons["jump"].Icon          = GamepadButtonMetaSelector.GetTexture(ctrl.JoyJump);
+            _gamepadButtons["lockon"].Text        = GamepadButtonMetaSelector.GetName(ctrl.JoyLockon);
+            _gamepadButtons["lockon"].Icon        = GamepadButtonMetaSelector.GetTexture(ctrl.JoyLockon);
 
             foreach (var b in _gamepadButtons.Values) {
                 b.Update();

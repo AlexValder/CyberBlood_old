@@ -15,8 +15,10 @@ namespace CyberBlood.Scenes.Entities {
         [NodePath("timer")] private Timer _timer;
         [NodePath("tween")] private Tween _tween;
         [NodePath("arm")] private SpringArm _arm;
+        [NodePath("arm/camera")] private Camera _camera;
 #pragma warning restore 649
         public SpringArm Arm => _arm;
+        public Camera Camera => _camera;
         public Timer MovementTimer => _timer;
 
         private Player.Player _player;

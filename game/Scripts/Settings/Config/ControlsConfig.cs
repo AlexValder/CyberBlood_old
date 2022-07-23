@@ -24,6 +24,7 @@ namespace CyberBlood.Scripts.Settings.Config {
         private const string MOVE_FORWARD = "move_forward";
         private const string MOVE_BACK = "move_back";
         private const string SCREENSHOT = "screenshot";
+        private const string LOCKON = "lockon";
 
         #region Joybad
         public float CameraJoyDenominator => .02f;
@@ -59,6 +60,11 @@ namespace CyberBlood.Scripts.Settings.Config {
         public JoystickList JoyJump {
             get => (JoystickList)GetValue<int>(GAMEPAD, JUMP);
             private set => SetValue(GAMEPAD, JUMP, (int)value);
+        }
+
+        public JoystickList JoyLockon {
+            get => (JoystickList)GetValue<int>(GAMEPAD, LOCKON);
+            private set => SetValue(GAMEPAD, LOCKON, (int)value);
         }
 
         public ButtonTheme GamepadButtonTheme {
@@ -192,6 +198,22 @@ namespace CyberBlood.Scripts.Settings.Config {
             }
         }
 
+        public MouseKeyboardButton MouseLockon {
+            get {
+                var value = GetValue<int>(MOUSE_KEYBOARD, LOCKON);
+                return value < 0
+                    ? new MouseKeyboardButton((MouseButtons)value)
+                    : new MouseKeyboardButton((KeyList)value);
+            }
+            private set {
+                if (value.KeyButton == 0) {
+                    SetValue(MOUSE_KEYBOARD, LOCKON, (int)value.MouseButtons);
+                } else {
+                    SetValue(MOUSE_KEYBOARD, LOCKON, (int)value.KeyButton);
+                }
+            }
+        }
+
         #endregion
 
         public ControlsConfig(
@@ -207,6 +229,7 @@ namespace CyberBlood.Scripts.Settings.Config {
                 [STICKS_SWITCHED] = false,
                 [CAMERA_CENTER]   = GamepadButtonEventFactory.IndexRight,
                 [JUMP]            = GamepadButtonEventFactory.IndexA,
+                [LOCKON]          = GamepadButtonEventFactory.IndexRB,
             },
             [MOUSE_KEYBOARD] = new() {
                 [ROTATE_H]      = .005f,
@@ -218,6 +241,7 @@ namespace CyberBlood.Scripts.Settings.Config {
                 [CAMERA_CENTER] = MouseButtons.MiddleButton,
                 [JUMP]          = KeyList.Space,
                 [SCREENSHOT]    = KeyList.F2,
+                [LOCKON]        = KeyList.Control,
             },
         }) {
         }
@@ -254,6 +278,7 @@ namespace CyberBlood.Scripts.Settings.Config {
             CheckAddAction(MOVE_LEFT, MoveLeft);
             CheckAddAction(MOVE_BACK, MoveBack);
             CheckAddAction(MOVE_RIGHT, MoveRight);
+            CheckAddAction(LOCKON, MouseLockon);
 
             static void CheckAddAction(string action, MouseKeyboardButton ev) {
                 if (!InputMap.HasAction(action)) {
@@ -317,6 +342,7 @@ namespace CyberBlood.Scripts.Settings.Config {
         private void SetButtons() {
             CheckAddAction(JUMP, JoyJump);
             CheckAddAction(CAMERA_CENTER, CameraJoyCenter);
+            CheckAddAction(LOCKON, JoyLockon);
 
             static void CheckAddAction(string action, JoystickList index) {
                 if (!InputMap.HasAction(action)) {

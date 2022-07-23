@@ -159,6 +159,16 @@ jump={
 "deadzone": 0.5,
 "events": [  ]
 }
+lockon={
+"deadzone": 0.5,
+"events": [  ]
+}
+
+[layer_names]
+
+3d_physics/layer_1="environment"
+3d_physics/layer_2="player"
+3d_physics/layer_3="enemy"
 
 [logging]
 

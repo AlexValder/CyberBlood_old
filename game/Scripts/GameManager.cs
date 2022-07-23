@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 using CyberBlood.addons.playable_spatial;
 using CyberBlood.Scenes.Entities.Player;
@@ -14,7 +14,7 @@ namespace CyberBlood.Scripts {
 #pragma warning restore 649
 
         public static bool IsPlaying { get; private set; }
-        
+
         private readonly PackedScene _mainMenu;
         private readonly Player _player;
         private string _name = "menu";

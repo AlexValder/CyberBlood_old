@@ -9,5 +9,6 @@ data_*/
 *.user
 *.ini
 /builds
+/blender
 game/packages
 docs/
